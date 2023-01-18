@@ -1,4 +1,3 @@
-import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/pages/login.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: const LoginPage(),
     );
   }
 }
