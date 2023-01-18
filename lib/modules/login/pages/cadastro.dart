@@ -1,3 +1,4 @@
+import 'package:abntplaybic/modules/login/controllers/cadastroController.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,7 @@ class CadastroPage extends StatefulWidget {
 }
 
 class _CadastroPageState extends State<CadastroPage> {
+  CadastroController controller = CadastroController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -44,6 +46,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     tag: "email",
                     child: Material(
                       child: TextFormField(
+                          controller: controller.email,
                           style: const TextStyle(
                               fontFamily: "PassionOne", fontSize: 20),
                           decoration: InputDecoration(
@@ -65,6 +68,7 @@ class _CadastroPageState extends State<CadastroPage> {
                     height: 10,
                   ),
                   TextFormField(
+                      controller: controller.nome,
                       style: const TextStyle(
                           fontFamily: "PassionOne", fontSize: 20),
                       decoration: InputDecoration(
@@ -90,6 +94,7 @@ class _CadastroPageState extends State<CadastroPage> {
                       tag: "senha",
                       child: Material(
                         child: TextFormField(
+                            controller: controller.senha,
                             style: const TextStyle(
                                 fontFamily: "PassionOne", fontSize: 20),
                             decoration: InputDecoration(
@@ -121,13 +126,19 @@ class _CadastroPageState extends State<CadastroPage> {
                             fixedSize: Size(size.width * 0.65, 62),
                             maximumSize: Size(size.width * 0.65, 62)),
                         child: const Text(
-                          "Login",
+                          "Cadastrar",
                           style: TextStyle(
                               fontFamily: "PassionOne",
                               fontSize: 32,
                               color: Colors.white),
                         ),
-                        onPressed: () {},
+                        onPressed: () async {
+                          try {
+                            await controller.criarConta(context);
+                          } catch (e) {
+                            rethrow;
+                          }
+                        },
                       )),
                   const SizedBox(height: 10),
                   Row(
