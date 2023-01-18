@@ -1,3 +1,4 @@
+import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/pages/login.dart';
 import 'package:flutter/material.dart';
 
@@ -8,11 +9,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'ABNT Play',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
+      home: HomePage(),
     );
   }
 }
