@@ -83,6 +83,7 @@ flutter:
       fonts:
         - asset: src/fonts/Montserrat/Montserrat.ttf
         - asset: src/fonts/Montserrat/Montserrat-Italic.ttf
+
     - family: Righteous
       fonts:
         - asset: src/fonts/Righteous/Righteous-Regular.ttf
@@ -92,6 +93,11 @@ flutter:
         - asset: src/fonts/PassionOne/PassionOne-Regular.ttf
         - asset: src/fonts/PassionOne/PassionOne-Bold.ttf
         - asset: src/fonts/PassionOne/PassionOne-Black.ttf
+    
+    - family: BebasNeue
+      fonts:
+        - asset: src/fonts/BebasNeue/BebasNeue-Regular.ttf
+        
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
