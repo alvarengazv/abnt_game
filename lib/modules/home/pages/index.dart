@@ -2,6 +2,7 @@ import 'package:abntplaybic/modules/home/pages/telas/classificacao.dart';
 import 'package:abntplaybic/modules/home/pages/telas/conquistas.dart';
 import 'package:abntplaybic/modules/home/pages/telas/inicio.dart';
 import 'package:abntplaybic/modules/home/pages/telas/perfil.dart';
+import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -13,14 +14,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     InicioPage(),
     ClassificacaoPage(),
     ConquistasPage(),
     PerfilPage(),
   ];
+
+  final PageController _pageController = PageController(initialPage: 0);
 
   void _onItemTapped(int index) {
     setState(() {
@@ -30,36 +31,67 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onItemTapped,
+        scrollDirection: Axis.horizontal,
+        children: _widgetOptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        items:[ 
-          BottomNavigationBarItem(
-            activeIcon: Icon(Icons.house, color: Color.fromARGB(255, 64, 1, 53),),
-            icon: Icon(Icons.house_outlined, color: Color.fromARGB(255, 64, 1, 53),),
-            label: ""
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Icon(Icons.leaderboard, color: Color.fromARGB(255, 64, 1, 53),),
-            icon: Icon(Icons.leaderboard_outlined, color: Color.fromARGB(255, 64, 1, 53),),
-            label: ""
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Icon(Icons.military_tech, color: Color.fromARGB(255, 64, 1, 53),),
-            icon: Icon(Icons.military_tech_outlined, color: Color.fromARGB(255, 64, 1, 53),),
-            label: ""
-          ),
-          BottomNavigationBarItem(
-            activeIcon: Icon(Icons.person, color: Color.fromARGB(255, 64, 1, 53),),
-            icon: Icon(Icons.person_outline, color: Color.fromARGB(255, 64, 1, 53),),
-            label: ""
-          ),
-        ]
-      ),
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            _pageController.animateToPage(index,
+                duration: const Duration(milliseconds: 500),
+                curve: Curves.ease);
+          },
+          items: const [
+            BottomNavigationBarItem(
+                activeIcon: Icon(
+                  Icons.house,
+                  color: roxo,
+                  size: 35,
+                ),
+                icon: Icon(
+                  Icons.house_outlined,
+                  color: lilas,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                activeIcon: Icon(
+                  Icons.leaderboard,
+                  color: roxo,
+                  size: 35,
+                ),
+                icon: Icon(
+                  Icons.leaderboard_outlined,
+                  color: lilas,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                activeIcon: Icon(
+                  Icons.military_tech,
+                  color: roxo,
+                  size: 35,
+                ),
+                icon: Icon(
+                  Icons.military_tech_outlined,
+                  color: lilas,
+                ),
+                label: ""),
+            BottomNavigationBarItem(
+                activeIcon: Icon(
+                  Icons.person,
+                  color: roxo,
+                  size: 35,
+                ),
+                icon: Icon(
+                  Icons.person_outline,
+                  color: lilas,
+                ),
+                label: ""),
+          ]),
     );
   }
 }

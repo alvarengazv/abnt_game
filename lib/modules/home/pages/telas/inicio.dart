@@ -1,4 +1,5 @@
-import 'package:abntplaybic/shared/components/botoes/botaoInicio.dart';
+import 'package:abntplaybic/shared/colors.dart';
+import 'package:abntplaybic/shared/components/botoes/botao_inicio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,71 +14,68 @@ class InicioPage extends StatefulWidget {
 class _InicioPageState extends State<InicioPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold (
-      appBar: AppBar(
-        actions: [
-          TextButton(
-            onPressed: (){},
-            child: Row(
-              children: const [
-                Text(
-                "1200 ",
-                style: TextStyle(
-                color: Color.fromARGB(255, 105, 163, 107),
-                fontSize: 20
+    return Scaffold(
+        appBar: AppBar(
+          actions: [
+            TextButton(
+              onPressed: () {},
+              child: const Text.rich(
+                TextSpan(
+                  text: "1200 ",
+                  style: TextStyle(
+                      fontFamily: "BebasNeue",
+                      color: Color.fromARGB(255, 105, 163, 107),
+                      fontSize: 25),
+                  children: [
+                    TextSpan(
+                        text: "XP",
+                        style: TextStyle(
+                            fontFamily: "BebasNeue",
+                            color: Color.fromARGB(255, 105, 163, 107),
+                            fontSize: 15))
+                  ],
+                ),
               ),
-              ),
-                Text(
-                    "XP",
-                    style: TextStyle(
-                    color: Color.fromARGB(255, 105, 163, 107),
-                    fontSize: 10
-                  ),
-                  ),
-              ],
-            ),
             )
-        ],
-        shadowColor: Colors.transparent,
-        backgroundColor: Colors.white,
-        centerTitle: true,
-        title: const Text("ABNT Play", 
-          style: TextStyle(
-            color: Color.fromARGB(255, 64, 1, 53),
-            fontSize: 30
+          ],
+          shadowColor: Colors.transparent,
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: const Text(
+            "ABNT Play",
+            style:
+                TextStyle(fontFamily: "Righteous", color: roxo, fontSize: 40),
           ),
         ),
-      ),
-      body: Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              BotaoInicio(texto: "Trabalhos Acadêmicos",),
-              BotaoInicio(texto: "Sumário")
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              BotaoInicio(texto: "Referências Bibliográficas",),
-              BotaoInicio(texto: "",),
-            ],
-          ),
-        ),
-        Text("ABNT Play INÍCIO", 
-            style: TextStyle(
-              color: Color.fromARGB(255, 64, 1, 53),
-              fontSize: 30
+        body: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: const [
+                  BotaoInicio(
+                    texto: "Trabalhos Acadêmicos",
+                  ),
+                  BotaoInicio(texto: "Sumário")
+                ],
+              ),
             ),
-        ),
-      ],
-    )
-    );
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: const [
+                  BotaoInicio(
+                    texto: "Referências Bibliográficas",
+                  ),
+                  BotaoInicio(
+                    texto: "",
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ));
   }
 }

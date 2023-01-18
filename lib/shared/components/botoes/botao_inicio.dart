@@ -1,10 +1,11 @@
+import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class BotaoInicio extends StatefulWidget {
   final String texto;
-  BotaoInicio({super.key, required this.texto});
+  const BotaoInicio({super.key, required this.texto});
 
   @override
   State<BotaoInicio> createState() => _BotaoInicioState();
@@ -13,6 +14,7 @@ class BotaoInicio extends StatefulWidget {
 class _BotaoInicioState extends State<BotaoInicio> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15)
@@ -20,27 +22,29 @@ class _BotaoInicioState extends State<BotaoInicio> {
               height: 180,
               width: 140,
               child: ElevatedButton(
-                onPressed: (){}, 
-                child: Column(
-                  children: [
-                    Expanded(flex: 3, child: Container()),
-                    Expanded(child: 
-                      Text(widget.texto,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.bold
-                        ),
-                      )
-                    ),
-                  ],
-                ),
+                onPressed: (){},
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 165, 127, 165),
+                  backgroundColor: lilas,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),
-              ),
+              ), 
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 18),
+                      child: Text(widget.texto,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: "PassionOne",
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
             )
     );
   }
