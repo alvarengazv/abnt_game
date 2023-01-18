@@ -1,3 +1,4 @@
+import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/controllers/cadastroController.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +135,12 @@ class _CadastroPageState extends State<CadastroPage> {
                         ),
                         onPressed: () async {
                           try {
-                            await controller.criarConta(context);
+                            await controller.criarConta();
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const HomePage()),
+                                (route) => false);
                           } catch (e) {
                             rethrow;
                           }

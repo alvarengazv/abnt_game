@@ -1,6 +1,9 @@
+import 'package:abntplaybic/modules/login/controllers/loginController.dart';
 import 'package:abntplaybic/modules/login/pages/cadastro.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
+
+import '../../home/pages/index.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,6 +13,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  LoginController controller = LoginController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -41,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                   tag: "email",
                   child: Material(
                     child: TextFormField(
+                        controller: controller.email,
                         style: const TextStyle(
                             fontFamily: "PassionOne", fontSize: 20),
                         decoration: InputDecoration(
@@ -65,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
                   tag: "senha",
                   child: Material(
                     child: TextFormField(
+                        controller: controller.senha,
                         style: const TextStyle(
                             fontFamily: "PassionOne", fontSize: 20),
                         decoration: InputDecoration(
@@ -102,7 +108,18 @@ class _LoginPageState extends State<LoginPage> {
                           fontSize: 32,
                           color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      try {
+                        await controller.login();
+                        Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const HomePage()),
+                            (route) => false);
+                      } catch (e) {
+                        debugPrint(e.toString());
+                      }
+                    },
                   ),
                 ),
                 const SizedBox(height: 40),
