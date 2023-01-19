@@ -1,9 +1,10 @@
+import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/controllers/loginController.dart';
 import 'package:abntplaybic/modules/login/pages/cadastro.dart';
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import '../../home/pages/index.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -13,6 +14,19 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if (FirebaseAuth.instance.currentUser != null) {
+        //TODO: Navigator.pushReplacement(
+        //   context,
+        //   MaterialPageRoute(builder: (context) => const HomePage()),
+        // );
+      }
+    });
+  }
+
   LoginController controller = LoginController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   bool escondeSenha = true;
@@ -20,7 +34,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      //appBar: AppBar(title: Text('ABNT PLAY'),),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
@@ -40,11 +53,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const Text(
-                    "ABNTPLAY",
+                    "ABNT Play",
                     style: TextStyle(
                         fontFamily: "Righteous", color: roxo, fontSize: 40),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 50),
                   Hero(
                     tag: "email",
                     child: Material(
@@ -60,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                               fontFamily: "PassionOne", fontSize: 20),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(15),
                                 borderSide:
                                     const BorderSide(color: lilas, width: 3)),
                             focusedBorder: OutlineInputBorder(
@@ -74,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 30,
                   ),
                   Hero(
                     tag: "senha",
@@ -91,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                               fontFamily: "PassionOne", fontSize: 20),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(15),
                                 borderSide:
                                     const BorderSide(color: lilas, width: 3)),
                             focusedBorder: OutlineInputBorder(
@@ -135,29 +148,35 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white),
                       ),
                       onPressed: () async {
+                        CancelFunc? cancel;
                         try {
                           if (_form.currentState!.validate()) {
+                            cancel = BotToast.showLoading();
                             await controller.login();
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => const HomePage()),
                                 (route) => false);
+
+                            await Future.delayed(const Duration(seconds: 2));
+                            cancel();
                           }
                         } catch (e) {
+                          if (cancel != null) {
+                            cancel();
+                          }
                           debugPrint(e.toString());
                         }
                       },
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 20),
                   TextButton(
                     style: TextButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13),
                           side: const BorderSide(color: primary)),
-                      // padding: EdgeInsets.symmetric(
-                      //     horizontal: size.width * 0.25, vertical: 10),
                       fixedSize: Size(size.width * 0.65, 62),
                     ),
                     child: const Text(

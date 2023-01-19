@@ -1,6 +1,8 @@
 import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/controllers/cadastroController.dart';
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:abntplaybic/shared/validacoes.dart';
+import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
 class CadastroPage extends StatefulWidget {
@@ -14,6 +16,10 @@ class _CadastroPageState extends State<CadastroPage> {
   CadastroController controller = CadastroController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   bool escondeSenha = true;
+  FocusNode emailNode = FocusNode();
+  FocusNode nomeNode = FocusNode();
+  FocusNode senhaNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -22,7 +28,6 @@ class _CadastroPageState extends State<CadastroPage> {
         return false;
       },
       child: Scaffold(
-        //appBar: AppBar(title: Text('ABNT PLAY'),),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -42,19 +47,30 @@ class _CadastroPageState extends State<CadastroPage> {
                       ),
                     ),
                     const Text(
-                      "ABNTPLAY",
+                      "ABNT Play",
                       style: TextStyle(
                           fontFamily: "Righteous", color: roxo, fontSize: 40),
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 50),
                     Hero(
                       tag: "email",
                       child: Material(
                         child: TextFormField(
+                            onFieldSubmitted: ((value) {
+                              nomeNode.requestFocus();
+                            }),
+                            focusNode: emailNode,
+                            textInputAction: TextInputAction.go,
                             controller: controller.email,
+                            onChanged: ((value) {}),
+                            keyboardType: TextInputType.emailAddress,
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return "Digite um email válido";
+                              }
+                              print(emailExp.hasMatch(value));
+                              if (!emailExp.hasMatch(value)) {
+                                return "Email inválido";
                               }
                               return null;
                             },
@@ -62,11 +78,11 @@ class _CadastroPageState extends State<CadastroPage> {
                                 fontFamily: "PassionOne", fontSize: 20),
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(15),
                                   borderSide:
                                       const BorderSide(color: lilas, width: 3)),
                               focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(15),
                                   borderSide:
                                       const BorderSide(color: lilas, width: 3)),
                               label: const Text("Email"),
@@ -77,10 +93,16 @@ class _CadastroPageState extends State<CadastroPage> {
                       ),
                     ),
                     const SizedBox(
-                      height: 10,
+                      height: 30,
                     ),
                     TextFormField(
+                        focusNode: nomeNode,
                         controller: controller.nome,
+                        keyboardType: TextInputType.name,
+                        textInputAction: TextInputAction.go,
+                        onFieldSubmitted: (value) {
+                          senhaNode.requestFocus();
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Digite um nome";
@@ -91,27 +113,29 @@ class _CadastroPageState extends State<CadastroPage> {
                             fontFamily: "PassionOne", fontSize: 20),
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(15),
                               borderSide:
                                   const BorderSide(color: lilas, width: 3)),
                           focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(15),
                               borderSide:
                                   const BorderSide(color: lilas, width: 3)),
-                          suffixIcon: const Icon(
-                            Icons.remove_red_eye,
-                            color: roxo,
-                          ),
                           label: const Text("Nome"),
                           floatingLabelBehavior: FloatingLabelBehavior.never,
                         )),
                     const SizedBox(
-                      height: 10,
+                      height: 30,
                     ),
                     Hero(
                         tag: "senha",
                         child: Material(
                           child: TextFormField(
+                              focusNode: senhaNode,
+                              onFieldSubmitted: (value) {
+                                senhaNode.unfocus();
+                              },
+                              textInputAction: TextInputAction.done,
+                              keyboardType: TextInputType.visiblePassword,
                               controller: controller.senha,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -123,11 +147,11 @@ class _CadastroPageState extends State<CadastroPage> {
                                   fontFamily: "PassionOne", fontSize: 20),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(15),
                                     borderSide: const BorderSide(
                                         color: lilas, width: 3)),
                                 focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(15),
                                     borderSide: const BorderSide(
                                         color: lilas, width: 3)),
                                 suffixIcon: IconButton(
@@ -167,16 +191,22 @@ class _CadastroPageState extends State<CadastroPage> {
                                 color: Colors.white),
                           ),
                           onPressed: () async {
+                            CancelFunc? cancel;
                             try {
                               if (_form.currentState!.validate()) {
+                                cancel = BotToast.showNotification();
                                 await controller.criarConta();
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => const HomePage()),
                                     (route) => false);
+                                cancel();
                               }
                             } catch (e) {
+                              if (cancel != null) {
+                                cancel();
+                              }
                               rethrow;
                             }
                           },
