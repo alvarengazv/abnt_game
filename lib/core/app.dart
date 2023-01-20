@@ -1,4 +1,4 @@
-import 'package:abntplaybic/modules/login/pages/login.dart';
+import 'package:abntplaybic/modules/perfil/screens/codigoTurma.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const CodigoTurmaScreen(),
     );
   }
 }
