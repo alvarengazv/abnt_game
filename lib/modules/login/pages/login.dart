@@ -2,6 +2,7 @@ import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/controllers/loginController.dart';
 import 'package:abntplaybic/modules/login/pages/cadastro.dart';
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,10 +20,10 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (FirebaseAuth.instance.currentUser != null) {
-        //TODO: Navigator.pushReplacement(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => const HomePage()),
-        // );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const HomePage()),
+        );
       }
     });
   }
@@ -159,14 +160,24 @@ class _LoginPageState extends State<LoginPage> {
                                     builder: (context) => const HomePage()),
                                 (route) => false);
 
-                            await Future.delayed(const Duration(seconds: 2));
+                            //await Future.delayed(const Duration(seconds: 2));
                             cancel();
+                            //FirebaseAuth.instance.signOut();
                           }
-                        } catch (e) {
+                        } on FirebaseAuthException catch (e) {
+                          switch (e.code) {
+                            case "user-not-found":
+                              alertaApp(context, "Email não encontrado!");
+                              break;
+                            case "wrong-password":
+                              alertaApp(context, "Senha Inválida!");
+                              break;
+                            default:
+                          }
                           if (cancel != null) {
                             cancel();
                           }
-                          debugPrint(e.toString());
+                          debugPrint(e.code);
                         }
                       },
                     ),

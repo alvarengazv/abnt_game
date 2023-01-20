@@ -1,8 +1,10 @@
 import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/controllers/cadastroController.dart';
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:abntplaybic/shared/validacoes.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CadastroPage extends StatefulWidget {
@@ -203,11 +205,22 @@ class _CadastroPageState extends State<CadastroPage> {
                                     (route) => false);
                                 cancel();
                               }
-                            } catch (e) {
+                            } on FirebaseAuthException catch (e) {
                               if (cancel != null) {
                                 cancel();
                               }
-                              rethrow;
+                              switch (e.code) {
+                                case "weak-password":
+                                  alertaApp(context,
+                                      "A senha precisa ter ao menos 6 caracteres");
+                                  break;
+                                case "email-already-in-use":
+                                  alertaApp(
+                                      context, "Esse email já está em uso!");
+                                  break;
+                                default:
+                              }
+                              debugPrint(e.code);
                             }
                           },
                         )),
