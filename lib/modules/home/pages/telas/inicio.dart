@@ -17,23 +17,26 @@ class _InicioPageState extends State<InicioPage> {
     return Scaffold(
         appBar: AppBar(
           actions: [
-            TextButton(
-              onPressed: () {},
-              child: const Text.rich(
-                TextSpan(
-                  text: "1200 ",
-                  style: TextStyle(
-                      fontFamily: "BebasNeue",
-                      color: Color.fromARGB(255, 105, 163, 107),
-                      fontSize: 25),
-                  children: [
-                    TextSpan(
-                        text: "XP",
-                        style: TextStyle(
-                            fontFamily: "BebasNeue",
-                            color: Color.fromARGB(255, 105, 163, 107),
-                            fontSize: 15))
-                  ],
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text.rich(
+                  TextSpan(
+                    text: "1200 ",
+                    style: TextStyle(
+                        fontFamily: "BebasNeue",
+                        color: Color.fromARGB(255, 105, 163, 107),
+                        fontSize: 25),
+                    children: [
+                      TextSpan(
+                          text: "XP",
+                          style: TextStyle(
+                              fontFamily: "BebasNeue",
+                              color: Color.fromARGB(255, 105, 163, 107),
+                              fontSize: 15))
+                    ],
+                  ),
                 ),
               ),
             )

@@ -8,3 +8,7 @@ const ouro = Color(0xffE5EA12);
 const prata = Color(0xffBABABA);
 const bronze = Color(0xffE77A57);
 const roxoClassificacao = Color(0xff803680);
+const laranja = Color(0xffEF8E57);
+const azul = Color(0xff5791E7);
+const vermelho = Color(0xffDE4A18);
+const amarelo = Color(0xffEDB423);

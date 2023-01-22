@@ -48,16 +48,14 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
-                  child: SizedBox(
-                      width: size.width * 0.9,
-                      height: size.height * 0.15,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: lilas,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        /*child: Image.asset( ),*/ 
-                      )
+                  child: Container(
+                    width: size.width * 0.9,
+                    height: size.height * 0.15,
+                    decoration: BoxDecoration(
+                      color: lilas,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    /*child: Image.asset( ),*/ 
                   ),
                 ),
                 Expanded(
