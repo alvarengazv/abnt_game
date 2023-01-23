@@ -18,6 +18,11 @@ class CodigoController {
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .set({'turma': firestore.collection("turma").doc(codigo)});
       }
+    } else {
+      firestore
+          .collection("aluno")
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .set({'turma': null});
     }
   }
 }
