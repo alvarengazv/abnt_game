@@ -23,7 +23,7 @@ class EditarPerfilPage extends StatefulWidget {
 }
 
 class _EditarPerfilPageState extends State<EditarPerfilPage> {
-  EditController _controllerEdit = EditController();
+  final EditController _controllerEdit = EditController();
   FocusNode emailNode = FocusNode();
   FocusNode nomeNode = FocusNode();
 
@@ -31,7 +31,8 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
   void initState() {
     super.initState();
     _controllerEdit.email.text = FirebaseAuth.instance.currentUser!.email ?? "";
-    _controllerEdit.nome.text = FirebaseAuth.instance.currentUser!.displayName ?? "";
+    _controllerEdit.nome.text =
+        FirebaseAuth.instance.currentUser!.displayName ?? "";
   }
 
   @override
@@ -44,12 +45,12 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
           leading: IconButton(
             onPressed: () => Navigator.pop(context),
             color: roxo,
-            icon: Icon(
+            icon: const Icon(
               Icons.arrow_back,
               size: 32,
             ),
           ),
-          title: Text(
+          title: const Text(
             "Editar Perfil",
             style: TextStyle(
               color: roxo,
@@ -88,7 +89,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
                                     border: Border.all(color: roxo, width: 2)),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.edit,
                                   color: roxo,
                                   size: 30,
@@ -125,73 +126,74 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                             ),
                           ),
                           Hero(
-                      tag: "email",
-                      child: Material(
-                        child: TextFormField(
-                            onFieldSubmitted: ((value) {
-                              nomeNode.requestFocus();
-                            }),
-                            focusNode: emailNode,
-                            textInputAction: TextInputAction.go,
-                            controller: _controllerEdit.email,
-                            onChanged: ((value) {}),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Digite um email válido";
-                              }
-                              print(emailExp.hasMatch(value));
-                              if (!emailExp.hasMatch(value)) {
-                                return "Email inválido";
-                              }
-                              return null;
-                            },
-                            style: const TextStyle(
-                                fontFamily: "PassionOne", fontSize: 20),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide:
-                                      const BorderSide(color: lilas, width: 3)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide:
-                                      const BorderSide(color: lilas, width: 3)),
-                              label: const Text("Email"),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              hintText: "email@example.com",
-                            )),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    TextFormField(
-                        focusNode: nomeNode,
-                        controller: _controllerEdit.nome,
-                        keyboardType: TextInputType.name,
-                        textInputAction: TextInputAction.go,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Digite um nome";
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(
-                            fontFamily: "PassionOne", fontSize: 20),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: lilas, width: 3)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: lilas, width: 3)),
-                          label: const Text("Nome"),
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                        )),
+                            tag: "email",
+                            child: Material(
+                              child: TextFormField(
+                                  onFieldSubmitted: ((value) {
+                                    nomeNode.requestFocus();
+                                  }),
+                                  focusNode: emailNode,
+                                  textInputAction: TextInputAction.go,
+                                  controller: _controllerEdit.email,
+                                  onChanged: ((value) {}),
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return "Digite um email válido";
+                                    }
+
+                                    if (!emailExp.hasMatch(value)) {
+                                      return "Email inválido";
+                                    }
+                                    return null;
+                                  },
+                                  style: const TextStyle(
+                                      fontFamily: "PassionOne", fontSize: 20),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: const BorderSide(
+                                            color: lilas, width: 3)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(15),
+                                        borderSide: const BorderSide(
+                                            color: lilas, width: 3)),
+                                    label: const Text("Email"),
+                                    floatingLabelBehavior:
+                                        FloatingLabelBehavior.never,
+                                    hintText: "email@example.com",
+                                  )),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                              focusNode: nomeNode,
+                              controller: _controllerEdit.nome,
+                              keyboardType: TextInputType.name,
+                              textInputAction: TextInputAction.go,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Digite um nome";
+                                }
+                                return null;
+                              },
+                              style: const TextStyle(
+                                  fontFamily: "PassionOne", fontSize: 20),
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        color: lilas, width: 3)),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide: const BorderSide(
+                                        color: lilas, width: 3)),
+                                label: const Text("Nome"),
+                                floatingLabelBehavior:
+                                    FloatingLabelBehavior.never,
+                              )),
                         ],
                       ),
                     ),

@@ -1,4 +1,9 @@
+import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/controller/tipoPerfilController.dart';
+import 'package:abntplaybic/modules/perfil/screens/codigoTurma.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:provider/provider.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -10,13 +15,26 @@ class TipoPerfilPage extends StatefulWidget {
 }
 
 class _TipoPerfilPageState extends State<TipoPerfilPage> {
+  PerfilProvider provider = PerfilProvider();
   var mensagem = {
     PerfilTipo.profesor:
         "Como professor, você pode criar turmas para seus alunos utilizarem da plataforma, verificar erros e acertos de cada aluno, e liberar as atividades quando desejar",
     PerfilTipo.aluno:
         "Como aluno, você pode utilizar da plataforma de estudos e se quiser, ingressar numa turma e competir com seus amigos semanalmente no ranking da turma."
   };
+
+  check(BuildContext context) async {
+    PerfilTipo? value = await context.read<PerfilProvider>().getUser();
+    print(value);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   PerfilTipo tipoSelected = PerfilTipo.aluno;
+  TipoPerfilController controller = TipoPerfilController();
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -35,73 +53,76 @@ class _TipoPerfilPageState extends State<TipoPerfilPage> {
                     width: size.width * 0.65,
                     height: size.width * 0.65,
                     child: Image.asset("src/images/coruja_login.png")),
-                ListTile(
-                  onTap: () {
-                    setState(() {
-                      tipoSelected = PerfilTipo.profesor;
-                    });
-                  },
-                  title: Text(
-                    "Professor",
-                    style: TextStyle(
-                      fontFamily: "PassionOne",
-                      fontSize: 32,
-                      color: tipoSelected.index == 0 ? branco : Colors.black,
-                    ),
-                  ),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(13),
-                      side: BorderSide(
-                          color: primary,
-                          width: tipoSelected.index == 0 ? 0 : 2)),
-                  tileColor:
-                      tipoSelected.index == 0 ? lilas : Colors.transparent,
-                  trailing: Radio<PerfilTipo>(
-                    value: PerfilTipo.profesor,
-                    groupValue: tipoSelected,
-                    fillColor: MaterialStateProperty.all(primary),
-                    onChanged: (val) {
-                      if (val != null) {
-                        setState(() {
-                          tipoSelected = val;
-                        });
-                      }
+                Opacity(
+                  opacity: tipoSelected.index == 0 ? 1 : 0.15,
+                  child: ListTile(
+                    onTap: () {
+                      setState(() {
+                        tipoSelected = PerfilTipo.profesor;
+                      });
                     },
+                    title: const Text(
+                      "Professor",
+                      style: TextStyle(
+                        fontFamily: "PassionOne",
+                        fontSize: 32,
+                        color: Colors.black,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(13),
+                      side: const BorderSide(color: Colors.black, width: 2),
+                    ),
+                    // tileColor: tipoSelected.index == 0
+                    //     ? branco
+                    //     : Colors.black.withOpacity(0.),
+                    trailing: Radio<PerfilTipo>(
+                      value: PerfilTipo.profesor,
+                      groupValue: tipoSelected,
+                      fillColor: MaterialStateProperty.all(primary),
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            tipoSelected = val;
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                ListTile(
-                  onTap: () {
-                    setState(() {
-                      tipoSelected = PerfilTipo.aluno;
-                    });
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(13),
-                      side: BorderSide(
-                          color: primary,
-                          width: tipoSelected.index == 1 ? 0 : 2)),
-                  tileColor:
-                      tipoSelected.index == 1 ? lilas : Colors.transparent,
-                  title: Text(
-                    "Aluno",
-                    style: TextStyle(
-                      fontFamily: "PassionOne",
-                      fontSize: 32,
-                      color: tipoSelected.index == 1 ? branco : Colors.black,
-                    ),
-                  ),
-                  trailing: Radio<PerfilTipo>(
-                    value: PerfilTipo.aluno,
-                    groupValue: tipoSelected,
-                    fillColor: MaterialStateProperty.all(primary),
-                    onChanged: (val) {
-                      if (val != null) {
-                        setState(() {
-                          tipoSelected = val;
-                        });
-                      }
+                Opacity(
+                  opacity: tipoSelected.index == 1 ? 1 : 0.15,
+                  child: ListTile(
+                    onTap: () {
+                      setState(() {
+                        tipoSelected = PerfilTipo.aluno;
+                      });
                     },
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(13),
+                      side: const BorderSide(color: Colors.black, width: 2),
+                    ),
+                    title: const Text(
+                      "Aluno",
+                      style: TextStyle(
+                        fontFamily: "PassionOne",
+                        fontSize: 32,
+                        color: Colors.black,
+                      ),
+                    ),
+                    trailing: Radio<PerfilTipo>(
+                      value: PerfilTipo.aluno,
+                      groupValue: tipoSelected,
+                      fillColor: MaterialStateProperty.all(primary),
+                      onChanged: (val) {
+                        if (val != null) {
+                          setState(() {
+                            tipoSelected = val;
+                          });
+                        }
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 30),
@@ -136,7 +157,26 @@ class _TipoPerfilPageState extends State<TipoPerfilPage> {
                         fontSize: 32,
                         color: Colors.white),
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (tipoSelected.index == 1) {
+                      //Se for aluno
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CodigoTurmaScreen()));
+                    } else {
+                      //Se for professor
+                      var cancel = BotToast.showLoading();
+                      await controller.setProfessor();
+                      if (!mounted) return;
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage()),
+                          (route) => true);
+                      cancel();
+                    }
+                  },
                 )
               ],
             ),

@@ -70,7 +70,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               if (value == null || value.isEmpty) {
                                 return "Digite um email válido";
                               }
-                              print(emailExp.hasMatch(value));
+
                               if (!emailExp.hasMatch(value)) {
                                 return "Email inválido";
                               }
