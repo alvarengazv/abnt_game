@@ -22,7 +22,14 @@ class CodigoController {
       firestore
           .collection("aluno")
           .doc(FirebaseAuth.instance.currentUser!.uid)
-          .set({'turma': null});
+          .set({
+        'turma': null,
+        "imageURL": null,
+        "melhorRanking": 0,
+        "rankingAtual": 0,
+        "xpAtual": 0,
+        "xpColetado": 0,
+      });
     }
   }
 }
