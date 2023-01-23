@@ -12,3 +12,4 @@ const laranja = Color(0xffEF8E57);
 const azul = Color(0xff5791E7);
 const vermelho = Color(0xffDE4A18);
 const amarelo = Color(0xffEDB423);
+const verde = Color(0xff69A36B);

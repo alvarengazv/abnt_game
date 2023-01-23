@@ -1,7 +1,7 @@
 import 'package:abntplaybic/modules/home/pages/telas/classificacao.dart';
 import 'package:abntplaybic/modules/home/pages/telas/conquistas.dart';
 import 'package:abntplaybic/modules/home/pages/telas/inicio.dart';
-import 'package:abntplaybic/modules/home/pages/telas/perfil.dart';
+import 'package:abntplaybic/modules/home/pages/telas/perfil_page.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 

@@ -23,7 +23,7 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
             text: "1200 ",
             style: TextStyle(
                   fontFamily: "BebasNeue",
-                color: Color.fromARGB(255, 105, 163, 107),
+                color: verde,
                 fontSize: 40
             ),
             children: [
@@ -31,7 +31,7 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
                   text: "XP",
                   style: TextStyle(
                         fontFamily: "BebasNeue",
-                      color: Color.fromARGB(255, 105, 163, 107),
+                      color: verde,
                       fontSize: 20)
                 )
             ],

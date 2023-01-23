@@ -1,3 +1,4 @@
+import 'package:abntplaybic/modules/atividades/pages/principal.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_inicio.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +26,13 @@ class _InicioPageState extends State<InicioPage> {
                   TextSpan(
                     text: "1200 ",
                     style: TextStyle(
-                        fontFamily: "BebasNeue",
-                        color: Color.fromARGB(255, 105, 163, 107),
-                        fontSize: 25),
+                        fontFamily: "BebasNeue", color: verde, fontSize: 25),
                     children: [
                       TextSpan(
                           text: "XP",
                           style: TextStyle(
                               fontFamily: "BebasNeue",
-                              color: Color.fromARGB(255, 105, 163, 107),
+                              color: verde,
                               fontSize: 15))
                     ],
                   ),
@@ -56,11 +55,23 @@ class _InicioPageState extends State<InicioPage> {
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
+                children: [
                   BotaoInicio(
                     texto: "Trabalhos Acadêmicos",
+                    funcaoBotao: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainAtividadesPage()),
+                    ),
                   ),
-                  BotaoInicio(texto: "Sumário")
+                  BotaoInicio(
+                    texto: "Sumário",
+                    funcaoBotao: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainAtividadesPage()),
+                    ),
+                  )
                 ],
               ),
             ),
@@ -68,12 +79,22 @@ class _InicioPageState extends State<InicioPage> {
               padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: const [
+                children: [
                   BotaoInicio(
                     texto: "Referências Bibliográficas",
+                    funcaoBotao: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainAtividadesPage()),
+                    ),
                   ),
                   BotaoInicio(
                     texto: "",
+                    funcaoBotao: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MainAtividadesPage()),
+                    ),
                   ),
                 ],
               ),

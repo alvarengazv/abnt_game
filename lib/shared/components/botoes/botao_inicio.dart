@@ -5,7 +5,9 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class BotaoInicio extends StatefulWidget {
   final String texto;
-  const BotaoInicio({super.key, required this.texto});
+  final Function() funcaoBotao;
+
+  const BotaoInicio({super.key, required this.texto, required this.funcaoBotao});
 
   @override
   State<BotaoInicio> createState() => _BotaoInicioState();
@@ -22,7 +24,7 @@ class _BotaoInicioState extends State<BotaoInicio> {
               height: 180,
               width: 140,
               child: ElevatedButton(
-                onPressed: (){},
+                onPressed: widget.funcaoBotao,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: lilas,
                   shape: RoundedRectangleBorder(
