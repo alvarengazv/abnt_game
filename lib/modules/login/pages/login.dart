@@ -1,10 +1,14 @@
-import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/controllers/loginController.dart';
-import 'package:abntplaybic/modules/login/pages/cadastro.dart';
-import 'package:abntplaybic/shared/colors.dart';
+import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/screens/tipoPerfilPage.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
-import 'package:bot_toast/bot_toast.dart';
+import 'package:abntplaybic/modules/login/pages/cadastro.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:abntplaybic/shared/colors.dart';
+import 'package:bot_toast/bot_toast.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -18,12 +22,30 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       if (FirebaseAuth.instance.currentUser != null) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const HomePage()),
-        );
+        var shared = await SharedPreferences.getInstance();
+        if (!mounted) return;
+        if (shared.getString("tipoPerfil") != null) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomePage()),
+          );
+        } else {
+          var user = await context.read<PerfilProvider>().getUser();
+          if (!mounted) return;
+          if (user == null) {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const TipoPerfilPage()),
+                (route) => false);
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          }
+        }
       }
     });
   }
@@ -154,11 +176,24 @@ class _LoginPageState extends State<LoginPage> {
                           if (_form.currentState!.validate()) {
                             cancel = BotToast.showLoading();
                             await controller.login();
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomePage()),
-                                (route) => false);
+                            if (!mounted) return;
+                            PerfilTipo? userType =
+                                await context.read<PerfilProvider>().getUser();
+                            if (!mounted) return;
+                            if (userType != null) {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomePage()),
+                                  (route) => false);
+                            } else {
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const TipoPerfilPage()),
+                                  (route) => false);
+                            }
 
                             //await Future.delayed(const Duration(seconds: 2));
                             cancel();
