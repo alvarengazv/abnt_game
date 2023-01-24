@@ -19,6 +19,7 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
               Container(
                 width: size.width,

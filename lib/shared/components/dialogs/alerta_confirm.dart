@@ -46,7 +46,7 @@ alertaConfirmaApp(BuildContext context, String message, Function() funcaoConfirm
                           backgroundColor: primary,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(13)),
-                          fixedSize: Size(size.width * 0.2, 40),
+                          fixedSize: Size(size.width * 0.21, 40),
                         ),
                         child: Text(
                           buttonText1,
@@ -66,7 +66,7 @@ alertaConfirmaApp(BuildContext context, String message, Function() funcaoConfirm
                             backgroundColor: primary,
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(13)),
-                            fixedSize: Size(size.width * 0.2, 40),
+                            fixedSize: Size(size.width * 0.25, 40),
                           ),
                           onPressed: funcaoConfirma,
                           child: Text(

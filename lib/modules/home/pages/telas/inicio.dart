@@ -1,6 +1,8 @@
 import 'package:abntplaybic/modules/atividades/pages/principal.dart';
+import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_inicio.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,6 +15,36 @@ class InicioPage extends StatefulWidget {
 }
 
 class _InicioPageState extends State<InicioPage> {
+  TopicosController _topicosController = TopicosController();
+  bool loading = false;
+  List<String> listaTopicos = [];
+  int j = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    getTopicos();
+    j = 0;
+  }
+
+  getTopicos() async {
+    setState(() {
+      loading = true;
+    });
+
+    listaTopicos = await _topicosController.getTopicos();
+
+    setState(() {
+      loading = false;
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    j = 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,57 +81,51 @@ class _InicioPageState extends State<InicioPage> {
                 TextStyle(fontFamily: "Righteous", color: roxo, fontSize: 40),
           ),
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  BotaoInicio(
-                    texto: "Trabalhos Acadêmicos",
-                    funcaoBotao: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MainAtividadesPage()),
+        body: !loading && listaTopicos.isNotEmpty
+            ? ListView.builder(
+                itemCount: listaTopicos.length % 2 == 0 ? listaTopicos.length~/2 : listaTopicos.length~/2 +1,
+                itemBuilder: ((context, index) {
+                  index > 0 && index + j < listaTopicos.length ? index = index + j : null;
+                  j++;
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        BotaoInicio(
+                          texto: listaTopicos.length > index && index % 2 == 0
+                              ? listaTopicos.elementAt(index) : "",
+                          funcaoBotao: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainAtividadesPage(
+                                titulo: listaTopicos.length > index && index % 2 == 0
+                                    ? listaTopicos.elementAt(index)
+                                    : "",
+                              ),
+                            ),
+                          ),
+                        ),
+                        BotaoInicio(
+                          texto: listaTopicos.length > index + 1 && (index + 1) % 2 != 0
+                              ? listaTopicos.elementAt(index + 1)
+                              : "",
+                          funcaoBotao: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MainAtividadesPage(
+                                  titulo: listaTopicos.length > index + 1 && (index + 1) % 2 != 0
+                              ? listaTopicos.elementAt(index + 1) : ""),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  BotaoInicio(
-                    texto: "Sumário",
-                    funcaoBotao: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MainAtividadesPage()),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  BotaoInicio(
-                    texto: "Referências Bibliográficas",
-                    funcaoBotao: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MainAtividadesPage()),
-                    ),
-                  ),
-                  BotaoInicio(
-                    texto: "",
-                    funcaoBotao: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MainAtividadesPage()),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ));
+                  );
+                }),
+              )
+            : Center(
+                child: CircularProgressIndicator(),
+              ));
   }
 }
