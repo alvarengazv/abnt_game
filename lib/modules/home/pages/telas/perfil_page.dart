@@ -51,7 +51,7 @@ class _PerfilPageState extends State<PerfilPage> {
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(color: primary)),
                         child: context
-                                    .read<PerfilProvider>()
+                                    .watch<PerfilProvider>()
                                     .perfilAtual
                                     ?.fotoPerfil ==
                                 null
@@ -76,7 +76,7 @@ class _PerfilPageState extends State<PerfilPage> {
                         ),
                   ),
                   AutoSizeText(
-                    context.read<PerfilProvider>().perfilAtual!.nome,
+                    context.watch<PerfilProvider>().perfilAtual!.nome,
                     //FirebaseAuth.instance.currentUser!.displayName ?? "Nome",
                     style: const TextStyle(
                       fontFamily: "Montserrat",

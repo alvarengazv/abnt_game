@@ -38,8 +38,8 @@ class PerfilAluno extends Perfil {
             id: user.uid,
             fotoPerfil: user.photoURL);
 
-  @override
-  PerfilAluno.fromFirestore(Map<String, Object?> data, User user)
+  PerfilAluno.fromFirestore(Map<String, Object?> data, User user,
+      [Function? notify])
       : super(
             nome: user.displayName!,
             email: user.email!,
@@ -50,6 +50,7 @@ class PerfilAluno extends Perfil {
     _xpAtual = data["xpAtual"] as int? ?? 0;
     _xpTotal = data["xpTotal"] as int? ?? 0;
     _turma = data["turma"] as String?;
+    _notify = notify;
   }
 
   @override
@@ -71,20 +72,24 @@ class PerfilAluno extends Perfil {
         .update(toMap());
   }
 
-  addXp(int xp) {
+  addXp(int xp) async {
     _xpAtual += xp;
     _xpTotal += xp;
+    await updateFirestore();
   }
 
-  updateRanking(int newRanking) {
+  updateRanking(int newRanking) async {
     _rankingAtual = newRanking;
     if (newRanking < _melhorRanking) {
       _melhorRanking = newRanking;
     }
+    await updateFirestore();
+    (_notify != null) ? _notify!() : null;
   }
 
   set setTurma(String novaTurma) {
     _turma = novaTurma;
+
     (_notify != null) ? _notify!() : null;
   }
 

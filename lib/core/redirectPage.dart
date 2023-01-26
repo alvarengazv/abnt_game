@@ -48,11 +48,14 @@ class _RedirectPageState extends State<RedirectPage> {
     return FutureBuilder(
         future: checkUser(),
         builder: (context, fut) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: LinearProgressIndicator(
-                color: primary,
-                backgroundColor: lilas,
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.5,
+                child: const LinearProgressIndicator(
+                  color: primary,
+                  backgroundColor: lilas,
+                ),
               ),
             ),
           );

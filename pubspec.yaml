@@ -38,6 +38,7 @@ dependencies:
   firebase_storage: ^11.0.10
   flutter:
     sdk: flutter
+  image_picker: ^0.8.6+1
   provider: ^6.0.5
   shared_preferences: ^2.0.17
 

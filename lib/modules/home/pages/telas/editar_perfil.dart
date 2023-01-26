@@ -1,18 +1,16 @@
+import 'dart:io';
+
 import 'package:abntplaybic/modules/home/controllers/editController.dart';
-import 'package:abntplaybic/modules/login/pages/login.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_perfil.dart';
-import 'package:abntplaybic/shared/components/cards/card_perfil.dart';
-import 'package:abntplaybic/shared/components/dialogs/alerta_confirm.dart';
 import 'package:abntplaybic/shared/validacoes.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class EditarPerfilPage extends StatefulWidget {
@@ -26,6 +24,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
   final EditController _controllerEdit = EditController();
   FocusNode emailNode = FocusNode();
   FocusNode nomeNode = FocusNode();
+  XFile? newImage;
 
   @override
   void initState() {
@@ -76,9 +75,137 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(color: primary)),
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () async {
+                          var picker = ImagePicker();
+                          await showDialog(
+                              context: context,
+                              builder: (context) => Dialog(
+                                    backgroundColor: branco,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(13),
+                                        side: const BorderSide(
+                                            color: primary, width: 3)),
+                                    child: Container(
+                                      // width: size.width * 0.9,
+                                      // height: size.width * 0.6,
+                                      // constraints: BoxConstraints(
+                                      //   minWidth: size.width * 0.9,
+                                      //   minHeight: size.width * 0.6,
+                                      // ),
+                                      padding: const EdgeInsets.only(
+                                          top: 10,
+                                          left: 10,
+                                          right: 10,
+                                          bottom: 10),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          const Text("Adicionar foto",
+                                              style: TextStyle(
+                                                  fontFamily: "PassionOne",
+                                                  fontSize: 32,
+                                                  color: Colors.black)),
+                                          const SizedBox(height: 10),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                children: [
+                                                  Ink(
+                                                    decoration: ShapeDecoration(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12)),
+                                                        color: primary),
+                                                    child: IconButton(
+                                                      iconSize: 50,
+                                                      icon: const Icon(
+                                                          Icons.camera),
+                                                      color: branco,
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 20),
+                                                      onPressed: () async {
+                                                        var file = await picker
+                                                            .pickImage(
+                                                                source:
+                                                                    ImageSource
+                                                                        .camera);
+                                                        newImage = file;
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                  const Text(
+                                                    "Câmera",
+                                                    style: TextStyle(
+                                                        fontSize: 25,
+                                                        fontFamily:
+                                                            "PassionOne"),
+                                                  )
+                                                ],
+                                              ),
+                                              Column(
+                                                children: [
+                                                  Ink(
+                                                    decoration: ShapeDecoration(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12)),
+                                                        color: primary),
+                                                    child: IconButton(
+                                                      iconSize: 50,
+                                                      icon: const Icon(
+                                                          Icons.photo),
+                                                      color: branco,
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 20),
+                                                      onPressed: () async {
+                                                        var file = await picker
+                                                            .pickImage(
+                                                                source:
+                                                                    ImageSource
+                                                                        .gallery);
+                                                        newImage = file;
+                                                        Navigator.pop(context);
+                                                      },
+                                                    ),
+                                                  ),
+                                                  const Text("Arquivos",
+                                                      style: TextStyle(
+                                                          fontSize: 25,
+                                                          fontFamily:
+                                                              "PassionOne"))
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ));
+                          if (newImage != null) {
+                            print(newImage!.name);
+                          }
+                          setState(() {});
+                        },
                         child: Stack(
                           children: [
+                            newImage != null
+                                ? Image.file(File(newImage!.path))
+                                : Container(),
                             // Image.asset(""),
                             Align(
                               alignment: Alignment.bottomRight,
@@ -101,7 +228,10 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                       ),
                     ),
                     AutoSizeText(
-                      FirebaseAuth.instance.currentUser!.displayName ?? "Nome",
+                      _controllerEdit.nome.text.isNotEmpty
+                          ? _controllerEdit.nome.text
+                          : FirebaseAuth.instance.currentUser!.displayName ??
+                              "Nome",
                       style: const TextStyle(
                         fontFamily: "Montserrat",
                         fontWeight: FontWeight.bold,
@@ -198,7 +328,32 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                       ),
                     ),
                     BotaoPerfil(
-                      funcaoBotao: () {},
+                      funcaoBotao: () async {
+                        var cancel = BotToast.showLoading();
+                        var perfil =
+                            context.read<PerfilProvider>().perfilAtual!;
+                        if (_controllerEdit.email.text != perfil.email) {
+                          await FirebaseAuth.instance.currentUser!
+                              .updateEmail(_controllerEdit.email.text);
+                        }
+                        if (_controllerEdit.nome.text != perfil.nome) {
+                          await FirebaseAuth.instance.currentUser!
+                              .updateDisplayName(_controllerEdit.nome.text);
+                        }
+                        if (newImage != null) {
+                          var ref = await FirebaseStorage.instance
+                              .ref(
+                                  "/users/${perfil.id}${newImage!.path.split(".").last}")
+                              .putData((await newImage!.readAsBytes()))
+                              .then((p0) => p0.ref);
+                          print(ref);
+                          await FirebaseAuth.instance.currentUser!
+                              .updatePhotoURL((await ref.getDownloadURL()));
+                        }
+                        await context.read<PerfilProvider>().getUser();
+                        cancel();
+                        Navigator.pop(context);
+                      },
                       icone: Icons.edit,
                       text: "CONFIRMAR",
                       bgcolor: amarelo,
