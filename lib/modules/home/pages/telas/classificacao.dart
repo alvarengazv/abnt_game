@@ -39,27 +39,26 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
             );
           }),
         ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: size.height,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 10),
-                    child: Container(
-                      width: size.width * 0.9,
-                      height: size.height * 0.15,
-                      decoration: BoxDecoration(
-                        color: lilas,
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      /*child: Image.asset( ),*/
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            height: size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  child: Container(
+                    width: size.width * 0.9,
+                    height: size.height * 0.15,
+                    decoration: BoxDecoration(
+                      color: lilas,
+                      borderRadius: BorderRadius.circular(8),
                     ),
+                    /*child: Image.asset( ),*/ 
                   ),
+                ),
                   Expanded(
                     child: Column(
                       children: [

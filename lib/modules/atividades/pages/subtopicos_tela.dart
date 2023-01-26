@@ -42,7 +42,8 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
   getTopicos() async {
     listaTemas = await _topicosController.getAllSubTopicos(
         widget.topico, widget.subTopico);
-    _tabController = TabController(length: listaTemas.length, vsync: provider);
+    _tabController = TabController(
+        length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: provider);
 
     setState(() {
       loading = false;
@@ -126,20 +127,34 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                               ),
                               IconButton(
                                 onPressed: () {
-                                  _pageController.animateToPage(
-                                      selectedIndex + 1,
-                                      duration:
-                                          const Duration(milliseconds: 500),
-                                      curve: Curves.ease);
-                                  setState(() {
-                                    _tabController!.index = selectedIndex;
-                                  });
+                                  if (selectedIndex + 1 <
+                                      _tabController!.length) {
+                                    _pageController.animateToPage(
+                                        selectedIndex + 1,
+                                        duration:
+                                            const Duration(milliseconds: 500),
+                                        curve: Curves.ease);
+                                    setState(() {
+                                      _tabController!.index = selectedIndex;
+                                    });
+                                  }
                                 },
-                                icon: const Icon(
+                                icon: Icon(
                                   Icons.chevron_right,
                                   size: 32,
-                                  color: primary,
+                                  color:
+                                      selectedIndex + 1 < _tabController!.length
+                                          ? primary
+                                          : Colors.transparent,
                                 ),
+                                splashColor:
+                                    selectedIndex + 1 < _tabController!.length
+                                        ? null
+                                        : Colors.transparent,
+                                highlightColor:
+                                    selectedIndex + 1 < _tabController!.length
+                                        ? null
+                                        : Colors.transparent,
                               ),
                             ],
                           ),
@@ -148,10 +163,24 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                     ),
                   ],
                 )
-              : listaTemas.isEmpty
-                  ? Center(child: Text("Não há tema cadastrado com este nome!"))
+              : listaTemas.isEmpty && !loading
+                  ? Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 20, vertical: size.height * 0.36),
+                      child: AutoSizeText(
+                        "Não há tema cadastrado com este nome!",
+                        maxLines: 1,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: "PassionOne",
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    )
                   : Center(
-                      child: CircularProgressIndicator(),
+                      child: CircularProgressIndicator(
+                        color: primary,
+                      ),
                     ),
         )
       ],
