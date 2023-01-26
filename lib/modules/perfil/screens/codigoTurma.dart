@@ -37,7 +37,7 @@ class _CodigoTurmaScreenState extends State<CodigoTurmaScreen> {
                     SizedBox(
                         width: size.width * 0.65,
                         height: size.width * 0.65,
-                        child: Image.asset("src/images/coruja_login.png")),
+                        child: Image.asset("src/images/abnt_codigo.png")),
                     const SizedBox(height: 10),
                     SizedBox(
                       width: size.width * 0.7,

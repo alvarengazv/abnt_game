@@ -1,11 +1,14 @@
 import 'package:abntplaybic/modules/atividades/pages/principal.dart';
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
+import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_inicio.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class InicioPage extends StatefulWidget {
   const InicioPage({super.key});
@@ -15,7 +18,7 @@ class InicioPage extends StatefulWidget {
 }
 
 class _InicioPageState extends State<InicioPage> {
-  TopicosController _topicosController = TopicosController();
+  final TopicosController _topicosController = TopicosController();
   bool loading = false;
   List<String> listaTopicos = [];
   int j = 0;
@@ -54,21 +57,26 @@ class _InicioPageState extends State<InicioPage> {
               padding: const EdgeInsets.all(10.0),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: Text.rich(
-                  TextSpan(
-                    text: "1200 ",
-                    style: TextStyle(
-                        fontFamily: "BebasNeue", color: verde, fontSize: 25),
-                    children: [
-                      TextSpan(
-                          text: "XP",
-                          style: TextStyle(
-                              fontFamily: "BebasNeue",
-                              color: verde,
-                              fontSize: 15))
-                    ],
-                  ),
-                ),
+                child:
+                    Consumer<PerfilProvider>(builder: (context, value, child) {
+                  return Text.rich(
+                    TextSpan(
+                      text: value.perfilAtual.runtimeType == PerfilAluno
+                          ? "${(value.perfilAtual as PerfilAluno).xpAtual} "
+                          : "- ",
+                      style: const TextStyle(
+                          fontFamily: "BebasNeue", color: verde, fontSize: 25),
+                      children: const [
+                        TextSpan(
+                            text: "XP",
+                            style: TextStyle(
+                                fontFamily: "BebasNeue",
+                                color: verde,
+                                fontSize: 15))
+                      ],
+                    ),
+                  );
+                }),
               ),
             )
           ],
@@ -83,9 +91,13 @@ class _InicioPageState extends State<InicioPage> {
         ),
         body: !loading && listaTopicos.isNotEmpty
             ? ListView.builder(
-                itemCount: listaTopicos.length % 2 == 0 ? listaTopicos.length~/2 : listaTopicos.length~/2 +1,
+                itemCount: listaTopicos.length % 2 == 0
+                    ? listaTopicos.length ~/ 2
+                    : listaTopicos.length ~/ 2 + 1,
                 itemBuilder: ((context, index) {
-                  index > 0 && index + j < listaTopicos.length ? index = index + j : null;
+                  index > 0 && index + j < listaTopicos.length
+                      ? index = index + j
+                      : null;
                   j++;
                   return Padding(
                     padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -94,12 +106,14 @@ class _InicioPageState extends State<InicioPage> {
                       children: [
                         BotaoInicio(
                           texto: listaTopicos.length > index && index % 2 == 0
-                              ? listaTopicos.elementAt(index) : "",
+                              ? listaTopicos.elementAt(index)
+                              : "",
                           funcaoBotao: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => MainAtividadesPage(
-                                titulo: listaTopicos.length > index && index % 2 == 0
+                                titulo: listaTopicos.length > index &&
+                                        index % 2 == 0
                                     ? listaTopicos.elementAt(index)
                                     : "",
                               ),
@@ -107,15 +121,18 @@ class _InicioPageState extends State<InicioPage> {
                           ),
                         ),
                         BotaoInicio(
-                          texto: listaTopicos.length > index + 1 && (index + 1) % 2 != 0
+                          texto: listaTopicos.length > index + 1 &&
+                                  (index + 1) % 2 != 0
                               ? listaTopicos.elementAt(index + 1)
                               : "",
                           funcaoBotao: () => Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => MainAtividadesPage(
-                                  titulo: listaTopicos.length > index + 1 && (index + 1) % 2 != 0
-                              ? listaTopicos.elementAt(index + 1) : ""),
+                                  titulo: listaTopicos.length > index + 1 &&
+                                          (index + 1) % 2 != 0
+                                      ? listaTopicos.elementAt(index + 1)
+                                      : ""),
                             ),
                           ),
                         ),
@@ -124,7 +141,7 @@ class _InicioPageState extends State<InicioPage> {
                   );
                 }),
               )
-            : Center(
+            : const Center(
                 child: CircularProgressIndicator(),
               ));
   }

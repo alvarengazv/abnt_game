@@ -49,10 +49,13 @@ class _TipoPerfilPageState extends State<TipoPerfilPage> {
                   "Que tipo de conta deseja utilizar?",
                   style: TextStyle(fontFamily: "PassionOne", fontSize: 24),
                 ),
-                SizedBox(
+                Container(
+                    margin: const EdgeInsets.symmetric(vertical: 20),
                     width: size.width * 0.65,
                     height: size.width * 0.65,
-                    child: Image.asset("src/images/coruja_login.png")),
+                    child: Image.asset(tipoSelected.index == 0
+                        ? "src/images/quadro.png"
+                        : "src/images/mesa.png")),
                 Opacity(
                   opacity: tipoSelected.index == 0 ? 1 : 0.15,
                   child: ListTile(
