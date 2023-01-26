@@ -47,7 +47,7 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
                   child: Container(
                     width: size.width * 0.9,
                     height: size.height * 0.15,

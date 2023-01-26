@@ -24,7 +24,6 @@ class _InicioPageState extends State<InicioPage> {
   void initState() {
     super.initState();
     getTopicos();
-    j = 0;
   }
 
   getTopicos() async {
@@ -33,6 +32,7 @@ class _InicioPageState extends State<InicioPage> {
     });
 
     listaTopicos = await _topicosController.getTopicos();
+    j = 0;
 
     setState(() {
       loading = false;

@@ -4,6 +4,7 @@ import 'package:abntplaybic/modules/home/pages/telas/inicio.dart';
 import 'package:abntplaybic/modules/home/pages/telas/perfil_page.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,6 +41,7 @@ class _HomePageState extends State<HomePage> {
         children: _widgetOptions,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
           currentIndex: _selectedIndex,
           onTap: (index) {
             _pageController.animateToPage(index,
@@ -49,45 +51,45 @@ class _HomePageState extends State<HomePage> {
           items: const [
             BottomNavigationBarItem(
                 activeIcon: Icon(
-                  Icons.house,
+                  MdiIcons.home,
                   color: roxo,
                   size: 35,
                 ),
                 icon: Icon(
-                  Icons.house_outlined,
+                  MdiIcons.homeOutline,
                   color: lilas,
                 ),
                 label: ""),
             BottomNavigationBarItem(
                 activeIcon: Icon(
-                  Icons.leaderboard,
+                  MdiIcons.signalCellular3,
                   color: roxo,
                   size: 35,
                 ),
                 icon: Icon(
-                  Icons.leaderboard_outlined,
+                  MdiIcons.signalCellularOutline,
                   color: lilas,
                 ),
                 label: ""),
             BottomNavigationBarItem(
                 activeIcon: Icon(
-                  Icons.military_tech,
+                  MdiIcons.medal,
                   color: roxo,
                   size: 35,
                 ),
                 icon: Icon(
-                  Icons.military_tech_outlined,
+                  MdiIcons.medalOutline,
                   color: lilas,
                 ),
                 label: ""),
             BottomNavigationBarItem(
                 activeIcon: Icon(
-                  Icons.person,
+                  MdiIcons.account,
                   color: roxo,
                   size: 35,
                 ),
                 icon: Icon(
-                  Icons.person_outline,
+                  MdiIcons.accountOutline,
                   color: lilas,
                 ),
                 label: ""),
