@@ -1,5 +1,5 @@
-import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/login/controllers/cadastroController.dart';
+import 'package:abntplaybic/modules/perfil/screens/tipoPerfilPage.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:abntplaybic/shared/validacoes.dart';
@@ -196,13 +196,16 @@ class _CadastroPageState extends State<CadastroPage> {
                             CancelFunc? cancel;
                             try {
                               if (_form.currentState!.validate()) {
-                                cancel = BotToast.showNotification();
+                                cancel = BotToast.showLoading();
                                 await controller.criarConta();
+
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
+                                        builder: (context) =>
+                                            const TipoPerfilPage()),
                                     (route) => false);
+
                                 cancel();
                               }
                             } on FirebaseAuthException catch (e) {

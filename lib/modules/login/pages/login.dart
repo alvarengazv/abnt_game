@@ -3,7 +3,6 @@ import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/screens/tipoPerfilPage.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:abntplaybic/modules/login/pages/cadastro.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:abntplaybic/shared/colors.dart';
@@ -19,37 +18,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (FirebaseAuth.instance.currentUser != null) {
-        var shared = await SharedPreferences.getInstance();
-        if (!mounted) return;
-        if (shared.getString("tipoPerfil") != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
-        } else {
-          var user = await context.read<PerfilProvider>().getUser();
-          if (!mounted) return;
-          if (user == null) {
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (context) => const TipoPerfilPage()),
-                (route) => false);
-          } else {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
-          }
-        }
-      }
-    });
-  }
-
   LoginController controller = LoginController();
   final GlobalKey<FormState> _form = GlobalKey<FormState>();
   bool escondeSenha = true;

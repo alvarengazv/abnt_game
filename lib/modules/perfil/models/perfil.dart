@@ -11,7 +11,6 @@ abstract class Perfil {
       this.fotoPerfil});
 
   getPerfil();
-
   toMap();
   updateFirestore();
 }

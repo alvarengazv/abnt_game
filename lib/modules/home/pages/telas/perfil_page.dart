@@ -2,17 +2,15 @@ import 'package:abntplaybic/modules/home/controllers/editController.dart';
 import 'package:abntplaybic/modules/home/pages/telas/editar_perfil.dart';
 import 'package:abntplaybic/modules/login/pages/login.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_perfil.dart';
 import 'package:abntplaybic/shared/components/cards/card_perfil.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta_confirm.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:bot_toast/bot_toast.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 class PerfilPage extends StatefulWidget {
@@ -24,6 +22,12 @@ class PerfilPage extends StatefulWidget {
 
 class _PerfilPageState extends State<PerfilPage> {
   EditController controller = EditController();
+
+  Future<String?> getImage() async {
+    return await FirebaseStorage.instance
+        .ref("/users/img-default.jpg")
+        .getDownloadURL();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +42,42 @@ class _PerfilPageState extends State<PerfilPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Container(
-                    width: 160,
-                    height: 160,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: primary)),
-                    // child: Image.asset(
-                    //   controller. snapshot.data?['imageUrl'] ?? "https://firebasestorage.googleapis.com/v0/b/abnt-play.appspot.com/o/img-default.jpg?alt=media&token=38a51965-25c2-4e93-b484-ab8116cafe27"
-                    // ),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                        width: 160,
+                        height: 160,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: primary)),
+                        child: context
+                                    .read<PerfilProvider>()
+                                    .perfilAtual
+                                    ?.fotoPerfil ==
+                                null
+                            ? FutureBuilder<String?>(
+                                future: getImage(),
+                                builder: (context, snap) {
+                                  return snap.hasData
+                                      ? Image.network(context
+                                              .read<PerfilProvider>()
+                                              .perfilAtual
+                                              ?.fotoPerfil ??
+                                          snap.data!)
+                                      : Container();
+                                })
+                            : Image.network(context
+                                .read<PerfilProvider>()
+                                .perfilAtual!
+                                .fotoPerfil!)
+                        // child: Image.asset(
+                        //   controller. snapshot.data?['imageUrl'] ?? "https://firebasestorage.googleapis.com/v0/b/abnt-play.appspot.com/o/img-default.jpg?alt=media&token=38a51965-25c2-4e93-b484-ab8116cafe27"
+                        // ),
+                        ),
                   ),
                   AutoSizeText(
-                    FirebaseAuth.instance.currentUser!.displayName ?? "Nome",
+                    context.read<PerfilProvider>().perfilAtual!.nome,
+                    //FirebaseAuth.instance.currentUser!.displayName ?? "Nome",
                     style: const TextStyle(
                       fontFamily: "Montserrat",
                       fontWeight: FontWeight.bold,
@@ -57,83 +85,105 @@ class _PerfilPageState extends State<PerfilPage> {
                     ),
                     maxLines: 1,
                   ),
-                  const Text.rich(
-                    TextSpan(
-                      text: "1200 ",
-                      style: TextStyle(
-                        fontFamily: "BebasNeue",
-                        color: verde,
-                        fontSize: 25,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: "XP",
-                          style: TextStyle(
-                            fontFamily: "BebasNeue",
-                            color: verde,
-                            fontSize: 15,
-                          ),
+                  Consumer<PerfilProvider>(builder: (context, value, child) {
+                    return Text.rich(
+                      TextSpan(
+                        text: value.perfilAtual.runtimeType == PerfilAluno
+                            ? "${(value.perfilAtual as PerfilAluno).xpAtual} "
+                            : "- ",
+                        style: const TextStyle(
+                          fontFamily: "BebasNeue",
+                          color: verde,
+                          fontSize: 25,
                         ),
-                        TextSpan(
-                          text: "  -  ",
-                          style: TextStyle(
-                            fontFamily: "BebasNeue",
-                            color: Colors.black,
-                            fontSize: 16,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "2º",
-                          style: TextStyle(
-                            fontFamily: "BebasNeue",
-                            color: prata,
-                            // widget.classificacao == 1
-                            //   ? ouro
-                            //   : widget.classificacao == 2
-                            //       ? prata
-                            //       : widget.classificacao == 3
-                            //           ? bronze
-                            //           : roxoClassificacao,
-                            fontSize: 16,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Padding(
-                          padding: EdgeInsets.fromLTRB(15, 0, 0, 8),
-                          child: Text(
-                            "ESTATÍSTICAS",
+                        children: [
+                          const TextSpan(
+                            text: "XP",
                             style: TextStyle(
-                              color: prata,
                               fontFamily: "BebasNeue",
-                              fontSize: 20,
+                              color: verde,
+                              fontSize: 15,
                             ),
                           ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: const [
-                            CardPerfil(
-                              title: "MELHOR\nRANKING",
-                              text: "1º",
-                              bgcolor: laranja,
+                          const TextSpan(
+                            text: "  -  ",
+                            style: TextStyle(
+                              fontFamily: "BebasNeue",
+                              color: Colors.black,
+                              fontSize: 16,
                             ),
-                            CardPerfil(
-                              title: "XP\nCOLETADO",
-                              text: "14.478",
-                              bgcolor: azul,
+                          ),
+                          TextSpan(
+                            text: value.perfilAtual.runtimeType == PerfilAluno
+                                ? (value.perfilAtual as PerfilAluno)
+                                            .rankingAtual !=
+                                        0
+                                    ? "${(value.perfilAtual as PerfilAluno).rankingAtual} º"
+                                    : "  º"
+                                : " - º",
+                            style: const TextStyle(
+                              fontFamily: "BebasNeue",
+                              color: prata,
+                              // widget.classificacao == 1
+                              //   ? ouro
+                              //   : widget.classificacao == 2
+                              //       ? prata
+                              //       : widget.classificacao == 3
+                              //           ? bronze
+                              //           : roxoClassificacao,
+                              fontSize: 16,
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
+                          )
+                        ],
+                      ),
+                    );
+                  }),
+                  Consumer<PerfilProvider>(builder: (context, value, child) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 40),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(15, 0, 0, 8),
+                            child: Text(
+                              "ESTATÍSTICAS",
+                              style: TextStyle(
+                                color: prata,
+                                fontFamily: "BebasNeue",
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              CardPerfil(
+                                title: "MELHOR\nRANKING",
+                                text: value.perfilAtual.runtimeType ==
+                                        PerfilAluno
+                                    ? (value.perfilAtual as PerfilAluno)
+                                                .melhorRanking ==
+                                            0
+                                        ? "-"
+                                        : "${(value.perfilAtual as PerfilAluno).melhorRanking} º"
+                                    : "- ",
+                                bgcolor: laranja,
+                              ),
+                              CardPerfil(
+                                title: "XP\nCOLETADO",
+                                text: value.perfilAtual.runtimeType ==
+                                        PerfilAluno
+                                    ? "${(value.perfilAtual as PerfilAluno).xpTotal} "
+                                    : "- ",
+                                bgcolor: azul,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -163,7 +213,8 @@ class _PerfilPageState extends State<PerfilPage> {
                                     Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                        builder: ((context) => LoginPage()),
+                                        builder: ((context) =>
+                                            const LoginPage()),
                                       ),
                                       ((route) => false),
                                     );
@@ -179,7 +230,8 @@ class _PerfilPageState extends State<PerfilPage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: ((context) => EditarPerfilPage()),
+                                    builder: ((context) =>
+                                        const EditarPerfilPage()),
                                   ),
                                 );
                               },
