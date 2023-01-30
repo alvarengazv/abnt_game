@@ -1,4 +1,5 @@
 import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilProfessor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,6 @@ class PerfilProvider extends ChangeNotifier {
         perfilAtual = PerfilAluno.fromFirestore(
             alunoCheck.data() as Map<String, Object?>,
             FirebaseAuth.instance.currentUser!);
-
-        prefs.setString("tipoPerfil", "aluno");
       } else {
         DocumentSnapshot profCheck = await FirebaseFirestore.instance
             .collection("professor")
@@ -33,9 +32,10 @@ class PerfilProvider extends ChangeNotifier {
             .get();
         if (profCheck.exists) {
           tipo = PerfilTipo.profesor;
-          //TODO: set classe de professor
 
-          prefs.setString("tipoPerfil", "professor");
+          perfilAtual = PerfilProfessor.fromFirestore(
+              profCheck.data() as Map<String, Object?>,
+              FirebaseAuth.instance.currentUser!);
         }
       }
     }

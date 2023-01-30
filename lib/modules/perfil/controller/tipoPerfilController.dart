@@ -6,6 +6,6 @@ class TipoPerfilController {
     FirebaseFirestore.instance
         .collection("professor")
         .doc(FirebaseAuth.instance.currentUser!.uid)
-        .set({}, SetOptions());
+        .set({});
   }
 }

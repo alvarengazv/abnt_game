@@ -11,6 +11,14 @@ class PerfilProfessor extends Perfil {
             nome: user.displayName!,
             fotoPerfil: user.photoURL);
 
+  PerfilProfessor.fromFirestore(Map<String, Object?> data, User user,
+      [Function? notify])
+      : super(
+            email: user.email!,
+            id: user.uid,
+            nome: user.displayName!,
+            fotoPerfil: user.photoURL);
+
   @override
   getPerfil() async {
     var profData =
