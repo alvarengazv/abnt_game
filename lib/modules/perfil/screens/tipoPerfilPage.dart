@@ -1,4 +1,4 @@
-import 'package:abntplaybic/modules/home/pages/index.dart';
+import 'package:abntplaybic/modules/home/pages/indexProf.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/controller/tipoPerfilController.dart';
 import 'package:abntplaybic/modules/perfil/screens/codigoTurma.dart';
@@ -175,7 +175,7 @@ class _TipoPerfilPageState extends State<TipoPerfilPage> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const HomePage()),
+                              builder: (context) => const HomePageProf()),
                           (route) => true);
                       cancel();
                     }

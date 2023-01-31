@@ -1,4 +1,5 @@
 import 'package:abntplaybic/modules/home/pages/index.dart';
+import 'package:abntplaybic/modules/home/pages/indexProf.dart';
 import 'package:abntplaybic/modules/login/pages/login.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/screens/tipoPerfilPage.dart';
@@ -29,10 +30,17 @@ class _RedirectPageState extends State<RedirectPage> {
               MaterialPageRoute(builder: (context) => const TipoPerfilPage()),
               (route) => false);
         } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
-          );
+          if (user == PerfilTipo.aluno) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePage()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => const HomePageProf()),
+            );
+          }
         }
       } else {
         Navigator.pushReplacement(

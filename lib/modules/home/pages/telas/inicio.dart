@@ -5,10 +5,7 @@ import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_inicio.dart';
 import 'package:abntplaybic/shared/components/cards/card_notificacao.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 class InicioPage extends StatefulWidget {
@@ -60,23 +57,26 @@ class _InicioPageState extends State<InicioPage> {
                 alignment: Alignment.bottomLeft,
                 child:
                     Consumer<PerfilProvider>(builder: (context, value, child) {
-                  return Text.rich(
-                    TextSpan(
-                      text: value.perfilAtual.runtimeType == PerfilAluno
-                          ? "${(value.perfilAtual as PerfilAluno).xpAtual} "
-                          : "- ",
-                      style: const TextStyle(
-                          fontFamily: "BebasNeue", color: verde, fontSize: 25),
-                      children: const [
-                        TextSpan(
-                            text: "XP",
-                            style: TextStyle(
+                  return value.perfilAtual.runtimeType == PerfilAluno
+                      ? Text.rich(
+                          TextSpan(
+                            text:
+                                "${(value.perfilAtual as PerfilAluno).xpAtual} ",
+                            style: const TextStyle(
                                 fontFamily: "BebasNeue",
                                 color: verde,
-                                fontSize: 15))
-                      ],
-                    ),
-                  );
+                                fontSize: 25),
+                            children: const [
+                              TextSpan(
+                                  text: "XP",
+                                  style: TextStyle(
+                                      fontFamily: "BebasNeue",
+                                      color: verde,
+                                      fontSize: 15))
+                            ],
+                          ),
+                        )
+                      : Container();
                 }),
               ),
             )
@@ -92,16 +92,15 @@ class _InicioPageState extends State<InicioPage> {
         ),
         body: !loading && listaTopicos.isNotEmpty
             ? Column(
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                children: [
+                  const Expanded(
+                      child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
                     child: CardNotificacao(),
-                  )
-                ),
-                Expanded(
-                  flex: 9,
-                  child: ListView.builder(
+                  )),
+                  Expanded(
+                    flex: 9,
+                    child: ListView.builder(
                       itemCount: listaTopicos.length % 2 == 0
                           ? listaTopicos.length ~/ 2
                           : listaTopicos.length ~/ 2 + 1,
@@ -118,7 +117,8 @@ class _InicioPageState extends State<InicioPage> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               BotaoInicio(
-                                texto: listaTopicos.length > index && index % 2 == 0
+                                texto: listaTopicos.length > index &&
+                                        index % 2 == 0
                                     ? listaTopicos.elementAt(index)
                                     : "",
                               ),
@@ -133,9 +133,9 @@ class _InicioPageState extends State<InicioPage> {
                         );
                       }),
                     ),
-                ),
-              ],
-            )
+                  ),
+                ],
+              )
             : const Center(
                 child: CircularProgressIndicator(),
               ));
