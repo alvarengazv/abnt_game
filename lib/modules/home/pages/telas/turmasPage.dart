@@ -1,6 +1,9 @@
+import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilProfessor.dart';
 import 'package:abntplaybic/modules/turma/screens/criarTurmaScreen.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TurmasPage extends StatefulWidget {
   const TurmasPage({super.key});
@@ -71,6 +74,42 @@ class _TurmasPageState extends State<TurmasPage> {
               ),
             ),
           ),
+          ...((context.watch<PerfilProvider>().perfilAtual as PerfilProfessor)
+              .turmas
+              .map((turma) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      children: [
+                        ListTile(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              side: const BorderSide()),
+                          onTap: () {},
+                          title: Text(
+                            turma.nome,
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          trailing: Text(
+                            turma.id,
+                            style:
+                                TextStyle(color: Colors.black.withOpacity(0.8)),
+                          ),
+                        ),
+                        (context.watch<PerfilProvider>().perfilAtual
+                                        as PerfilProfessor)
+                                    .turmas
+                                    .indexOf(turma) !=
+                                (context.watch<PerfilProvider>().perfilAtual
+                                            as PerfilProfessor)
+                                        .turmas
+                                        .length -
+                                    1
+                            ? const Divider()
+                            : Container()
+                      ],
+                    ),
+                  ))
+              .toList())
         ],
       )),
     );

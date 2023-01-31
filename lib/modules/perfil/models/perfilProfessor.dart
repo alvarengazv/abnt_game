@@ -1,9 +1,11 @@
 import 'package:abntplaybic/modules/perfil/models/perfil.dart';
+import 'package:abntplaybic/modules/turma/models/turma.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class PerfilProfessor extends Perfil {
-  List turmas = [];
+  List<Turma> turmas = [];
+  Function? _notify;
   PerfilProfessor(User user)
       : super(
             id: user.uid,
@@ -12,12 +14,13 @@ class PerfilProfessor extends Perfil {
             fotoPerfil: user.photoURL);
 
   PerfilProfessor.fromFirestore(Map<String, Object?> data, User user,
-      [Function? notify])
+      [this._notify])
       : super(
-            email: user.email!,
-            id: user.uid,
-            nome: user.displayName!,
-            fotoPerfil: user.photoURL);
+          email: user.email!,
+          id: user.uid,
+          nome: user.displayName!,
+          fotoPerfil: user.photoURL,
+        );
 
   @override
   getPerfil() async {
@@ -26,6 +29,7 @@ class PerfilProfessor extends Perfil {
     if (profData.data() != null) {
       turmas = profData.data()!["turmas"] ?? [];
     }
+    (_notify != null) ? _notify!() : null;
   }
 
   @override
@@ -41,5 +45,21 @@ class PerfilProfessor extends Perfil {
         .collection("professor")
         .doc(id)
         .update(toMap());
+  }
+
+  getTurmas() async {
+    turmas = [];
+    await FirebaseFirestore.instance
+        .collection("turma")
+        .where("profID", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .get()
+        .then((value) {
+      for (var doc in value.docs) {
+        print(doc.data()["topicosAtivos"].runtimeType);
+        turmas.add(Turma.fromFirestore(doc));
+      }
+    });
+    print(turmas);
+    (_notify != null) ? _notify!() : null;
   }
 }
