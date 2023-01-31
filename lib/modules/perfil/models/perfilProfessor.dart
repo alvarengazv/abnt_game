@@ -55,7 +55,6 @@ class PerfilProfessor extends Perfil {
         .get()
         .then((value) {
       for (var doc in value.docs) {
-        print(doc.data()["topicosAtivos"].runtimeType);
         turmas.add(Turma.fromFirestore(doc));
       }
     });

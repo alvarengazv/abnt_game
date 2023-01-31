@@ -77,7 +77,7 @@ class _CriarTurmaScreenState extends State<CriarTurmaScreen> {
         ),
         title: const Text(
           "Criar Turma",
-          style: TextStyle(fontFamily: "Righteous", color: roxo, fontSize: 40),
+          style: TextStyle(fontFamily: "Righteous", color: roxo, fontSize: 30),
         ),
       ),
       body: Form(

@@ -1,12 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Turma {
-  String id;
-  String nome;
-  Map<String, List> topicosAtivos;
-  String profID;
+  String _id;
+  String _nome;
+  Map<String, List> _topicosAtivos;
+  String _profID;
 
-  Turma(this.id, this.nome, this.topicosAtivos, this.profID);
+  Turma(this._id, this._nome, this._topicosAtivos, this._profID);
+
+  String get id => _id;
+  String get nome => _nome;
+  Map<String, List> get topicosAtivos => _topicosAtivos;
+  String get profID => _profID;
+
+  set mudarTopicos(Map<String, List> novosTopicos) {
+    _topicosAtivos = novosTopicos;
+  }
+
+  set mudarNome(String novoNome) {
+    _nome = novoNome;
+  }
 
   Turma.fromFirestore(QueryDocumentSnapshot<Map> doc)
       : this(
@@ -16,6 +29,6 @@ class Turma {
             doc.data()["profID"]);
 
   Map<String, Object?> toFirestore() {
-    return {"nome": nome, "topicosAtivos": topicosAtivos, "profID": profID};
+    return {"nome": _nome, "topicosAtivos": _topicosAtivos, "profID": _profID};
   }
 }

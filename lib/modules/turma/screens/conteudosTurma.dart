@@ -3,7 +3,8 @@ import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 
 class ConteudoTurma extends StatefulWidget {
-  const ConteudoTurma({super.key});
+  ConteudoTurma({super.key, this.conteudos});
+  Map<String, List<bool>>? conteudos;
 
   @override
   State<ConteudoTurma> createState() => ConteudoTurmaState();
@@ -20,7 +21,8 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
             .collection("topicos")
             .get()
             .then((value) => value.docs);
-    checkeds = {for (var value in docs) value.id: []};
+
+    checkeds = widget.conteudos ?? {for (var value in docs) value.id: []};
     // checkeds = List.generate(docs.length, (index) => []);
     print(checkeds);
     getSubTopicos(docs);
@@ -37,8 +39,10 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
           .collection("subTopicos")
           .get()
           .then((value) {
-        checkeds[docs[i].id] =
-            List.generate(value.docs.length, (index) => true);
+        if (widget.conteudos == null) {
+          checkeds[docs[i].id] =
+              List.generate(value.docs.length, (index) => true);
+        }
         setState(() {});
         return value.docs;
       }));
@@ -51,6 +55,7 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
   @override
   void initState() {
     super.initState();
+
     getTopicos = _getTopicos();
   }
 
