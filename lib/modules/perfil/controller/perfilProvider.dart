@@ -3,7 +3,6 @@ import 'package:abntplaybic/modules/perfil/models/perfilProfessor.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/perfil.dart';
 
@@ -20,7 +19,6 @@ class PerfilProvider extends ChangeNotifier {
 
   Future<PerfilTipo?> getUser() async {
     if (_auth.currentUser != null) {
-      var prefs = await SharedPreferences.getInstance();
       DocumentSnapshot alunoCheck = await FirebaseFirestore.instance
           .collection("aluno")
           .doc(_auth.currentUser!.uid)

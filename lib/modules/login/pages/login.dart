@@ -1,7 +1,6 @@
 import 'package:abntplaybic/modules/home/pages/indexProf.dart';
 import 'package:abntplaybic/modules/login/controllers/loginController.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
-import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/modules/perfil/screens/tipoPerfilPage.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:abntplaybic/modules/login/pages/cadastro.dart';
@@ -151,7 +150,7 @@ class _LoginPageState extends State<LoginPage> {
                                 await context.read<PerfilProvider>().getUser();
                             if (!mounted) return;
                             if (userType != null) {
-                              if (userType is PerfilAluno) {
+                              if (userType.index == 1) {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
