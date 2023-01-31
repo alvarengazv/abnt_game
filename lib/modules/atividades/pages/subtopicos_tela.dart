@@ -76,7 +76,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                             return TelaSubtopicos(
                               titulo: listaTemas.elementAt(index).titulo,
                               corpo: Text(listaTemas.elementAt(index).conteudo),
-                              descricao: listaTemas.elementAt(index).descricao,
+                              descricao: listaTemas.elementAt(index).descricao.replaceAll("\\n", "\n"),
                             );
                           }),
                     ),

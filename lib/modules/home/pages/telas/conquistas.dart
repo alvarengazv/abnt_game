@@ -43,10 +43,10 @@ class _ConquistasPageState extends State<ConquistasPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: EdgeInsets.fromLTRB(15, 0, 0, 8),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
+                    children: const [
                       Text(
                         "CONQUISTAS ALCANÇADAS",
                         style: TextStyle(
@@ -68,6 +68,7 @@ class _ConquistasPageState extends State<ConquistasPage> {
                   ),
                 ),
                 CardConquista(
+                  cor: azul,
                   titulo: "COMPLETE: SUMÁRIO",
                   progresso: 2,
                   funcaoBotao: () => showModalBottomSheet(
@@ -79,16 +80,15 @@ class _ConquistasPageState extends State<ConquistasPage> {
                       context: context,
                       builder: ((context) {
                         return Container(
-                          height: size.height * 0.9,
+                          height: size.height * 0.35,
                           child: Column(
                             children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.fromLTRB(10, 20, 10, 0),
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
                                 child: AutoSizeText(
                                   "COMPLETE: SUMÁRIO",
                                   maxLines: 1,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     color: Colors.black,
                                     fontFamily: "PassionOne",
                                     fontWeight: FontWeight.bold,
@@ -103,30 +103,67 @@ class _ConquistasPageState extends State<ConquistasPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Align(
+                                    const Align(
                                       alignment: Alignment.center,
                                       child: Text(
                                         "SEU PROGRESSO",
                                         style: TextStyle(
                                           color: prata,
                                           fontFamily: "BebasNeue",
-                                          fontSize: 18,
+                                          fontSize: 20,
                                         ),
                                         textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          22, 10, 22, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: const [
+                                          Text(
+                                            "0%",
+                                            style: TextStyle(
+                                              color: roxo,
+                                              fontFamily: "BebasNeue",
+                                              fontSize: 15,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Text(
+                                            "50%",
+                                            style: TextStyle(
+                                              color: roxo,
+                                              fontFamily: "BebasNeue",
+                                              fontSize: 15,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          Text(
+                                            "100%",
+                                            style: TextStyle(
+                                              color: roxo,
+                                              fontFamily: "BebasNeue",
+                                              fontSize: 15,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     Stack(
                                       alignment: AlignmentDirectional.center,
                                       children: [
-                                        Container(height: size.height * 0.12,),
                                         LinearPercentIndicator(
-                                          backgroundColor: lilas.withOpacity(0.5),
+                                          backgroundColor:
+                                              lilas.withOpacity(0.5),
                                           progressColor: lilas,
                                           percent: 0.5,
                                           lineHeight: size.height * 0.08,
-                                          padding: EdgeInsets.symmetric(
+                                          padding: const EdgeInsets.symmetric(
                                               horizontal: 20),
-                                          barRadius: Radius.circular(9),
+                                          barRadius: const Radius.circular(9),
                                           animation: true,
                                           animateFromLastPercent: true,
                                         ),
@@ -134,21 +171,23 @@ class _ConquistasPageState extends State<ConquistasPage> {
                                           lineLength: 90,
                                           stepColor: lilas,
                                           activeStepColor: primary,
-                                          activeStepBorderColor: Colors.transparent,
+                                          activeStepBorderColor:
+                                              Colors.transparent,
                                           lineColor: Colors.transparent,
                                           enableNextPreviousButtons: false,
                                           enableStepTapping: false,
                                           activeStep: 1,
                                           stepRadius: 20,
                                           activeStepBorderWidth: 5,
-                                          stepReachedAnimationDuration: Duration(seconds: 2),
+                                          stepReachedAnimationDuration:
+                                              const Duration(seconds: 2),
                                           icons: [
-                                            Icon(
+                                            const Icon(
                                               MdiIcons.trophy,
                                               color: ouro,
                                               size: 24,
                                             ),
-                                            Icon(
+                                            const Icon(
                                               MdiIcons.trophy,
                                               color: ouro,
                                               size: 32,
@@ -162,23 +201,6 @@ class _ConquistasPageState extends State<ConquistasPage> {
                                         ),
                                       ],
                                     ),
-                                    // Padding(
-                                    //   padding:
-                                    //       EdgeInsets.symmetric(vertical: 15),
-                                    //   child: ImageStepper(
-                                    //     lineLength: 90,
-                                    //     stepColor: lilas,
-                                    //     activeStepColor: primary,
-                                    //     activeStepBorderColor: primary,
-                                    //     lineColor: Colors.transparent,
-                                    //     enableNextPreviousButtons: false,
-                                    //     images: [
-                                    //      AssetImage("src/images/coruja_login.png"),
-                                    //      AssetImage("src/images/coruja_login.png"),
-                                    //      AssetImage("src/images/coruja_login.png"),
-                                    //     ],
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -189,8 +211,7 @@ class _ConquistasPageState extends State<ConquistasPage> {
                                     shape: RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(15),
                                         side: const BorderSide(color: primary)),
-                                    fixedSize: Size(
-                                                    size.width * 0.9, 50),
+                                    fixedSize: Size(size.width * 0.9, 50),
                                   ),
                                   child: const Text(
                                     "Voltar",
@@ -208,6 +229,23 @@ class _ConquistasPageState extends State<ConquistasPage> {
                           ),
                         );
                       })),
+                ),
+                const Padding(
+                  padding: EdgeInsets.fromLTRB(10, 15, 0, 8),
+                  child: Text(
+                    "CONQUISTAS AINDA NÃO ALCANÇADAS",
+                    style: TextStyle(
+                      color: prata,
+                      fontFamily: "BebasNeue",
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                CardConquista(
+                  titulo: "COMPLETE: TRABALHOS ACADÊMICOS",
+                  progresso: 0,
+                  funcaoBotao: () {},
+                  cor: laranja,
                 ),
               ],
             ),

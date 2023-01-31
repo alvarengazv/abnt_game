@@ -71,9 +71,8 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                       width: 160,
                       height: 160,
                       decoration: BoxDecoration(
-                          color: lilas,
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: primary)),
+                          border: Border.all(color: primary, width: 2)),
                       child: GestureDetector(
                         onTap: () async {
                           var picker = ImagePicker();
@@ -204,22 +203,49 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                         child: Stack(
                           children: [
                             newImage != null
-                                ? Image.file(File(newImage!.path))
-                                : Container(),
-                            // Image.asset(""),
+                                ? Align(
+                                    alignment: Alignment.center,
+                                    child: Container(
+                                      width: 160,
+                                      height: 160,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(6),
+                                        color: lilas,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: Image.file(
+                                          File(newImage!.path,),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(
+                                    width: 160,
+                                    height: 160,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(6),
+                                      color: lilas,
+                                    ),
+                                  ),
                             Align(
                               alignment: Alignment.bottomRight,
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: roxo, width: 2)),
-                                child: const Icon(
-                                  Icons.edit,
-                                  color: roxo,
-                                  size: 30,
+                              child: Padding(
+                                padding: const EdgeInsets.all(4),
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(8),
+                                      border:
+                                          Border.all(color: roxo, width: 2)),
+                                  child: const Icon(
+                                    Icons.edit,
+                                    color: roxo,
+                                    size: 30,
+                                  ),
                                 ),
                               ),
                             ),

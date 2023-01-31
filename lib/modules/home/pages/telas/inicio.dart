@@ -110,6 +110,8 @@ class _InicioPageState extends State<InicioPage> {
                             ? index = index + j
                             : null;
                         j++;
+                        listaTopicos.length > index + 1 &&
+                                        (index + 1) % 2 != 0 ? j : j = 0; 
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
                           child: Row(
@@ -119,33 +121,12 @@ class _InicioPageState extends State<InicioPage> {
                                 texto: listaTopicos.length > index && index % 2 == 0
                                     ? listaTopicos.elementAt(index)
                                     : "",
-                                funcaoBotao: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MainAtividadesPage(
-                                      titulo: listaTopicos.length > index &&
-                                              index % 2 == 0
-                                          ? listaTopicos.elementAt(index)
-                                          : "",
-                                    ),
-                                  ),
-                                ),
                               ),
                               BotaoInicio(
                                 texto: listaTopicos.length > index + 1 &&
                                         (index + 1) % 2 != 0
                                     ? listaTopicos.elementAt(index + 1)
                                     : "",
-                                funcaoBotao: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MainAtividadesPage(
-                                        titulo: listaTopicos.length > index + 1 &&
-                                                (index + 1) % 2 != 0
-                                            ? listaTopicos.elementAt(index + 1)
-                                            : ""),
-                                  ),
-                                ),
                               ),
                             ],
                           ),

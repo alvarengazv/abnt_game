@@ -42,39 +42,43 @@ class _PerfilPageState extends State<PerfilPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                        width: 160,
-                        height: 160,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: primary)),
-                        child: context
-                                    .watch<PerfilProvider>()
-                                    .perfilAtual
-                                    ?.fotoPerfil ==
-                                null
-                            ? FutureBuilder<String?>(
-                                future: getImage(),
-                                builder: (context, snap) {
-                                  return snap.hasData
-                                      ? Image.network(context
-                                              .read<PerfilProvider>()
-                                              .perfilAtual
-                                              ?.fotoPerfil ??
-                                          snap.data!)
-                                      : Container();
-                                })
-                            : Image.network(context
-                                .read<PerfilProvider>()
-                                .perfilAtual!
-                                .fotoPerfil!)
-                        // child: Image.asset(
-                        //   controller. snapshot.data?['imageUrl'] ?? "https://firebasestorage.googleapis.com/v0/b/abnt-play.appspot.com/o/img-default.jpg?alt=media&token=38a51965-25c2-4e93-b484-ab8116cafe27"
-                        // ),
-                        ),
-                  ),
+                  Container(
+                      width: 160,
+                      height: 160,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: primary, width: 2),
+                      ),
+                      child: context
+                                  .watch<PerfilProvider>()
+                                  .perfilAtual
+                                  ?.fotoPerfil ==
+                              null
+                          ? FutureBuilder<String?>(
+                              future: getImage(),
+                              builder: (context, snap) {
+                                return snap.hasData
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: Image.network(
+                                            fit: BoxFit.cover,
+                                            context
+                                                    .read<PerfilProvider>()
+                                                    .perfilAtual
+                                                    ?.fotoPerfil ??
+                                                snap.data!),
+                                      )
+                                    : Container();
+                              })
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(6),
+                              child: Image.network(
+                                  fit: BoxFit.cover,
+                                  context
+                                      .read<PerfilProvider>()
+                                      .perfilAtual!
+                                      .fotoPerfil!),
+                            )),
                   AutoSizeText(
                     context.watch<PerfilProvider>().perfilAtual!.nome,
                     //FirebaseAuth.instance.currentUser!.displayName ?? "Nome",
