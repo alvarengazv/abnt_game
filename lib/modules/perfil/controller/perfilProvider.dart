@@ -12,6 +12,12 @@ class PerfilProvider extends ChangeNotifier {
   PerfilTipo? tipo;
   Perfil? perfilAtual;
 
+  logout() async {
+    tipo = null;
+    perfilAtual = null;
+    _auth.signOut();
+  }
+
   Future<PerfilTipo?> getUser() async {
     if (_auth.currentUser != null) {
       var prefs = await SharedPreferences.getInstance();

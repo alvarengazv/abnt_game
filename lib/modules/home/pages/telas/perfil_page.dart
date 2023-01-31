@@ -8,7 +8,6 @@ import 'package:abntplaybic/shared/components/botoes/botao_perfil.dart';
 import 'package:abntplaybic/shared/components/cards/card_perfil.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta_confirm.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -213,7 +212,8 @@ class _PerfilPageState extends State<PerfilPage> {
                                   alertaConfirmaApp(context,
                                       "Você tem certeza de que deseja sair?",
                                       () async {
-                                    await FirebaseAuth.instance.signOut();
+                                    // await FirebaseAuth.instance.signOut();
+                                    context.read<PerfilProvider>().logout();
                                     if (!mounted) return;
                                     Navigator.pushAndRemoveUntil(
                                       context,
