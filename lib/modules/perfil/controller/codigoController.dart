@@ -16,13 +16,22 @@ class CodigoController {
         await firestore
             .collection("aluno")
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .set({'turma': firestore.collection("turma").doc(codigo)});
+            .set({
+          "nome": FirebaseAuth.instance.currentUser!.displayName,
+          "imageURL": null,
+          "melhorRanking": 0,
+          "rankingAtual": 0,
+          "xpAtual": 0,
+          "xpColetado": 0,
+          'turma': codigo
+        });
       }
     } else {
       firestore
           .collection("aluno")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .set({
+        "nome": FirebaseAuth.instance.currentUser!.displayName,
         'turma': null,
         "imageURL": null,
         "melhorRanking": 0,

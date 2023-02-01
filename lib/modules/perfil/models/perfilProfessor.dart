@@ -35,6 +35,7 @@ class PerfilProfessor extends Perfil {
   @override
   toMap() {
     return {
+      "nome": nome,
       "turmas": turmas,
     };
   }

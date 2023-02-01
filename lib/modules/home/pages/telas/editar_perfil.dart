@@ -215,7 +215,9 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(6),
                                         child: Image.file(
-                                          File(newImage!.path,),
+                                          File(
+                                            newImage!.path,
+                                          ),
                                           fit: BoxFit.cover,
                                         ),
                                       ),
@@ -365,6 +367,10 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                         if (_controllerEdit.nome.text != perfil.nome) {
                           await FirebaseAuth.instance.currentUser!
                               .updateDisplayName(_controllerEdit.nome.text);
+                          await context
+                              .read<PerfilProvider>()
+                              .perfilAtual!
+                              .updateFirestore();
                         }
                         if (newImage != null) {
                           var ref = await FirebaseStorage.instance

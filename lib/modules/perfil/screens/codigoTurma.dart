@@ -1,7 +1,9 @@
 import 'package:abntplaybic/modules/home/pages/index.dart';
 import 'package:abntplaybic/modules/perfil/controller/codigoController.dart';
+import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../shared/colors.dart';
 
@@ -93,6 +95,7 @@ class _CodigoTurmaScreenState extends State<CodigoTurmaScreen> {
                           } else {
                             await controller.setAluno(codigo.text);
                           }
+                          await context.read<PerfilProvider>().getUser();
                           if (!mounted) return;
                           Navigator.pushAndRemoveUntil(
                               context,

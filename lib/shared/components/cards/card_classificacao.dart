@@ -1,7 +1,5 @@
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CardClassificacao extends StatefulWidget {
   final int classificacao;
@@ -34,12 +32,13 @@ class _CardClassificacaoState extends State<CardClassificacao> {
         radius: 200,
         onTap: () {},
         borderRadius: BorderRadius.circular(8),
-        highlightColor: Color.fromARGB(255, 243, 207, 243),
+        highlightColor: const Color.fromARGB(255, 243, 207, 243),
         splashColor: lilas.withAlpha(50),
         child: ListTile(
           leading: SizedBox(
-            width: size.width * 0.46,
+            // width: size.width * 0.46,
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 10),

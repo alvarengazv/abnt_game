@@ -24,18 +24,22 @@ class _RedirectPageState extends State<RedirectPage> {
       if (FirebaseAuth.instance.currentUser != null) {
         var user = await context.read<PerfilProvider>().getUser();
         if (!mounted) return;
+        print(user);
         if (user == null) {
+          print("tipo perfil");
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => const TipoPerfilPage()),
               (route) => false);
         } else {
+          print("aluno");
           if (user == PerfilTipo.aluno) {
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomePage()),
             );
           } else {
+            print("prof");
             Navigator.pushReplacement(
               context,
               MaterialPageRoute(builder: (context) => const HomePageProf()),
@@ -43,11 +47,19 @@ class _RedirectPageState extends State<RedirectPage> {
           }
         }
       } else {
+        print("login");
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => const LoginPage()),
         );
       }
+    } else {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+        );
+      });
     }
   }
 

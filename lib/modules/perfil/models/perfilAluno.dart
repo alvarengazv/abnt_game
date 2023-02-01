@@ -26,7 +26,7 @@ class PerfilAluno extends Perfil {
       _melhorRanking = dadosUser["melhorRanking"] ?? 0;
       _rankingAtual = dadosUser["rankingAtual"] ?? 0;
       _xpAtual = dadosUser["xpAtual"] ?? 0;
-      _xpTotal = dadosUser["xpTotal"] ?? 0;
+      _xpTotal = dadosUser["xpColetado"] ?? 0;
       _turma = dadosUser["turma"];
     }
   }
@@ -48,7 +48,7 @@ class PerfilAluno extends Perfil {
     _melhorRanking = data["melhorRanking"] as int? ?? 0;
     _rankingAtual = data["rankingAtual"] as int? ?? 0;
     _xpAtual = data["xpAtual"] as int? ?? 0;
-    _xpTotal = data["xpTotal"] as int? ?? 0;
+    _xpTotal = data["xpColetado"] as int? ?? 0;
     _turma = data["turma"] as String?;
     _notify = notify;
   }
@@ -56,10 +56,11 @@ class PerfilAluno extends Perfil {
   @override
   toMap() {
     return {
+      "nome": nome,
       "melhorRanking": _melhorRanking,
       "rankingAtual": _rankingAtual,
       "xpAtual": _xpAtual,
-      "xpTotal": _xpTotal,
+      "xpColetado": _xpTotal,
       "turma": _turma
     };
   }
@@ -76,6 +77,20 @@ class PerfilAluno extends Perfil {
     _xpAtual += xp;
     _xpTotal += xp;
     await updateFirestore();
+  }
+
+  listenData() {
+    FirebaseFirestore.instance
+        .collection("aluno")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .snapshots()
+        .listen((event) {
+      _melhorRanking = event.data()!["melhorRanking"] ?? 0;
+      _rankingAtual = event.data()!["rankingAtual"] ?? 0;
+      _xpAtual = event.data()!["xpAtual"] ?? 0;
+      _xpTotal = event.data()!["xpColetado"] ?? 0;
+      _notify != null ? _notify!() : null;
+    });
   }
 
   updateRanking(int newRanking) async {
