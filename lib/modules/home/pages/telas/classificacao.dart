@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ClassificacaoPage extends StatefulWidget {
-  const ClassificacaoPage({super.key});
+  const ClassificacaoPage({super.key, this.turma});
+  final String? turma;
 
   @override
   State<ClassificacaoPage> createState() => _ClassificacaoPageState();
@@ -50,28 +51,33 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        appBar: AppBar(
-          shadowColor: Colors.transparent,
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Consumer<PerfilProvider>(builder: (context, value, child) {
-            return Text.rich(
-              TextSpan(
-                text: value.perfilAtual.runtimeType == PerfilAluno
-                    ? "${(value.perfilAtual as PerfilAluno).xpAtual} "
-                    : "- ",
-                style: const TextStyle(
-                    fontFamily: "BebasNeue", color: verde, fontSize: 40),
-                children: const [
-                  TextSpan(
-                      text: "XP",
-                      style: TextStyle(
-                          fontFamily: "BebasNeue", color: verde, fontSize: 20))
-                ],
-              ),
-            );
-          }),
-        ),
+        appBar: widget.turma == null
+            ? AppBar(
+                shadowColor: Colors.transparent,
+                backgroundColor: Colors.white,
+                centerTitle: true,
+                title:
+                    Consumer<PerfilProvider>(builder: (context, value, child) {
+                  return Text.rich(
+                    TextSpan(
+                      text: value.perfilAtual.runtimeType == PerfilAluno
+                          ? "${(value.perfilAtual as PerfilAluno).xpAtual} "
+                          : "- ",
+                      style: const TextStyle(
+                          fontFamily: "BebasNeue", color: verde, fontSize: 40),
+                      children: const [
+                        TextSpan(
+                            text: "XP",
+                            style: TextStyle(
+                                fontFamily: "BebasNeue",
+                                color: verde,
+                                fontSize: 20))
+                      ],
+                    ),
+                  );
+                }),
+              )
+            : null,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -102,17 +108,24 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
                         ),
                   ),
                   StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      stream: controller.getRanking((context
+                      stream: context
                               .read<PerfilProvider>()
-                              .perfilAtual as PerfilAluno)
-                          .turma),
+                              .perfilAtual
+                              .runtimeType is PerfilAluno
+                          ? controller.getRanking((context
+                                  .read<PerfilProvider>()
+                                  .perfilAtual as PerfilAluno)
+                              .turma)
+                          : controller.getRanking(widget.turma!),
                       builder: (context, snap) {
                         print(snap.data);
 
                         List<Widget> ranking = [];
                         if (snap.hasData) {
-                          animCont.dispose();
-                          disposed = true;
+                          if (!disposed) {
+                            animCont.dispose();
+                            disposed = true;
+                          }
                           for (var i = 0; i < snap.data!.docs.length; i++) {
                             if (snap.data!.docs[i].id ==
                                 FirebaseAuth.instance.currentUser!.uid) {

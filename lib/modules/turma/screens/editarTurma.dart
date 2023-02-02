@@ -33,22 +33,22 @@ class _EditarTurmaPageState extends State<EditarTurmaPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-      appBar: AppBar(
-        shadowColor: Colors.transparent,
-        elevation: 2,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          color: primary,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: const Text(
-          "Editar Turma",
-          style: TextStyle(fontFamily: "Righteous", color: roxo, fontSize: 30),
-        ),
-      ),
+      // appBar: AppBar(
+      //   shadowColor: Colors.transparent,
+      //   elevation: 2,
+      //   backgroundColor: Colors.white,
+      //   leading: IconButton(
+      //     icon: const Icon(Icons.arrow_back),
+      //     color: primary,
+      //     onPressed: () {
+      //       Navigator.pop(context);
+      //     },
+      //   ),
+      //   title: const Text(
+      //     "Editar Turma",
+      //     style: TextStyle(fontFamily: "Righteous", color: roxo, fontSize: 30),
+      //   ),
+      // ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Form(

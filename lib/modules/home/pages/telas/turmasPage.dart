@@ -1,7 +1,7 @@
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/models/perfilProfessor.dart';
 import 'package:abntplaybic/modules/turma/screens/criarTurmaScreen.dart';
-import 'package:abntplaybic/modules/turma/screens/editarTurma.dart';
+import 'package:abntplaybic/modules/turma/screens/verTurma.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -87,7 +87,7 @@ class _TurmasPageState extends State<TurmasPage> {
                               side: const BorderSide()),
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => EditarTurmaPage(turma)));
+                                builder: (context) => VerTurmaScreen(turma)));
                           },
                           title: Text(
                             turma.nome,
