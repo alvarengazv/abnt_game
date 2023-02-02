@@ -15,8 +15,36 @@ class ClassificacaoPage extends StatefulWidget {
   State<ClassificacaoPage> createState() => _ClassificacaoPageState();
 }
 
-class _ClassificacaoPageState extends State<ClassificacaoPage> {
+class _ClassificacaoPageState extends State<ClassificacaoPage>
+    with SingleTickerProviderStateMixin {
+  bool disposed = false;
+  late Animation anim;
+  late AnimationController animCont;
   ClassificacaoController controller = ClassificacaoController();
+
+  @override
+  void initState() {
+    super.initState();
+    animCont =
+        AnimationController(vsync: this, duration: const Duration(seconds: 2));
+    anim = Tween<double>(begin: 0, end: 1).animate(animCont)
+      ..addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          animCont.reset();
+          animCont.forward();
+          disposed = false;
+        }
+        print(status);
+      });
+  }
+
+  @override
+  void dispose() {
+    if (!disposed) {
+      animCont.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +111,8 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
 
                         List<Widget> ranking = [];
                         if (snap.hasData) {
+                          animCont.dispose();
+                          disposed = true;
                           for (var i = 0; i < snap.data!.docs.length; i++) {
                             if (snap.data!.docs[i].id ==
                                 FirebaseAuth.instance.currentUser!.uid) {
@@ -118,6 +148,9 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
                                     (snap.data!.docs[i].data())["xpAtual"]
                                         .toString()));
                           }
+                        } else {
+                          animCont.forward();
+                          disposed = false;
                         }
                         return snap.hasData
                             ? Expanded(
@@ -125,31 +158,72 @@ class _ClassificacaoPageState extends State<ClassificacaoPage> {
                                 children: ranking,
                               ))
                             : Expanded(
-                                child: Column(
-                                  children: [
-                                    CardClassificacao(
-                                      classificacao: 1,
-                                      nome: "Guilherme",
-                                      pontuacao: "1400",
-                                    ),
-                                    CardClassificacao(
-                                      classificacao: 2,
-                                      nome: "Pedro",
-                                      isUser: true,
-                                      pontuacao: "1200",
-                                    ),
-                                    CardClassificacao(
-                                      classificacao: 3,
-                                      nome: "João",
-                                      pontuacao: "1150",
-                                    ),
-                                    CardClassificacao(
-                                      classificacao: 4,
-                                      nome: "Maria",
-                                      pontuacao: "1036",
-                                    ),
-                                  ],
-                                ),
+                                child: AnimatedBuilder(
+                                    animation: anim,
+                                    builder: (context, anim) {
+                                      return Column(
+                                        children: [
+                                          ...List.generate(
+                                              3,
+                                              (index) => Stack(
+                                                    children: [
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .all(5),
+                                                        width: size.width * 0.9,
+                                                        height: 60,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          color: Colors.black
+                                                              .withOpacity(0.2),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        margin: const EdgeInsets
+                                                            .all(5),
+                                                        width: size.width *
+                                                            0.9 *
+                                                            animCont.value,
+                                                        height: 60,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(12),
+                                                          color: Colors.black
+                                                              .withOpacity(
+                                                                  0.25),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ))
+                                          // CardClassificacao(
+                                          //   classificacao: 1,
+                                          //   nome: "Guilherme",
+                                          //   pontuacao: "1400",
+                                          // ),
+                                          // CardClassificacao(
+                                          //   classificacao: 2,
+                                          //   nome: "Pedro",
+                                          //   isUser: true,
+                                          //   pontuacao: "1200",
+                                          // ),
+                                          // CardClassificacao(
+                                          //   classificacao: 3,
+                                          //   nome: "João",
+                                          //   pontuacao: "1150",
+                                          // ),
+                                          // CardClassificacao(
+                                          //   classificacao: 4,
+                                          //   nome: "Maria",
+                                          //   pontuacao: "1036",
+                                          // ),
+                                        ],
+                                      );
+                                    }),
                               );
                       })
                 ],
