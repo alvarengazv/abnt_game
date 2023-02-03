@@ -29,7 +29,8 @@ class PerfilProvider extends ChangeNotifier {
         perfilAtual = PerfilAluno.fromFirestore(
             alunoCheck.data() as Map<String, Object?>,
             FirebaseAuth.instance.currentUser!)
-          ..listenData();
+          ..listenData()
+          ..getTurma();
       } else {
         DocumentSnapshot profCheck = await FirebaseFirestore.instance
             .collection("professor")

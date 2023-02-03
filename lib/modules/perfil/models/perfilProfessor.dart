@@ -59,7 +59,7 @@ class PerfilProfessor extends Perfil {
         turmas.add(Turma.fromFirestore(doc));
       }
     });
-    print(turmas);
+
     (_notify != null) ? _notify!() : null;
   }
 }

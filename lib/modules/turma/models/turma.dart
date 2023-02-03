@@ -28,6 +28,13 @@ class Turma {
             Map<String, List>.from(doc.data()["topicosAtivos"]),
             doc.data()["profID"]);
 
+  Turma.fromFirestoreDoc(DocumentSnapshot<Map> doc)
+      : this(
+            doc.id,
+            doc.data()!["nome"],
+            Map<String, List>.from(doc.data()!["topicosAtivos"]),
+            doc.data()!["profID"]);
+
   Map<String, Object?> toFirestore() {
     return {"nome": _nome, "topicosAtivos": _topicosAtivos, "profID": _profID};
   }
