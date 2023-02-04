@@ -1,4 +1,3 @@
-import 'package:abntplaybic/modules/atividades/pages/principal.dart';
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
@@ -18,7 +17,7 @@ class InicioPage extends StatefulWidget {
 class _InicioPageState extends State<InicioPage> {
   final TopicosController _topicosController = TopicosController();
   bool loading = false;
-  List<String> listaTopicos = [];
+  List<Map<String, String>> listaTopicos = [];
   int j = 0;
 
   @override
@@ -41,6 +40,21 @@ class _InicioPageState extends State<InicioPage> {
         loading = false;
       });
     }
+    var aluno = (context.read<PerfilProvider>().perfilAtual as PerfilAluno);
+    if (aluno.turma != null) {
+      listaTopicos.sort((a, b) {
+        aluno.turma!.topicosAtivos;
+        if (aluno.turma!.topicosAtivos[b["id"]]!.contains(true)) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
+    }
+
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -103,38 +117,78 @@ class _InicioPageState extends State<InicioPage> {
                   )),
                   Expanded(
                     flex: 9,
-                    child: ListView.builder(
-                      itemCount: listaTopicos.length % 2 == 0
-                          ? listaTopicos.length ~/ 2
-                          : listaTopicos.length ~/ 2 + 1,
-                      itemBuilder: ((context, index) {
-                        index > 0 && index + j < listaTopicos.length
-                            ? index = index + j
-                            : null;
-                        j++;
-                        listaTopicos.length > index + 1 &&
-                                        (index + 1) % 2 != 0 ? j : j = 0; 
-                        return Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              BotaoInicio(
-                                texto: listaTopicos.length > index &&
-                                        index % 2 == 0
-                                    ? listaTopicos.elementAt(index)
-                                    : "",
-                              ),
-                              BotaoInicio(
-                                texto: listaTopicos.length > index + 1 &&
-                                        (index + 1) % 2 != 0
-                                    ? listaTopicos.elementAt(index + 1)
-                                    : "",
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: GridView.builder(
+                        itemCount: listaTopicos.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 1 / 1.28,
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 20),
+                        /*itemCount: listaTopicos.length % 2 == 0
+                            ? listaTopicos.length ~/ 2
+                            : listaTopicos.length ~/ 2 + 1,*/
+                        itemBuilder: ((context, index) {
+                          return BotaoInicio(
+                            data: listaTopicos.elementAt(index),
+                            desbloqueado: (context
+                                        .read<PerfilProvider>()
+                                        .perfilAtual as PerfilAluno)
+                                    .turma
+                                    ?.topicosAtivos[listaTopicos[index]["id"]]!
+                                    .contains(true) ??
+                                true,
+                          );
+                          /*index > 0 && index + j < listaTopicos.length
+                              ? index = index + j
+                              : null;
+                          j++;
+                          listaTopicos.length > index + 1 && (index + 1) % 2 != 0
+                              ? j
+                              : j = 0;
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                BotaoInicio(
+                                  data: listaTopicos.length > index &&
+                                          index % 2 == 0
+                                      ? listaTopicos.elementAt(index)
+                                      : <String, String>{"titulo": ""},
+                                  desbloqueado: (context
+                                              .read<PerfilProvider>()
+                                              .perfilAtual as PerfilAluno)
+                                          .turma
+                                          ?.topicosAtivos[listaTopicos[index]
+                                              ["id"]]!
+                                          .contains(true) ??
+                                      true,
+                                ),
+                                BotaoInicio(
+                                  data: listaTopicos.length > index + 1 &&
+                                          (index + 1) % 2 != 0
+                                      ? listaTopicos.elementAt(index + 1)
+                                      : <String, String>{"titulo": ""},
+                                  desbloqueado: listaTopicos.length > index + 1 &&
+                                          (index + 1) % 2 != 0
+                                      ? (context
+                                                  .read<PerfilProvider>()
+                                                  .perfilAtual as PerfilAluno)
+                                              .turma
+                                              ?.topicosAtivos[
+                                                  listaTopicos[index + 1]["id"]]!
+                                              .contains(true) ??
+                                          true
+                                      : true,
+                                ),
+                              ],
+                            ),
+                          );*/
+                        }),
+                      ),
                     ),
                   ),
                 ],

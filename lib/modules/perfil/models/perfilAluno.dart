@@ -1,4 +1,5 @@
 import 'package:abntplaybic/modules/perfil/models/perfil.dart';
+import 'package:abntplaybic/modules/turma/models/turma.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -8,7 +9,8 @@ class PerfilAluno extends Perfil {
   int _rankingAtual = 0;
   int _xpAtual = 0;
   int _xpTotal = 0;
-  String? _turma;
+  String? _turmaID;
+  Turma? _turma;
 
   //construtor
   PerfilAluno(String id, String nome, String email,
@@ -27,7 +29,7 @@ class PerfilAluno extends Perfil {
       _rankingAtual = dadosUser["rankingAtual"] ?? 0;
       _xpAtual = dadosUser["xpAtual"] ?? 0;
       _xpTotal = dadosUser["xpColetado"] ?? 0;
-      _turma = dadosUser["turma"];
+      _turmaID = dadosUser["turma"];
     }
   }
 
@@ -49,7 +51,7 @@ class PerfilAluno extends Perfil {
     _rankingAtual = data["rankingAtual"] as int? ?? 0;
     _xpAtual = data["xpAtual"] as int? ?? 0;
     _xpTotal = data["xpColetado"] as int? ?? 0;
-    _turma = data["turma"] as String?;
+    _turmaID = data["turma"] as String?;
     _notify = notify;
   }
 
@@ -61,7 +63,7 @@ class PerfilAluno extends Perfil {
       "rankingAtual": _rankingAtual,
       "xpAtual": _xpAtual,
       "xpColetado": _xpTotal,
-      "turma": _turma
+      "turma": _turmaID
     };
   }
 
@@ -73,7 +75,19 @@ class PerfilAluno extends Perfil {
         .update(toMap());
   }
 
-  addXp(int xp) async {
+  getTurma() async {
+    if (_turmaID != null) {
+      var data = await FirebaseFirestore.instance
+          .collection("turma")
+          .doc(_turmaID)
+          .get();
+      if (data.data() != null) {
+        _turma = Turma.fromFirestoreDoc(data);
+      }
+    }
+  }
+
+  void addXp(int xp) async {
     _xpAtual += xp;
     _xpTotal += xp;
     await updateFirestore();
@@ -93,7 +107,7 @@ class PerfilAluno extends Perfil {
     });
   }
 
-  updateRanking(int newRanking) async {
+  void updateRanking(int newRanking) async {
     _rankingAtual = newRanking;
     if (newRanking < _melhorRanking) {
       _melhorRanking = newRanking;
@@ -103,15 +117,16 @@ class PerfilAluno extends Perfil {
   }
 
   set setTurma(String novaTurma) {
-    _turma = novaTurma;
+    _turmaID = novaTurma;
 
     (_notify != null) ? _notify!() : null;
   }
 
   //Getters
-  get xpAtual => _xpAtual;
-  get xpTotal => _xpTotal;
-  get melhorRanking => _melhorRanking;
-  get rankingAtual => _rankingAtual;
-  get turma => _turma;
+  int get xpAtual => _xpAtual;
+  int get xpTotal => _xpTotal;
+  int get melhorRanking => _melhorRanking;
+  int get rankingAtual => _rankingAtual;
+  String? get turmaID => _turmaID;
+  Turma? get turma => _turma;
 }

@@ -107,138 +107,161 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
                         /*child: Image.asset( ),*/
                         ),
                   ),
-                  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                      stream: context
-                              .read<PerfilProvider>()
-                              .perfilAtual
-                              .runtimeType is PerfilAluno
-                          ? controller.getRanking((context
-                                  .read<PerfilProvider>()
-                                  .perfilAtual as PerfilAluno)
-                              .turma)
-                          : controller.getRanking(widget.turma!),
-                      builder: (context, snap) {
-                        print(snap.data);
-
-                        List<Widget> ranking = [];
-                        if (snap.hasData) {
-                          if (!disposed) {
-                            animCont.dispose();
-                            disposed = true;
-                          }
-                          for (var i = 0; i < snap.data!.docs.length; i++) {
-                            if (snap.data!.docs[i].id ==
-                                FirebaseAuth.instance.currentUser!.uid) {
-                              if ((context.read<PerfilProvider>().perfilAtual
-                                          as PerfilAluno)
-                                      .melhorRanking <
-                                  i + 1) {
-                                FirebaseFirestore.instance
-                                    .collection("aluno")
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    .update({
-                                  "melhorRanking": i + 1,
-                                  "rankingAtual": i + 1
-                                });
-                              } else if ((context
+                  context.read<PerfilProvider>().perfilAtual is PerfilAluno
+                      ? (context.read<PerfilProvider>().perfilAtual
+                                      as PerfilAluno)
+                                  .turma !=
+                              null
+                          ? StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                              stream: context.read<PerfilProvider>().perfilAtual
+                                      is PerfilAluno
+                                  ? controller.getRanking((context
                                           .read<PerfilProvider>()
                                           .perfilAtual as PerfilAluno)
-                                      .rankingAtual !=
-                                  i + 1) {
-                                FirebaseFirestore.instance
-                                    .collection("aluno")
-                                    .doc(FirebaseAuth.instance.currentUser!.uid)
-                                    .update({"rankingAtual": i + 1});
-                              }
-                            }
-                            ranking.add(CardClassificacao(
-                                classificacao: i + 1,
-                                nome: (snap.data!.docs[i].data())["nome"] ??
-                                    "\$nome",
-                                isUser: snap.data!.docs[i].id ==
-                                    FirebaseAuth.instance.currentUser!.uid,
-                                pontuacao:
-                                    (snap.data!.docs[i].data())["xpAtual"]
-                                        .toString()));
-                          }
-                        } else {
-                          animCont.forward();
-                          disposed = false;
-                        }
-                        return snap.hasData
-                            ? Expanded(
-                                child: Column(
-                                children: ranking,
-                              ))
-                            : Expanded(
-                                child: AnimatedBuilder(
-                                    animation: anim,
-                                    builder: (context, anim) {
-                                      return Column(
-                                        children: [
-                                          ...List.generate(
-                                              3,
-                                              (index) => Stack(
-                                                    children: [
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .all(5),
-                                                        width: size.width * 0.9,
-                                                        height: 60,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                          color: Colors.black
-                                                              .withOpacity(0.2),
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        margin: const EdgeInsets
-                                                            .all(5),
-                                                        width: size.width *
-                                                            0.9 *
-                                                            animCont.value,
-                                                        height: 60,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                          color: Colors.black
-                                                              .withOpacity(
-                                                                  0.25),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ))
-                                          // CardClassificacao(
-                                          //   classificacao: 1,
-                                          //   nome: "Guilherme",
-                                          //   pontuacao: "1400",
-                                          // ),
-                                          // CardClassificacao(
-                                          //   classificacao: 2,
-                                          //   nome: "Pedro",
-                                          //   isUser: true,
-                                          //   pontuacao: "1200",
-                                          // ),
-                                          // CardClassificacao(
-                                          //   classificacao: 3,
-                                          //   nome: "João",
-                                          //   pontuacao: "1150",
-                                          // ),
-                                          // CardClassificacao(
-                                          //   classificacao: 4,
-                                          //   nome: "Maria",
-                                          //   pontuacao: "1036",
-                                          // ),
-                                        ],
+                                      .turmaID!)
+                                  : controller.getRanking(widget.turma!),
+                              builder: (context, snap) {
+                                List<Widget> ranking = [];
+                                if (snap.hasData) {
+                                  if (!disposed) {
+                                    animCont.dispose();
+                                    disposed = true;
+                                  }
+                                  for (var i = 0;
+                                      i < snap.data!.docs.length;
+                                      i++) {
+                                    if (snap.data!.docs[i].id ==
+                                        FirebaseAuth
+                                            .instance.currentUser!.uid) {
+                                      if ((context
+                                                  .read<PerfilProvider>()
+                                                  .perfilAtual as PerfilAluno)
+                                              .melhorRanking <
+                                          i + 1) {
+                                        FirebaseFirestore.instance
+                                            .collection("aluno")
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                            .update({
+                                          "melhorRanking": i + 1,
+                                          "rankingAtual": i + 1
+                                        });
+                                      } else if ((context
+                                                  .read<PerfilProvider>()
+                                                  .perfilAtual as PerfilAluno)
+                                              .rankingAtual !=
+                                          i + 1) {
+                                        FirebaseFirestore.instance
+                                            .collection("aluno")
+                                            .doc(FirebaseAuth
+                                                .instance.currentUser!.uid)
+                                            .update({"rankingAtual": i + 1});
+                                      }
+                                    }
+                                    ranking.add(CardClassificacao(
+                                        classificacao: i + 1,
+                                        nome: (snap.data!.docs[i]
+                                                .data())["nome"] ??
+                                            "\$nome",
+                                        isUser: snap.data!.docs[i].id ==
+                                            FirebaseAuth
+                                                .instance.currentUser!.uid,
+                                        pontuacao: (snap.data!.docs[i]
+                                                .data())["xpAtual"]
+                                            .toString()));
+                                  }
+                                } else {
+                                  animCont.forward();
+                                  disposed = false;
+                                }
+                                return snap.hasData
+                                    ? Expanded(
+                                        child: Column(
+                                        children: ranking,
+                                      ))
+                                    : Expanded(
+                                        child: AnimatedBuilder(
+                                            animation: anim,
+                                            builder: (context, anim) {
+                                              return Column(
+                                                children: [
+                                                  ...List.generate(
+                                                      3,
+                                                      (index) => Stack(
+                                                            children: [
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .all(5),
+                                                                width:
+                                                                    size.width *
+                                                                        0.9,
+                                                                height: 60,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12),
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          0.2),
+                                                                ),
+                                                              ),
+                                                              Container(
+                                                                margin:
+                                                                    const EdgeInsets
+                                                                        .all(5),
+                                                                width: size
+                                                                        .width *
+                                                                    0.9 *
+                                                                    animCont
+                                                                        .value,
+                                                                height: 60,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              12),
+                                                                  color: Colors
+                                                                      .black
+                                                                      .withOpacity(
+                                                                          0.25),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ))
+                                                  // CardClassificacao(
+                                                  //   classificacao: 1,
+                                                  //   nome: "Guilherme",
+                                                  //   pontuacao: "1400",
+                                                  // ),
+                                                  // CardClassificacao(
+                                                  //   classificacao: 2,
+                                                  //   nome: "Pedro",
+                                                  //   isUser: true,
+                                                  //   pontuacao: "1200",
+                                                  // ),
+                                                  // CardClassificacao(
+                                                  //   classificacao: 3,
+                                                  //   nome: "João",
+                                                  //   pontuacao: "1150",
+                                                  // ),
+                                                  // CardClassificacao(
+                                                  //   classificacao: 4,
+                                                  //   nome: "Maria",
+                                                  //   pontuacao: "1036",
+                                                  // ),
+                                                ],
+                                              );
+                                            }),
                                       );
-                                    }),
-                              );
-                      })
+                              })
+                          : const Text(
+                              "Entre em uma turma para participar do Ranking")
+                      : Container()
                 ],
               ),
             ),

@@ -1,24 +1,25 @@
-import 'dart:io';
-
 import 'package:abntplaybic/modules/atividades/pages/subtopicos_tela.dart';
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
+import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/models/perfil.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class MainAtividadesPage extends StatefulWidget {
-  final String titulo;
+  final Map<String, String> data;
 
-  const MainAtividadesPage({super.key, required this.titulo});
+  const MainAtividadesPage({super.key, required this.data});
 
   @override
   State<MainAtividadesPage> createState() => _MainAtividadesPageState();
 }
 
 class _MainAtividadesPageState extends State<MainAtividadesPage> {
-  TopicosController _topicosController = TopicosController();
+  final TopicosController _topicosController = TopicosController();
   bool loading = false;
   List<String> listaSubTopicos = [];
 
@@ -33,7 +34,8 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
       loading = true;
     });
 
-    listaSubTopicos = await _topicosController.getSubTopicos(widget.titulo);
+    listaSubTopicos =
+        await _topicosController.getSubTopicos(widget.data["titulo"]!);
 
     setState(() {
       loading = false;
@@ -42,6 +44,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
 
   @override
   Widget build(BuildContext context) {
+    Perfil perfil = Provider.of<PerfilProvider>(context).perfilAtual!;
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -56,7 +59,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
           ),
         ),
         title: Text(
-          widget.titulo,
+          widget.data["titulo"]!,
           style: const TextStyle(
             color: roxo,
             fontFamily: "PassionOne",
@@ -65,7 +68,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
         ),
         titleSpacing: 0,
       ),
-      body: Container(
+      body: SizedBox(
         height: size.height,
         child: !loading && listaSubTopicos.isNotEmpty
             ? Column(
@@ -91,6 +94,16 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
+                              if (perfil is PerfilAluno) {
+                                if (perfil.turma != null) {
+                                  if (perfil.turma?.topicosAtivos[
+                                      widget.data["id"]!]![index]) {
+                                    alertaApp(context,
+                                        "Essa tarefa não está disponível");
+                                    return;
+                                  }
+                                }
+                              }
                               showModalBottomSheet(
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
@@ -99,7 +112,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                   ),
                                   context: context,
                                   builder: (context) {
-                                    return Container(
+                                    return SizedBox(
                                       height: size.height * 0.35,
                                       child: Column(
                                         children: [
@@ -107,7 +120,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                             padding: const EdgeInsets.fromLTRB(
                                                 10, 20, 10, 0),
                                             child: AutoSizeText(
-                                              "Tarefa ${listaSubTopicos.elementAt(index)} em ${widget.titulo}",
+                                              "Tarefa ${listaSubTopicos.elementAt(index)} em ${widget.data["titulo"]!}",
                                               maxLines: 1,
                                               style: const TextStyle(
                                                 color: Colors.black,
@@ -160,8 +173,9 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                                   listaSubTopicos
                                                                       .elementAt(
                                                                           index),
-                                                              topico:
-                                                                  widget.titulo,
+                                                              topico: widget
+                                                                      .data[
+                                                                  "titulo"]!,
                                                             )));
                                               },
                                             ),
@@ -174,16 +188,28 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                             child: ListTile(
                               title: Text(
                                 listaSubTopicos.elementAt(index),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontFamily: "PassionOne",
                                   fontWeight: FontWeight.bold,
                                   fontSize: 20,
-                                  color: Colors.black,
+                                  color: perfil is PerfilAluno
+                                      ? perfil.turma?.topicosAtivos[
+                                                  widget.data["id"]!]![index] ??
+                                              true
+                                          ? Colors.black
+                                          : prata
+                                      : Colors.black,
                                 ),
                               ),
-                              trailing: const Icon(
+                              trailing: Icon(
                                 Icons.arrow_forward_ios,
-                                color: Colors.black,
+                                color: perfil is PerfilAluno
+                                    ? perfil.turma?.topicosAtivos[
+                                                widget.data["id"]!]![index] ??
+                                            true
+                                        ? Colors.black
+                                        : prata
+                                    : Colors.black,
                               ),
                             ),
                           );
@@ -197,7 +223,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                 ? Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 20, vertical: size.height * 0.4),
-                    child: AutoSizeText(
+                    child: const AutoSizeText(
                       "Não há subtópicos cadastrados com este nome!",
                       maxLines: 1,
                       style: TextStyle(

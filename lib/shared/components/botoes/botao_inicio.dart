@@ -1,14 +1,12 @@
 import 'package:abntplaybic/modules/atividades/pages/principal.dart';
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class BotaoInicio extends StatefulWidget {
-  final String texto;
-
-  const BotaoInicio(
-      {super.key, required this.texto});
+  final Map<String, String> data;
+  final bool desbloqueado;
+  const BotaoInicio({super.key, required this.data, this.desbloqueado = true});
 
   @override
   State<BotaoInicio> createState() => _BotaoInicioState();
@@ -18,22 +16,25 @@ class _BotaoInicioState extends State<BotaoInicio> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return widget.texto != ""
+    return widget.data["titulo"] != ""
         ? Container(
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(15)),
             height: 180,
             width: 140,
             child: ElevatedButton(
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MainAtividadesPage(
-                    titulo: widget.texto,
-                  ),
-                ),
-              ),
+              onPressed: () => widget.desbloqueado
+                  ? Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MainAtividadesPage(
+                            // titulo: widget.texto,
+                            data: widget.data),
+                      ),
+                    )
+                  : alertaApp(
+                      context, "Seu professor não liberou essa atividade"),
               style: ElevatedButton.styleFrom(
-                backgroundColor: lilas,
+                backgroundColor: widget.desbloqueado ? lilas : prata,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
                 ),
@@ -44,7 +45,7 @@ class _BotaoInicioState extends State<BotaoInicio> {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 18),
                     child: Text(
-                      widget.texto,
+                      widget.data["titulo"]!,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                           fontFamily: "PassionOne",
