@@ -104,9 +104,8 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                       child: Column(
                                         children: [
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.fromLTRB(
-                                                    10, 20, 10, 0),
+                                            padding: const EdgeInsets.fromLTRB(
+                                                10, 20, 10, 0),
                                             child: AutoSizeText(
                                               "Tarefa ${listaSubTopicos.elementAt(index)} em ${widget.titulo}",
                                               maxLines: 1,
@@ -120,10 +119,8 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                             ),
                                           ),
                                           Padding(
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 10,
-                                                    vertical: 20),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 20),
                                             child: Container(
                                               width: size.width * 0.3,
                                               height: size.width * 0.3,
@@ -140,11 +137,10 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                 backgroundColor: primary,
                                                 shape: RoundedRectangleBorder(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          13),
+                                                      BorderRadius.circular(13),
                                                 ),
-                                                fixedSize: Size(
-                                                    size.width * 0.9, 50),
+                                                fixedSize:
+                                                    Size(size.width * 0.9, 50),
                                               ),
                                               child: const Text(
                                                 "Iniciar",
@@ -160,8 +156,12 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             SubTopicosPage(
-                                                              subTopico: listaSubTopicos.elementAt(index),
-                                                              topico: widget.titulo,
+                                                              subTopico:
+                                                                  listaSubTopicos
+                                                                      .elementAt(
+                                                                          index),
+                                                              topico:
+                                                                  widget.titulo,
                                                             )));
                                               },
                                             ),
@@ -208,8 +208,12 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                     ),
                   )
                 : Center(
-                    child: CircularProgressIndicator(
-                      color: primary,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: const LinearProgressIndicator(
+                        color: primary,
+                        backgroundColor: lilas,
+                      ),
                     ),
                   ),
       ),
