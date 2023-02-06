@@ -5,6 +5,7 @@ import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/cards/card_conquista.dart';
 import 'package:abntplaybic/shared/funcoes_conquistas.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -61,7 +62,7 @@ class _ConquistasPageState extends State<ConquistasPage> {
                         ),
                       ),
                       Text(
-                        "Progresso Total: ${getProgresso(context)}%",
+                        "Progresso Total: ${getProgressoPorcentagem(context)}%",
                         style: TextStyle(
                           color: primary,
                           fontFamily: "PassionOne",
@@ -72,8 +73,9 @@ class _ConquistasPageState extends State<ConquistasPage> {
                     ],
                   ),
                 ),
-                Flexible(
+                getProgressoPorcentagem(context) != 0 ? Flexible(
                   child: ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemCount: getLista(context).length,
                       itemBuilder: (context, index) {
@@ -88,8 +90,8 @@ class _ConquistasPageState extends State<ConquistasPage> {
                                               .elementAt(index)
                                               .progressoAluno !=
                                           0
-                                      ? azul
-                                      : laranja,
+                                      ? roxo
+                                      : lilas,
                                   titulo:
                                       getLista(context).elementAt(index).titulo,
                                   progresso: getLista(context)
@@ -108,54 +110,73 @@ class _ConquistasPageState extends State<ConquistasPage> {
                               : null,
                         );
                       }),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Text(
-                    "CONQUISTAS AINDA NÃO ALCANÇADAS",
+                ) : Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  child: AutoSizeText(
+                    "VOCÊ AINDA NÃO ALCANÇOU NENHUMA CONQUISTA!",
+                    maxLines: 1,
                     style: TextStyle(
-                      color: prata,
-                      fontFamily: "BebasNeue",
-                      fontSize: 18,
-                    ),
+                        color: Colors.black,
+                        fontFamily: "PassionOne",
+                        fontSize: 36,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
                 Flexible(
-                  child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: getLista(context).length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: getLista(context)
-                                      .elementAt(index)
-                                      .progressoAluno ==
-                                  0
-                              ? CardConquista(
-                                  cor: getLista(context)
-                                              .elementAt(index)
-                                              .progressoAluno !=
-                                          0
-                                      ? azul
-                                      : laranja,
-                                  titulo:
-                                      getLista(context).elementAt(index).titulo,
-                                  progresso: getLista(context)
-                                      .elementAt(index)
-                                      .progressoAluno,
-                                  progresso1: getLista(context)
-                                      .elementAt(index)
-                                      .progresso1,
-                                  progresso2: getLista(context)
-                                      .elementAt(index)
-                                      .progresso2,
-                                  progresso3: getLista(context)
-                                      .elementAt(index)
-                                      .progresso3,
-                                )
-                              : null,
-                        );
-                      }),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      getProgressoPorcentagem(context) == 100 ? SizedBox() : Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text(
+                          "CONQUISTAS AINDA NÃO ALCANÇADAS",
+                          style: TextStyle(
+                            color: prata,
+                            fontFamily: "BebasNeue",
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      Flexible(
+                        child: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: getLista(context).length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: getLista(context)
+                                            .elementAt(index)
+                                            .progressoAluno ==
+                                        0
+                                    ? CardConquista(
+                                        cor: getLista(context)
+                                                    .elementAt(index)
+                                                    .progressoAluno !=
+                                                0
+                                            ? roxo
+                                            : lilas,
+                                        titulo:
+                                            getLista(context).elementAt(index).titulo,
+                                        progresso: getLista(context)
+                                            .elementAt(index)
+                                            .progressoAluno,
+                                        progresso1: getLista(context)
+                                            .elementAt(index)
+                                            .progresso1,
+                                        progresso2: getLista(context)
+                                            .elementAt(index)
+                                            .progresso2,
+                                        progresso3: getLista(context)
+                                            .elementAt(index)
+                                            .progresso3,
+                                      )
+                                    : null,
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
