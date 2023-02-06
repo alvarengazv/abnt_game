@@ -233,9 +233,13 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                           fontWeight: FontWeight.bold),
                     ),
                   )
-                : const Center(
-                    child: CircularProgressIndicator(
-                      color: primary,
+                : Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: const LinearProgressIndicator(
+                        color: primary,
+                        backgroundColor: lilas,
+                      ),
                     ),
                   ),
       ),

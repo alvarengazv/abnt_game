@@ -76,7 +76,10 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                             return TelaSubtopicos(
                               titulo: listaTemas.elementAt(index).titulo,
                               corpo: Text(listaTemas.elementAt(index).conteudo),
-                              descricao: listaTemas.elementAt(index).descricao.replaceAll("\\n", "\n"),
+                              descricao: listaTemas
+                                  .elementAt(index)
+                                  .descricao
+                                  .replaceAll("\\n", "\n"),
                             );
                           }),
                     ),
@@ -178,8 +181,12 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                       ),
                     )
                   : Center(
-                      child: CircularProgressIndicator(
-                        color: primary,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: const LinearProgressIndicator(
+                          color: primary,
+                          backgroundColor: lilas,
+                        ),
                       ),
                     ),
         )

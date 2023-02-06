@@ -1,5 +1,9 @@
+import 'package:abntplaybic/modules/home/models/model_conquista.dart';
+import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/cards/card_conquista.dart';
+import 'package:abntplaybic/shared/funcoes_conquistas.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -8,6 +12,7 @@ import 'package:im_stepper/main.dart';
 import 'package:im_stepper/stepper.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:provider/provider.dart';
 
 class ConquistasPage extends StatefulWidget {
   const ConquistasPage({super.key});
@@ -43,11 +48,11 @@ class _ConquistasPageState extends State<ConquistasPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 8),
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 18),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
-                      Text(
+                    children: [
+                      const Text(
                         "CONQUISTAS ALCANÇADAS",
                         style: TextStyle(
                           color: prata,
@@ -56,7 +61,7 @@ class _ConquistasPageState extends State<ConquistasPage> {
                         ),
                       ),
                       Text(
-                        "Progresso Total: 52%",
+                        "Progresso Total: ${getProgresso(context)}%",
                         style: TextStyle(
                           color: primary,
                           fontFamily: "PassionOne",
@@ -67,171 +72,45 @@ class _ConquistasPageState extends State<ConquistasPage> {
                     ],
                   ),
                 ),
-                CardConquista(
-                  cor: azul,
-                  titulo: "COMPLETE: SUMÁRIO",
-                  progresso: 2,
-                  funcaoBotao: () => showModalBottomSheet(
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(25),
-                        ),
-                      ),
-                      context: context,
-                      builder: ((context) {
-                        return Container(
-                          height: size.height * 0.35,
-                          child: Column(
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.fromLTRB(10, 20, 10, 0),
-                                child: AutoSizeText(
-                                  "COMPLETE: SUMÁRIO",
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontFamily: "PassionOne",
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        "SEU PROGRESSO",
-                                        style: TextStyle(
-                                          color: prata,
-                                          fontFamily: "BebasNeue",
-                                          fontSize: 20,
-                                        ),
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          22, 10, 22, 0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: const [
-                                          Text(
-                                            "0%",
-                                            style: TextStyle(
-                                              color: roxo,
-                                              fontFamily: "BebasNeue",
-                                              fontSize: 15,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Text(
-                                            "50%",
-                                            style: TextStyle(
-                                              color: roxo,
-                                              fontFamily: "BebasNeue",
-                                              fontSize: 15,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                          Text(
-                                            "100%",
-                                            style: TextStyle(
-                                              color: roxo,
-                                              fontFamily: "BebasNeue",
-                                              fontSize: 15,
-                                            ),
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Stack(
-                                      alignment: AlignmentDirectional.center,
-                                      children: [
-                                        LinearPercentIndicator(
-                                          backgroundColor:
-                                              lilas.withOpacity(0.5),
-                                          progressColor: lilas,
-                                          percent: 0.5,
-                                          lineHeight: size.height * 0.08,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 20),
-                                          barRadius: const Radius.circular(9),
-                                          animation: true,
-                                          animateFromLastPercent: true,
-                                        ),
-                                        IconStepper(
-                                          lineLength: 90,
-                                          stepColor: lilas,
-                                          activeStepColor: primary,
-                                          activeStepBorderColor:
-                                              Colors.transparent,
-                                          lineColor: Colors.transparent,
-                                          enableNextPreviousButtons: false,
-                                          enableStepTapping: false,
-                                          activeStep: 1,
-                                          stepRadius: 20,
-                                          activeStepBorderWidth: 5,
-                                          stepReachedAnimationDuration:
-                                              const Duration(seconds: 2),
-                                          icons: [
-                                            const Icon(
-                                              MdiIcons.trophy,
-                                              color: ouro,
-                                              size: 24,
-                                            ),
-                                            const Icon(
-                                              MdiIcons.trophy,
-                                              color: ouro,
-                                              size: 32,
-                                            ),
-                                            Icon(
-                                              MdiIcons.trophy,
-                                              color: ouro.withOpacity(0.3),
-                                              size: 40,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Hero(
-                                tag: "botao",
-                                child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        side: const BorderSide(color: primary)),
-                                    fixedSize: Size(size.width * 0.9, 50),
-                                  ),
-                                  child: const Text(
-                                    "Voltar",
-                                    style: TextStyle(
-                                        fontFamily: "PassionOne",
-                                        fontSize: 32,
-                                        color: primary),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
+                Flexible(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: getLista(context).length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: getLista(context)
+                                      .elementAt(index)
+                                      .progressoAluno >
+                                  0
+                              ? CardConquista(
+                                  cor: getLista(context)
+                                              .elementAt(index)
+                                              .progressoAluno !=
+                                          0
+                                      ? azul
+                                      : laranja,
+                                  titulo:
+                                      getLista(context).elementAt(index).titulo,
+                                  progresso: getLista(context)
+                                      .elementAt(index)
+                                      .progressoAluno,
+                                  progresso1: getLista(context)
+                                      .elementAt(index)
+                                      .progresso1,
+                                  progresso2: getLista(context)
+                                      .elementAt(index)
+                                      .progresso2,
+                                  progresso3: getLista(context)
+                                      .elementAt(index)
+                                      .progresso3,
+                                )
+                              : null,
                         );
-                      })),
+                      }),
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(10, 15, 0, 8),
+                  padding: EdgeInsets.only(left: 10),
                   child: Text(
                     "CONQUISTAS AINDA NÃO ALCANÇADAS",
                     style: TextStyle(
@@ -241,11 +120,42 @@ class _ConquistasPageState extends State<ConquistasPage> {
                     ),
                   ),
                 ),
-                CardConquista(
-                  titulo: "COMPLETE: TRABALHOS ACADÊMICOS",
-                  progresso: 0,
-                  funcaoBotao: () {},
-                  cor: laranja,
+                Flexible(
+                  child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: getLista(context).length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: getLista(context)
+                                      .elementAt(index)
+                                      .progressoAluno ==
+                                  0
+                              ? CardConquista(
+                                  cor: getLista(context)
+                                              .elementAt(index)
+                                              .progressoAluno !=
+                                          0
+                                      ? azul
+                                      : laranja,
+                                  titulo:
+                                      getLista(context).elementAt(index).titulo,
+                                  progresso: getLista(context)
+                                      .elementAt(index)
+                                      .progressoAluno,
+                                  progresso1: getLista(context)
+                                      .elementAt(index)
+                                      .progresso1,
+                                  progresso2: getLista(context)
+                                      .elementAt(index)
+                                      .progresso2,
+                                  progresso3: getLista(context)
+                                      .elementAt(index)
+                                      .progresso3,
+                                )
+                              : null,
+                        );
+                      }),
                 ),
               ],
             ),

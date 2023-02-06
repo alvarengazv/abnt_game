@@ -27,10 +27,11 @@ class _InicioPageState extends State<InicioPage> {
   }
 
   getTopicos() async {
-    setState(() {
-      loading = true;
-    });
-
+    if (mounted) {
+      setState(() {
+        loading = true;
+      });
+    }
     listaTopicos = await _topicosController.getTopicos();
     j = 0;
 
@@ -192,8 +193,14 @@ class _InicioPageState extends State<InicioPage> {
                   ),
                 ],
               )
-            : const Center(
-                child: CircularProgressIndicator(),
+            : Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: const LinearProgressIndicator(
+                    color: primary,
+                    backgroundColor: lilas,
+                  ),
+                ),
               ));
   }
 }
