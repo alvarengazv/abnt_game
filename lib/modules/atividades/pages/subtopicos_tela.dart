@@ -2,8 +2,6 @@ import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/modules/home/models/model_tema.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/normas/back_button.dart';
-import 'package:abntplaybic/shared/components/normas/folha.dart';
-import 'package:abntplaybic/shared/components/normas/linha_folha.dart';
 import 'package:abntplaybic/shared/components/normas/subtopicos.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
