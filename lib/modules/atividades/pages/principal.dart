@@ -96,7 +96,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                             onTap: () {
                               if (perfil is PerfilAluno) {
                                 if (perfil.turma != null) {
-                                  if (perfil.turma?.topicosAtivos[
+                                  if (!perfil.turma?.topicosAtivos[
                                       widget.data["id"]!]![index]) {
                                     alertaApp(context,
                                         "Essa tarefa não está disponível");
