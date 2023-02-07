@@ -1,3 +1,4 @@
+import 'package:abntplaybic/modules/atividades/pages/finalLicao.dart';
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/modules/home/models/model_tema.dart';
 import 'package:abntplaybic/shared/colors.dart';
@@ -5,10 +6,8 @@ import 'package:abntplaybic/shared/components/normas/back_button.dart';
 import 'package:abntplaybic/shared/components/normas/subtopicos.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class SubTopicosPage extends StatefulWidget {
   final String topico;
@@ -24,12 +23,13 @@ class SubTopicosPage extends StatefulWidget {
 class _SubTopicosPageState extends State<SubTopicosPage> {
   final PageController _pageController = PageController(initialPage: 0);
   final TickerProvider provider = TickerProviderImpl();
-  TopicosController _topicosController = TopicosController();
+  final TopicosController _topicosController = TopicosController();
   late TabController? _tabController;
   int selectedIndex = 0;
   bool loading = true;
   List<Widget> lista = [];
   List<Tema> listaTemas = [];
+  List<Future<String>?> images = [];
 
   @override
   void initState() {
@@ -40,6 +40,13 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
   getTopicos() async {
     listaTemas = await _topicosController.getAllSubTopicos(
         widget.topico, widget.subTopico);
+    for (var item in listaTemas) {
+      if (item.conteudo.toString().startsWith("gs:")) {
+        getImage(item.conteudo);
+      } else {
+        images.add(null);
+      }
+    }
     _tabController = TabController(
         length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: provider);
 
@@ -48,13 +55,17 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
     });
   }
 
+  Future<void> getImage(String url) async {
+    images.add(FirebaseStorage.instance.refFromURL(url).getDownloadURL());
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         body: Column(
       children: [
-        BackButtonNormas(),
+        const BackButtonNormas(),
         Expanded(
           child: !loading && listaTemas.isNotEmpty
               ? Column(
@@ -73,7 +84,38 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                           itemBuilder: (context, index) {
                             return TelaSubtopicos(
                               titulo: listaTemas.elementAt(index).titulo,
-                              corpo: Text(listaTemas.elementAt(index).conteudo),
+                              corpo: listaTemas
+                                      .elementAt(index)
+                                      .conteudo
+                                      .toString()
+                                      .startsWith("gs:")
+                                  ? FutureBuilder<String>(
+                                      future: images[index],
+                                      builder: (context, snap) {
+                                        if (snap.hasData) {
+                                          return SizedBox(
+                                              width: size.width * 0.75,
+                                              child: Image.network(snap.data!));
+                                        } else {
+                                          return const LinearProgressIndicator();
+                                        }
+                                      })
+                                  : Container(
+                                      margin: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                            listaTemas
+                                                .elementAt(index)
+                                                .conteudo,
+                                            style: const TextStyle(
+                                                fontFamily: "PassionOne",
+                                                fontSize: 35),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                               descricao: listaTemas
                                   .elementAt(index)
                                   .descricao
@@ -138,24 +180,17 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                     setState(() {
                                       _tabController!.index = selectedIndex;
                                     });
+                                  } else {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const FinalLicaoPage()));
                                   }
                                 },
-                                icon: Icon(
-                                  Icons.chevron_right,
-                                  size: 32,
-                                  color:
-                                      selectedIndex + 1 < _tabController!.length
-                                          ? primary
-                                          : Colors.transparent,
-                                ),
-                                splashColor:
-                                    selectedIndex + 1 < _tabController!.length
-                                        ? null
-                                        : Colors.transparent,
-                                highlightColor:
-                                    selectedIndex + 1 < _tabController!.length
-                                        ? null
-                                        : Colors.transparent,
+                                icon: const Icon(Icons.chevron_right,
+                                    size: 32, color: primary),
+                                splashColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
                               ),
                             ],
                           ),
@@ -168,7 +203,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                   ? Padding(
                       padding: EdgeInsets.symmetric(
                           horizontal: 20, vertical: size.height * 0.36),
-                      child: AutoSizeText(
+                      child: const AutoSizeText(
                         "Não há tema cadastrado com este nome!",
                         maxLines: 1,
                         style: TextStyle(

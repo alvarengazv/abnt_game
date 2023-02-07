@@ -93,7 +93,7 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
                         width: size.width * 0.9,
                         height: size.height * 0.15,
                         decoration: BoxDecoration(
-                          color: lilas,
+                          color: laranja,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         alignment: Alignment.center,
@@ -133,10 +133,14 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
                                     if (snap.data!.docs[i].id ==
                                         FirebaseAuth
                                             .instance.currentUser!.uid) {
+                                      print((context
+                                              .read<PerfilProvider>()
+                                              .perfilAtual as PerfilAluno)
+                                          .melhorRanking);
                                       if ((context
                                                   .read<PerfilProvider>()
                                                   .perfilAtual as PerfilAluno)
-                                              .melhorRanking <
+                                              .melhorRanking >
                                           i + 1) {
                                         FirebaseFirestore.instance
                                             .collection("aluno")

@@ -27,7 +27,7 @@ class _InicioPageState extends State<InicioPage> {
   }
 
   getTopicos() async {
-    if(mounted){
+    if (mounted) {
       setState(() {
         loading = true;
       });
@@ -35,7 +35,7 @@ class _InicioPageState extends State<InicioPage> {
     listaTopicos = await _topicosController.getTopicos();
     j = 0;
 
-    if(mounted){
+    if (context.read<PerfilProvider>().perfilAtual.runtimeType == PerfilAluno) {
       var aluno = (context.read<PerfilProvider>().perfilAtual as PerfilAluno);
       if (aluno.turma != null) {
         listaTopicos.sort((a, b) {
@@ -47,11 +47,10 @@ class _InicioPageState extends State<InicioPage> {
           }
         });
       }
-
-      setState(() {
-        loading = false;
-      });
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -114,7 +113,7 @@ class _InicioPageState extends State<InicioPage> {
                   Expanded(
                     flex: 9,
                     child: Padding(
-                      padding: const EdgeInsets.all(20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: GridView.builder(
                         itemCount: listaTopicos.length,
                         gridDelegate:
@@ -129,13 +128,17 @@ class _InicioPageState extends State<InicioPage> {
                         itemBuilder: ((context, index) {
                           return BotaoInicio(
                             data: listaTopicos.elementAt(index),
-                            desbloqueado: (context
-                                        .read<PerfilProvider>()
-                                        .perfilAtual as PerfilAluno)
-                                    .turma
-                                    ?.topicosAtivos[listaTopicos[index]["id"]]!
-                                    .contains(true) ??
-                                true,
+                            desbloqueado: context
+                                    .read<PerfilProvider>()
+                                    .perfilAtual is PerfilAluno
+                                ? (context.read<PerfilProvider>().perfilAtual
+                                            as PerfilAluno)
+                                        .turma
+                                        ?.topicosAtivos[listaTopicos[index]
+                                            ["id"]]!
+                                        .contains(true) ??
+                                    true
+                                : true,
                           );
                           /*index > 0 && index + j < listaTopicos.length
                               ? index = index + j
@@ -191,12 +194,12 @@ class _InicioPageState extends State<InicioPage> {
               )
             : Center(
                 child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.5,
-                child: const LinearProgressIndicator(
-                  color: primary,
-                  backgroundColor: lilas,
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: const LinearProgressIndicator(
+                    color: primary,
+                    backgroundColor: lilas,
+                  ),
                 ),
-              ),
               ));
   }
 }
