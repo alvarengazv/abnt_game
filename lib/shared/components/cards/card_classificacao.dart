@@ -1,4 +1,5 @@
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CardClassificacao extends StatefulWidget {
@@ -60,8 +61,9 @@ class _CardClassificacaoState extends State<CardClassificacao> {
                 const CircleAvatar(),
                 Padding(
                   padding: const EdgeInsets.only(left: 10),
-                  child: Text(
+                  child: AutoSizeText(
                     widget.nome,
+                    maxLines: 1,
                     style: const TextStyle(
                         fontFamily: "Montserrat",
                         fontWeight: FontWeight.w900,
@@ -71,8 +73,9 @@ class _CardClassificacaoState extends State<CardClassificacao> {
               ],
             ),
           ),
-          trailing: Text(
+          trailing: AutoSizeText(
             "${widget.pontuacao} XP",
+            maxLines: 1,
             style: const TextStyle(
                 fontFamily: "Montserrat",
                 fontWeight: FontWeight.w900,

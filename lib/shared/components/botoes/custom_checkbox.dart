@@ -1,3 +1,4 @@
+import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomCheckbox extends StatefulWidget {
@@ -41,7 +42,7 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         decoration: BoxDecoration(
             color: _isSelected
                 ? widget.selectedColor ?? Colors.blue
-                : Colors.transparent,
+                : lilas.withOpacity(0.5),
             borderRadius: BorderRadius.circular(3.0),
             border: Border.all(
               color: widget.borderColor ?? Colors.black,

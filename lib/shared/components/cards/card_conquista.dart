@@ -43,7 +43,7 @@ class _CardConquistaState extends State<CardConquista> {
           context: context,
           builder: ((context) {
             return Container(
-              height: size.height * 0.63,
+              height: size.height * 0.5,
               child: Column(
                 children: [
                   Padding(
@@ -136,8 +136,8 @@ class _CardConquistaState extends State<CardConquista> {
                         ),
                         IconStepper(activeStepBorderPadding: 0,
                           lineLength: 100,
-                          stepColor: lilas,
-                          activeStepColor: primary,
+                          stepColor: Colors.transparent,
+                          activeStepColor: Colors.transparent,
                           activeStepBorderColor: Colors.transparent,
                           lineColor: Colors.transparent,
                           enableNextPreviousButtons: false,
@@ -292,21 +292,21 @@ class _CardConquistaState extends State<CardConquista> {
                           MdiIcons.trophy,
                           color: widget.progresso >= 1
                               ? ouro
-                              : ouro.withOpacity(0.5),
+                              : ouro.withOpacity(0.3),
                           size: 26,
                         ),
                         Icon(
                           MdiIcons.trophy,
                           color: widget.progresso >= 2
                               ? ouro
-                              : ouro.withOpacity(0.5),
+                              : ouro.withOpacity(0.3),
                           size: 32,
                         ),
                         Icon(
                           MdiIcons.trophy,
                           color: widget.progresso >= 3
                               ? ouro
-                              : ouro.withOpacity(0.5),
+                              : ouro.withOpacity(0.3),
                           size: 40,
                         ),
                       ],

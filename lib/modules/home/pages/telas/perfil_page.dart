@@ -67,7 +67,18 @@ class _PerfilPageState extends State<PerfilPage> {
                                                     ?.fotoPerfil ??
                                                 snap.data!),
                                       )
-                                    : Container();
+                                    : Center(
+                                        child: SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.25,
+                                          child: const LinearProgressIndicator(
+                                            color: primary,
+                                            backgroundColor: lilas,
+                                          ),
+                                        ),
+                                      );
                               })
                           : ClipRRect(
                               borderRadius: BorderRadius.circular(6),
@@ -76,7 +87,59 @@ class _PerfilPageState extends State<PerfilPage> {
                                   context
                                       .read<PerfilProvider>()
                                       .perfilAtual!
-                                      .fotoPerfil!),
+                                      .fotoPerfil!,
+                                  frameBuilder: (context, child, frame,
+                                      wasSynchronouslyLoaded) {
+                                return child;
+                              }, loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                if (loadingProgress == null) {
+                                  return child;
+                                } else {
+                                  int? expTam;
+                                  int? dowTam;
+                                  expTam = loadingProgress.expectedTotalBytes;
+                                  dowTam =
+                                      loadingProgress.cumulativeBytesLoaded;
+                                  if (expTam != null) {
+                                    var porcentagem =
+                                        (dowTam / expTam).toDouble() * 100;
+                                    var porcString =
+                                        porcentagem.toStringAsFixed(1);
+
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SizedBox(
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.25,
+                                          child: LinearProgressIndicator(
+                                            value: porcentagem / 100,
+                                            color: primary,
+                                            backgroundColor: lilas,
+                                          ),
+                                        ),
+                                        Text(
+                                          "$porcString%",
+                                          style: TextStyle(
+                                            color: primary,
+                                            fontFamily: "PassionOne",
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  } else {
+                                    return child;
+                                  }
+                                }
+                              }),
                             )),
                   AutoSizeText(
                     context.watch<PerfilProvider>().perfilAtual!.nome,

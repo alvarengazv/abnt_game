@@ -106,11 +106,10 @@ class _InicioPageState extends State<InicioPage> {
         body: !loading && listaTopicos.isNotEmpty
             ? Column(
                 children: [
-                  const Expanded(
-                      child: Padding(
+                  Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: CardNotificacao(),
-                  )),
+                  ),
                   Expanded(
                     flex: 9,
                     child: Padding(

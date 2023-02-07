@@ -34,8 +34,15 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
         FirebaseAuth.instance.currentUser!.displayName ?? "";
   }
 
+  Future<String?> getImage() async {
+    return await FirebaseStorage.instance
+        .ref("/users/img-default.jpg")
+        .getDownloadURL();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final _formKey = GlobalKey<FormState>();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
@@ -81,7 +88,8 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                               builder: (context) => Dialog(
                                     backgroundColor: branco,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(13),
+                                        borderRadius:
+                                            BorderRadius.circular(13),
                                         side: const BorderSide(
                                             color: primary, width: 3)),
                                     child: Container(
@@ -128,10 +136,11 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                                       icon: const Icon(
                                                           Icons.camera),
                                                       color: branco,
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 20,
-                                                          vertical: 20),
+                                                      padding:
+                                                          const EdgeInsets
+                                                                  .symmetric(
+                                                              horizontal: 20,
+                                                              vertical: 20),
                                                       onPressed: () async {
                                                         var file = await picker
                                                             .pickImage(
@@ -139,7 +148,8 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                                                     ImageSource
                                                                         .camera);
                                                         newImage = file;
-                                                        Navigator.pop(context);
+                                                        Navigator.pop(
+                                                            context);
                                                       },
                                                     ),
                                                   ),
@@ -167,18 +177,19 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                                       icon: const Icon(
                                                           Icons.photo),
                                                       color: branco,
-                                                      padding: const EdgeInsets
-                                                              .symmetric(
-                                                          horizontal: 20,
-                                                          vertical: 20),
+                                                      padding:
+                                                          const EdgeInsets
+                                                                  .symmetric(
+                                                              horizontal: 20,
+                                                              vertical: 20),
                                                       onPressed: () async {
                                                         var file = await picker
                                                             .pickImage(
-                                                                source:
-                                                                    ImageSource
-                                                                        .gallery);
+                                                                source: ImageSource
+                                                                    .gallery);
                                                         newImage = file;
-                                                        Navigator.pop(context);
+                                                        Navigator.pop(
+                                                            context);
                                                       },
                                                     ),
                                                   ),
@@ -209,11 +220,13 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       width: 160,
                                       height: 160,
                                       decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(6),
+                                        borderRadius:
+                                            BorderRadius.circular(6),
                                         color: lilas,
                                       ),
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(6),
+                                        borderRadius:
+                                            BorderRadius.circular(6),
                                         child: Image.file(
                                           File(
                                             newImage!.path,
@@ -230,6 +243,36 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       borderRadius: BorderRadius.circular(6),
                                       color: lilas,
                                     ),
+                                    child: context
+                                  .watch<PerfilProvider>()
+                                  .perfilAtual
+                                  ?.fotoPerfil ==
+                              null
+                          ? FutureBuilder<String?>(
+                              future: getImage(),
+                              builder: (context, snap) {
+                                return snap.hasData
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: Image.network(
+                                            fit: BoxFit.cover,
+                                            context
+                                                    .read<PerfilProvider>()
+                                                    .perfilAtual
+                                                    ?.fotoPerfil ??
+                                                snap.data!),
+                                      )
+                                    : Container();
+                              }) : ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(6),
+                                        child: Image.network(
+                                          context
+                                              .read<PerfilProvider>()
+                                              .perfilAtual!
+                                              .fotoPerfil!,
+                                          fit: BoxFit.cover,
+                                        )),
                                   ),
                             Align(
                               alignment: Alignment.bottomRight,
@@ -269,122 +312,129 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(10, 0, 0, 8),
-                            child: Text(
-                              "ALTERAR DADOS",
-                              style: TextStyle(
-                                color: prata,
-                                fontFamily: "BebasNeue",
-                                fontSize: 20,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.fromLTRB(10, 0, 0, 8),
+                              child: Text(
+                                "ALTERAR DADOS",
+                                style: TextStyle(
+                                  color: prata,
+                                  fontFamily: "BebasNeue",
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
-                          ),
-                          Hero(
-                            tag: "email",
-                            child: Material(
-                              child: TextFormField(
-                                  onFieldSubmitted: ((value) {
-                                    nomeNode.requestFocus();
-                                  }),
-                                  focusNode: emailNode,
-                                  textInputAction: TextInputAction.go,
-                                  controller: _controllerEdit.email,
-                                  onChanged: ((value) {}),
-                                  keyboardType: TextInputType.emailAddress,
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return "Digite um email válido";
-                                    }
-
-                                    if (!emailExp.hasMatch(value)) {
-                                      return "Email inválido";
-                                    }
-                                    return null;
-                                  },
-                                  style: const TextStyle(
-                                      fontFamily: "PassionOne", fontSize: 20),
-                                  decoration: InputDecoration(
-                                    border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                            color: lilas, width: 3)),
-                                    focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(15),
-                                        borderSide: const BorderSide(
-                                            color: lilas, width: 3)),
-                                    label: const Text("Email"),
-                                    floatingLabelBehavior:
-                                        FloatingLabelBehavior.never,
-                                    hintText: "email@example.com",
-                                  )),
+                            Hero(
+                              tag: "email",
+                              child: Material(
+                                child: TextFormField(
+                                    onFieldSubmitted: ((value) {
+                                      nomeNode.requestFocus();
+                                    }),
+                                    focusNode: emailNode,
+                                    textInputAction: TextInputAction.go,
+                                    controller: _controllerEdit.email,
+                                    onChanged: ((value) {}),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Digite um email válido";
+                                      }
+                      
+                                      if (!emailExp.hasMatch(value)) {
+                                        return "Email inválido";
+                                      }
+                                      return null;
+                                    },
+                                    style: const TextStyle(
+                                        fontFamily: "PassionOne", fontSize: 20),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          borderSide: const BorderSide(
+                                              color: lilas, width: 3)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          borderSide: const BorderSide(
+                                              color: lilas, width: 3)),
+                                      label: const Text("Email"),
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      hintText: "email@example.com",
+                                    )),
+                              ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          TextFormField(
-                              focusNode: nomeNode,
-                              controller: _controllerEdit.nome,
-                              keyboardType: TextInputType.name,
-                              textInputAction: TextInputAction.go,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Digite um nome";
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                  fontFamily: "PassionOne", fontSize: 20),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: const BorderSide(
-                                        color: lilas, width: 3)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: const BorderSide(
-                                        color: lilas, width: 3)),
-                                label: const Text("Nome"),
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                              )),
-                        ],
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                                focusNode: nomeNode,
+                                controller: _controllerEdit.nome,
+                                keyboardType: TextInputType.name,
+                                textInputAction: TextInputAction.go,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Digite um nome";
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(
+                                    fontFamily: "PassionOne", fontSize: 20),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  label: const Text("Nome"),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                )),
+                          ],
+                        ),
                       ),
                     ),
                     BotaoPerfil(
                       funcaoBotao: () async {
-                        var cancel = BotToast.showLoading();
-                        var perfil =
-                            context.read<PerfilProvider>().perfilAtual!;
-                        if (_controllerEdit.email.text != perfil.email) {
-                          await FirebaseAuth.instance.currentUser!
-                              .updateEmail(_controllerEdit.email.text);
+                        if (_formKey.currentState!.validate()) {
+                          var cancel = BotToast.showLoading();
+                          var perfil =
+                              context.read<PerfilProvider>().perfilAtual!;
+                          if (_controllerEdit.email.text != perfil.email) {
+                            await FirebaseAuth.instance.currentUser!
+                                .updateEmail(_controllerEdit.email.text);
+                          }
+                          if (_controllerEdit.nome.text != perfil.nome) {
+                            await FirebaseAuth.instance.currentUser!
+                                .updateDisplayName(_controllerEdit.nome.text);
+                            await context
+                                .read<PerfilProvider>()
+                                .perfilAtual!
+                                .updateFirestore();
+                          }
+                          if (newImage != null) {
+                            var ref = await FirebaseStorage.instance
+                                .ref(
+                                    "/users/${perfil.id}${newImage!.path.split(".").last}")
+                                .putData((await newImage!.readAsBytes()))
+                                .then((p0) => p0.ref);
+                            print(ref);
+                            await FirebaseAuth.instance.currentUser!
+                                .updatePhotoURL((await ref.getDownloadURL()));
+                          }
+                          await context.read<PerfilProvider>().getUser();
+                          cancel();
+                          Navigator.pop(context);
                         }
-                        if (_controllerEdit.nome.text != perfil.nome) {
-                          await FirebaseAuth.instance.currentUser!
-                              .updateDisplayName(_controllerEdit.nome.text);
-                          await context
-                              .read<PerfilProvider>()
-                              .perfilAtual!
-                              .updateFirestore();
-                        }
-                        if (newImage != null) {
-                          var ref = await FirebaseStorage.instance
-                              .ref(
-                                  "/users/${perfil.id}${newImage!.path.split(".").last}")
-                              .putData((await newImage!.readAsBytes()))
-                              .then((p0) => p0.ref);
-                          print(ref);
-                          await FirebaseAuth.instance.currentUser!
-                              .updatePhotoURL((await ref.getDownloadURL()));
-                        }
-                        await context.read<PerfilProvider>().getUser();
-                        cancel();
-                        Navigator.pop(context);
                       },
                       icone: Icons.edit,
                       text: "CONFIRMAR",
