@@ -136,8 +136,8 @@ class _CardConquistaState extends State<CardConquista> {
                         ),
                         IconStepper(activeStepBorderPadding: 0,
                           lineLength: 100,
-                          stepColor: Colors.transparent,
-                          activeStepColor: Colors.transparent,
+                          stepColor: lilas,
+                          activeStepColor: roxo,
                           activeStepBorderColor: Colors.transparent,
                           lineColor: Colors.transparent,
                           enableNextPreviousButtons: false,
@@ -292,21 +292,21 @@ class _CardConquistaState extends State<CardConquista> {
                           MdiIcons.trophy,
                           color: widget.progresso >= 1
                               ? ouro
-                              : ouro.withOpacity(0.3),
+                              : ouro.withOpacity(0.4),
                           size: 26,
                         ),
                         Icon(
                           MdiIcons.trophy,
                           color: widget.progresso >= 2
                               ? ouro
-                              : ouro.withOpacity(0.3),
+                              : ouro.withOpacity(0.4),
                           size: 32,
                         ),
                         Icon(
                           MdiIcons.trophy,
                           color: widget.progresso >= 3
                               ? ouro
-                              : ouro.withOpacity(0.3),
+                              : ouro.withOpacity(0.4),
                           size: 40,
                         ),
                       ],

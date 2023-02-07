@@ -57,7 +57,7 @@ List<Conquista> getLista(BuildContext context) {
       progressoAluno: 0,
     ),
     Conquista(
-      titulo: "bCOMPLETE: SUMÁRIO",
+      titulo: "COMPLETE: SUMÁRIO",
       progresso1: "Complete 1 tema.",
       progresso2: "Complete 3 temas.",
       progresso3: "Complete o Exercício Final.",
@@ -65,6 +65,24 @@ List<Conquista> getLista(BuildContext context) {
     ),
   ];
   lista.sort((a, b) => b.progressoAluno.compareTo(a.progressoAluno));
+
+  return lista;
+}
+
+getListaComProgresso(BuildContext context){
+  List<Conquista> lista = [];
+  getLista(context).forEach((conquista) { 
+    conquista.progressoAluno > 0 ? lista.add(conquista) : null;
+  });
+
+  return lista;
+}
+
+getListaSemProgresso(BuildContext context){
+  List<Conquista> lista = [];
+  getLista(context).forEach((conquista) { 
+    conquista.progressoAluno == 0 ? lista.add(conquista) : null;
+  });
 
   return lista;
 }

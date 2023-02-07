@@ -36,25 +36,22 @@ class _InicioPageState extends State<InicioPage> {
     j = 0;
 
     if(mounted){
+      var aluno = (context.read<PerfilProvider>().perfilAtual as PerfilAluno);
+      if (aluno.turma != null) {
+        listaTopicos.sort((a, b) {
+          aluno.turma!.topicosAtivos;
+          if (aluno.turma!.topicosAtivos[b["id"]]!.contains(true)) {
+            return 1;
+          } else {
+            return -1;
+          }
+        });
+      }
+
       setState(() {
         loading = false;
       });
     }
-    var aluno = (context.read<PerfilProvider>().perfilAtual as PerfilAluno);
-    if (aluno.turma != null) {
-      listaTopicos.sort((a, b) {
-        aluno.turma!.topicosAtivos;
-        if (aluno.turma!.topicosAtivos[b["id"]]!.contains(true)) {
-          return 1;
-        } else {
-          return -1;
-        }
-      });
-    }
-
-    setState(() {
-      loading = false;
-    });
   }
 
   @override

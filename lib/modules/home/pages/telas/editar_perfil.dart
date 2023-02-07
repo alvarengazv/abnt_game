@@ -244,7 +244,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       color: lilas,
                                     ),
                                     child: context
-                                  .watch<PerfilProvider>()
+                                  .read<PerfilProvider>()
                                   .perfilAtual
                                   ?.fotoPerfil ==
                               null
