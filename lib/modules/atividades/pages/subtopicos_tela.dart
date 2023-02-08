@@ -186,7 +186,10 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const FinalLicaoPage("")));
+                                                FinalLicaoPage(
+                                                    widget.topicoAtual[
+                                                        "idTopico"],
+                                                    widget.topicoAtual["id"])));
                                   }
                                 },
                                 icon: const Icon(Icons.chevron_right,

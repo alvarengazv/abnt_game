@@ -1,9 +1,11 @@
+import 'package:abntplaybic/modules/atividades/pages/carregaAtividadesPage.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 
 class FinalLicaoPage extends StatefulWidget {
-  const FinalLicaoPage(this.path, {super.key});
-  final String path;
+  const FinalLicaoPage(this.idTopico, this.idSubTopico, {super.key});
+  final String idTopico;
+  final String idSubTopico;
   @override
   State<FinalLicaoPage> createState() => _FinalLicaoPageState();
 }
@@ -36,7 +38,13 @@ class _FinalLicaoPageState extends State<FinalLicaoPage> {
                       borderRadius: BorderRadius.circular(13)),
                   fixedSize: Size(size.width * 0.65, 62),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CarregaAtividadesPage(
+                              widget.idTopico, widget.idSubTopico)));
+                },
                 child: const Text(
                   "Começar Teste",
                   style: TextStyle(
