@@ -19,9 +19,9 @@ class TopicosController extends ChangeNotifier {
     return listaTopicos;
   }
 
-  Future<List<String>> getSubTopicos(String topico) async {
-    var qs = await _firestore.collection("topicos").get();
-    List<String> listaSubTopicos = [];
+  Future<List<Map>> getSubTopicos(String topico) async {
+    List<Map> listaSubTopicos = [];
+    /*var qs = await _firestore.collection("topicos").get();
     String idSubTopico = "";
 
     if (qs.docs.isEmpty) {
@@ -32,27 +32,29 @@ class TopicosController extends ChangeNotifier {
       if (element['titulo'] == topico) {
         idSubTopico = element.id;
       }
-    }
+    }*/
 
     var qs2 = await _firestore
         .collection("topicos")
-        .doc(idSubTopico)
+        .doc(topico)
         .collection("subTopicos")
         .get();
 
     if (qs2.docs.isEmpty) return [];
 
     for (var element1 in qs2.docs) {
-      listaSubTopicos.add(element1['nomeTema']);
+      listaSubTopicos
+          .add({...element1.data(), "id": element1.id, "idTopico": topico});
     }
 
     print(listaSubTopicos);
     return listaSubTopicos;
   }
 
-  Future<List<Tema>> getAllSubTopicos(String topico, String subTopico) async {
-    var qs = await _firestore.collection("topicos").get();
+  Future<List<Tema>> getAllAulasSubTopicos(
+      String topico, String subTopico) async {
     List<Tema> listaTemas = [];
+    /*var qs = await _firestore.collection("topicos").get();
     String idSubTopico = "";
     String idTema = "";
 
@@ -88,12 +90,18 @@ class TopicosController extends ChangeNotifier {
         .get();
 
     if (!qs3.exists) return [];
-
-    qs3.data()!.forEach((key, value) {
-      if (key != 'nomeTema') {
-        listaTemas.add(Tema.fromMap(value));
-      }
-    });
+*/
+    var qs3 = await FirebaseFirestore.instance
+        .collection("topicos")
+        .doc(topico)
+        .collection("subTopicos")
+        .doc(subTopico)
+        .collection("aula")
+        .orderBy("indice")
+        .get();
+    for (var value in qs3.docs) {
+      listaTemas.add(Tema.fromMap(value.data()));
+    }
 
     print(listaTemas);
     return listaTemas;

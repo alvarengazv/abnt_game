@@ -10,11 +10,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class SubTopicosPage extends StatefulWidget {
-  final String topico;
-  final String subTopico;
+  final String? topico;
+  final String? subTopico;
+  final Map topicoAtual;
 
   const SubTopicosPage(
-      {super.key, required this.topico, required this.subTopico});
+      {super.key, required this.topicoAtual, this.topico, this.subTopico});
 
   @override
   State<SubTopicosPage> createState() => _SubTopicosPageState();
@@ -38,8 +39,8 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
   }
 
   getTopicos() async {
-    listaTemas = await _topicosController.getAllSubTopicos(
-        widget.topico, widget.subTopico);
+    listaTemas = await _topicosController.getAllAulasSubTopicos(
+        widget.topicoAtual["idTopico"], widget.topicoAtual["id"]);
     for (var item in listaTemas) {
       if (item.conteudo.toString().startsWith("gs:")) {
         getImage(item.conteudo);
@@ -184,7 +185,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                const FinalLicaoPage()));
+                                                const FinalLicaoPage("")));
                                   }
                                 },
                                 icon: const Icon(Icons.chevron_right,

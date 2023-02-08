@@ -2,8 +2,8 @@ import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 
 class FinalLicaoPage extends StatefulWidget {
-  const FinalLicaoPage({super.key});
-
+  const FinalLicaoPage(this.path, {super.key});
+  final String path;
   @override
   State<FinalLicaoPage> createState() => _FinalLicaoPageState();
 }

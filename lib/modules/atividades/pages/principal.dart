@@ -21,7 +21,7 @@ class MainAtividadesPage extends StatefulWidget {
 class _MainAtividadesPageState extends State<MainAtividadesPage> {
   final TopicosController _topicosController = TopicosController();
   bool loading = false;
-  List<String> listaSubTopicos = [];
+  List<Map> listaSubTopicos = [];
 
   @override
   void initState() {
@@ -35,7 +35,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
     });
 
     listaSubTopicos =
-        await _topicosController.getSubTopicos(widget.data["titulo"]!);
+        await _topicosController.getSubTopicos(widget.data["id"]!);
 
     setState(() {
       loading = false;
@@ -120,7 +120,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                             padding: const EdgeInsets.fromLTRB(
                                                 10, 20, 10, 0),
                                             child: AutoSizeText(
-                                              "Tarefa ${listaSubTopicos.elementAt(index)} em ${widget.data["titulo"]!}",
+                                              "Tarefa ${listaSubTopicos.elementAt(index)['nomeTema']} em ${widget.data["titulo"]!}",
                                               maxLines: 1,
                                               style: const TextStyle(
                                                 color: Colors.black,
@@ -169,13 +169,16 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                     MaterialPageRoute(
                                                         builder: (context) =>
                                                             SubTopicosPage(
-                                                              subTopico:
-                                                                  listaSubTopicos
-                                                                      .elementAt(
-                                                                          index),
-                                                              topico: widget
-                                                                      .data[
-                                                                  "titulo"]!,
+                                                              topicoAtual:
+                                                                  listaSubTopicos[
+                                                                      index],
+                                                              // subTopico: listaSubTopicos
+                                                              //         .elementAt(
+                                                              //             index)[
+                                                              //     "nomeTema"],
+                                                              // topico: widget
+                                                              //         .data[
+                                                              //     "titulo"]!,
                                                             )));
                                               },
                                             ),
@@ -187,7 +190,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                             },
                             child: ListTile(
                               title: Text(
-                                listaSubTopicos.elementAt(index),
+                                listaSubTopicos.elementAt(index)["nomeTema"],
                                 style: TextStyle(
                                   fontFamily: "PassionOne",
                                   fontWeight: FontWeight.bold,
