@@ -50,10 +50,11 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
     }
     _tabController = TabController(
         length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: provider);
-
-    setState(() {
-      loading = false;
-    });
+    if(mounted){
+      setState(() {
+        loading = false;
+      });
+    }
   }
 
   Future<void> getImage(String url) async {
@@ -72,7 +73,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
               ? Column(
                   children: [
                     Expanded(
-                      flex: 4,
+                      flex: 6,
                       child: PageView.builder(
                           controller: _pageController,
                           onPageChanged: (int page) {
@@ -109,7 +110,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                           Text(
                                             listaTemas
                                                 .elementAt(index)
-                                                .conteudo,
+                                                .conteudo.replaceAll("\\n", "\n"),
                                             style: const TextStyle(
                                                 fontFamily: "PassionOne",
                                                 fontSize: 35),

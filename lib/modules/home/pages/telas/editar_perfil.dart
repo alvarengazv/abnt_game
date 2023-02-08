@@ -25,6 +25,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
   FocusNode emailNode = FocusNode();
   FocusNode nomeNode = FocusNode();
   XFile? newImage;
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -42,7 +43,6 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
 
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     Size size = MediaQuery.of(context).size;
     return Scaffold(
         appBar: AppBar(
