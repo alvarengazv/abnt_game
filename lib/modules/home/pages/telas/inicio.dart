@@ -18,7 +18,6 @@ class _InicioPageState extends State<InicioPage> {
   final TopicosController _topicosController = TopicosController();
   bool loading = false;
   List<Map<String, String>> listaTopicos = [];
-  int j = 0;
 
   @override
   void initState() {
@@ -33,7 +32,6 @@ class _InicioPageState extends State<InicioPage> {
       });
     }
     listaTopicos = await _topicosController.getTopicos();
-    j = 0;
 
     if (context.read<PerfilProvider>().perfilAtual.runtimeType == PerfilAluno) {
       var aluno = (context.read<PerfilProvider>().perfilAtual as PerfilAluno);
@@ -56,7 +54,6 @@ class _InicioPageState extends State<InicioPage> {
   @override
   void dispose() {
     super.dispose();
-    j = 0;
   }
 
   @override

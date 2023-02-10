@@ -2,10 +2,10 @@
 import 'dart:convert';
 
 class Conquista {
-  final String titulo;
-  final String progresso1;
-  final String progresso2;
-  final String progresso3;
+  final String? titulo;
+  final String? progresso1;
+  final String? progresso2;
+  final String? progresso3;
   final int progressoAluno;
   Conquista({
     required this.titulo,
