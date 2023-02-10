@@ -166,7 +166,19 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
                                                       ],
                                                     ))
                                                 .toList())
-                                        : const LinearProgressIndicator(),
+                                        : Center(
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                              child:
+                                                  const LinearProgressIndicator(
+                                                color: primary,
+                                                backgroundColor: lilas,
+                                              ),
+                                            ),
+                                          ),
                                   ),
                                 )
                               ],
@@ -174,7 +186,15 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
                           );
                         }))
                       ])
-                : const LinearProgressIndicator();
+                : Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: const LinearProgressIndicator(
+                        color: primary,
+                        backgroundColor: lilas,
+                      ),
+                    ),
+                  );
           }),
     );
   }

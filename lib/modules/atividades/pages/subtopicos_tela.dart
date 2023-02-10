@@ -50,7 +50,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
     }
     _tabController = TabController(
         length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: provider);
-    if(mounted){
+    if (mounted) {
       setState(() {
         loading = false;
       });
@@ -73,7 +73,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
               ? Column(
                   children: [
                     Expanded(
-                      flex: 6,
+                      flex: 8,
                       child: PageView.builder(
                           controller: _pageController,
                           onPageChanged: (int page) {
@@ -99,7 +99,19 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                               width: size.width * 0.75,
                                               child: Image.network(snap.data!));
                                         } else {
-                                          return const LinearProgressIndicator();
+                                          return Center(
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                              child:
+                                                  const LinearProgressIndicator(
+                                                color: primary,
+                                                backgroundColor: lilas,
+                                              ),
+                                            ),
+                                          );
                                         }
                                       })
                                   : Container(
@@ -110,7 +122,8 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                           Text(
                                             listaTemas
                                                 .elementAt(index)
-                                                .conteudo.replaceAll("\\n", "\n"),
+                                                .conteudo
+                                                .replaceAll("\\n", "\n"),
                                             style: const TextStyle(
                                                 fontFamily: "PassionOne",
                                                 fontSize: 35),
@@ -128,7 +141,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                     Expanded(
                       flex: 1,
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(40, 20, 40, 0),
+                        padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
                         child: SizedBox(
                           width: size.width,
                           height: size.height * 0.06,

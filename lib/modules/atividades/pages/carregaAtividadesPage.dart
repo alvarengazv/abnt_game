@@ -1,5 +1,6 @@
 import 'package:abntplaybic/modules/atividades/controller/atividadeController.dart';
 import 'package:abntplaybic/modules/atividades/pages/atividadePage.dart';
+import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,9 +32,17 @@ class _CarregaAtividadesPageState extends State<CarregaAtividadesPage> {
             }
             return Scaffold(
               body: Column(
-                children: const [
+                children: [
                   Text("Carregando..."),
-                  LinearProgressIndicator()
+                  Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: const LinearProgressIndicator(
+                        color: primary,
+                        backgroundColor: lilas,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );

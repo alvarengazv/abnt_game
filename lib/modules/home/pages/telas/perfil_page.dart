@@ -187,16 +187,17 @@ class _PerfilPageState extends State<PerfilPage> {
                                           ? "${(value.perfilAtual as PerfilAluno).rankingAtual} º"
                                           : "  º"
                                       : " - º",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontFamily: "BebasNeue",
-                                    color: prata,
-                                    // widget.classificacao == 1
-                                    //   ? ouro
-                                    //   : widget.classificacao == 2
-                                    //       ? prata
-                                    //       : widget.classificacao == 3
-                                    //           ? bronze
-                                    //           : roxoClassificacao,
+                                    color: value.perfilAtual.runtimeType ==
+                                          PerfilAluno
+                                      ? (value.perfilAtual as PerfilAluno).rankingAtual == 1
+                                      ? amarelo
+                                      : (value.perfilAtual as PerfilAluno).rankingAtual == 2
+                                          ? prata
+                                          : (value.perfilAtual as PerfilAluno).rankingAtual == 3
+                                              ? bronze
+                                              : roxoClassificacao : prata,
                                     fontSize: 16,
                                   ),
                                 )
