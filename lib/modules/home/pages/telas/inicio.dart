@@ -110,7 +110,7 @@ class _InicioPageState extends State<InicioPage> {
                   Expanded(
                     flex: 9,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       child: GridView.builder(
                         itemCount: listaTopicos.length,
                         gridDelegate:

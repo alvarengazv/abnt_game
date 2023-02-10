@@ -56,14 +56,16 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
                     color: Colors.black,
                   ),
                   borderRadius: BorderRadius.circular(10)),
-              child: AutoSizeText(
-                widget.descricao,
-                style: const TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
+              child: SingleChildScrollView(
+                child: AutoSizeText(
+                  widget.descricao,
+                  style: const TextStyle(
+                    fontFamily: "Montserrat",
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.justify,
                 ),
-                textAlign: TextAlign.justify,
               ),
             ),
           ),

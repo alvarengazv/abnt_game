@@ -45,10 +45,17 @@ class _ConquistasPageState extends State<ConquistasPage> {
     }
     
     var listaTopicos = await _controllerTopicos.getTopicos();
+    Map<String, List> mapTopicos = {};
+    for (var topico in listaTopicos) {
+      var listaSubTopicos =
+        await _controllerTopicos.getSubTopicos(topico['id']!);
+        mapTopicos[topico['id']!] = listaSubTopicos;
+    }
+    
 
-    listaComProgresso = getListaComProgresso(context, listaTopicos);
-    listaSemProgresso = getListaSemProgresso(context, listaTopicos);
-    percProgress = getProgressoPorcentagem(context, listaTopicos);
+    listaComProgresso = getListaComProgresso(context, listaTopicos, mapTopicos);
+    listaSemProgresso = getListaSemProgresso(context, listaTopicos, mapTopicos);
+    percProgress = getProgressoPorcentagem(context, listaTopicos, mapTopicos);
 
     if (mounted) {
       setState(() {

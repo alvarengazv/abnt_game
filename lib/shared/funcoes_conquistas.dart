@@ -5,7 +5,7 @@ import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-getLista(BuildContext context, List<Map<String, String>> listaTopicos) {
+getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<String, List> mapTopicos) {
   
 
   int xpTotal =
@@ -57,25 +57,24 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos) {
   listaTopicos.forEach((map) {
     Map<String, Map<String, bool>>? temas = feitos?[map['id']];
     int temasSize = 0;
-    if (temas != null) {
-      temasSize = temas.length;
-    }
-    int progresso = 0;
-
-    for (var v = 0; v < temasSize; v++) {
-      temas?.forEach((key, value) {
-        if (value['aula'] == true && value['tarefa'] == true) progresso++;
-      });
-    }
-
     int progressoAluno = 0;
+    if (temas != null) {
+      temasSize = mapTopicos[map["id"]]!.length;
+      int progresso = 0;
 
-    if (progresso == 1) {
-      progressoAluno = 1;
-    } else if (progresso == 3) {
-      progressoAluno = 2;
-    } else if (progresso == temasSize && temasSize != 0) {
-      progressoAluno = 3;
+      
+    temas.forEach((key, value) {
+      if (value['aula'] == true && value['tarefa'] == true) progresso++;
+    });
+      
+      
+      if (progresso <= 2) {
+        progressoAluno = 1;
+      } else if (progresso >= 3 && progresso < temasSize) {
+        progressoAluno = 2;
+      } else if (progresso == temasSize && temasSize != 0) {
+        progressoAluno = 3;
+      }
     }
 
     lista.add(Conquista(
@@ -85,9 +84,6 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos) {
       progresso3: "Complete todos os temas deste tópico.",
       progressoAluno: progressoAluno,
     ));
-
-    progressoAluno = 0;
-    progresso = 0;
   });
 
   lista.sort((a, b) => b.progressoAluno.compareTo(a.progressoAluno));
@@ -95,25 +91,25 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos) {
   return lista;
 }
 
-getListaComProgresso(BuildContext context, List<Map<String, String>> listaTopicos) {
+getListaComProgresso(BuildContext context, List<Map<String, String>> listaTopicos, Map<String, List> mapTopicos) {
   List<Conquista> lista = [];
-  getLista(context, listaTopicos).forEach((conquista) {
+  getLista(context, listaTopicos, mapTopicos).forEach((conquista) {
       conquista.progressoAluno > 0 ? lista.add(conquista) : null;
     });
   return lista;
 }
 
-getListaSemProgresso(BuildContext context, List<Map<String, String>> listaTopicos) {
+getListaSemProgresso(BuildContext context, List<Map<String, String>> listaTopicos, Map<String, List> mapTopicos) {
   List<Conquista> lista = [];
-  getLista(context, listaTopicos).forEach((conquista) {
+  getLista(context, listaTopicos, mapTopicos).forEach((conquista) {
         conquista.progressoAluno == 0 ? lista.add(conquista) : null;
       });
 
   return lista;
 }
 
-getProgressoPorcentagem(BuildContext context, List<Map<String, String>> listaTopicos) {
-  List<Conquista> lista = getLista(context, listaTopicos);
+getProgressoPorcentagem(BuildContext context, List<Map<String, String>> listaTopicos, Map<String, List> mapTopicos) {
+  List<Conquista> lista = getLista(context, listaTopicos, mapTopicos);
   int totalTrofeus = lista.length * 3;
   int totalProgresso = 0;
 
