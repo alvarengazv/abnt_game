@@ -107,11 +107,13 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
                         /*child: Image.asset( ),*/
                         ),
                   ),
-                  context.read<PerfilProvider>().perfilAtual is PerfilAluno
-                      ? (context.read<PerfilProvider>().perfilAtual
-                                      as PerfilAluno)
-                                  .turma !=
-                              null
+                  context.read<PerfilProvider>().perfilAtual is PerfilAluno ||
+                          widget.turma != null
+                      ? widget.turma != null ||
+                              (context.read<PerfilProvider>().perfilAtual
+                                          as PerfilAluno)
+                                      .turma !=
+                                  null
                           ? StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                               stream: context.read<PerfilProvider>().perfilAtual
                                       is PerfilAluno

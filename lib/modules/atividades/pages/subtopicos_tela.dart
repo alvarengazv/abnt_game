@@ -1,6 +1,8 @@
 import 'package:abntplaybic/modules/atividades/pages/finalLicao.dart';
+import 'package:abntplaybic/modules/atividades/pages/ganhaXP.dart';
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/modules/home/models/model_tema.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/normas/back_button.dart';
 import 'package:abntplaybic/shared/components/normas/subtopicos.dart';
@@ -8,6 +10,9 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../../perfil/controller/perfilProvider.dart';
 
 class SubTopicosPage extends StatefulWidget {
   final String? topico;
@@ -50,7 +55,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
     }
     _tabController = TabController(
         length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: provider);
-    if(mounted){
+    if (mounted) {
       setState(() {
         loading = false;
       });
@@ -110,7 +115,8 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                           Text(
                                             listaTemas
                                                 .elementAt(index)
-                                                .conteudo.replaceAll("\\n", "\n"),
+                                                .conteudo
+                                                .replaceAll("\\n", "\n"),
                                             style: const TextStyle(
                                                 fontFamily: "PassionOne",
                                                 fontSize: 35),
@@ -183,10 +189,40 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                       _tabController!.index = selectedIndex;
                                     });
                                   } else {
+                                    var perfil = context
+                                        .read<PerfilProvider>()
+                                        .perfilAtual;
+                                    var ganhaXP = true;
+                                    if (perfil is PerfilAluno) {
+                                      perfil.marcaAula(
+                                          widget.topicoAtual["idTopico"],
+                                          widget.topicoAtual["id"]);
+                                      bool aulaFeita = perfil.feitos?[widget
+                                                      .topicoAtual["idTopico"]]
+                                                  ?[widget.topicoAtual["id"]]
+                                              ?["aula"] ??
+                                          false;
+                                      if (aulaFeita) {
+                                        ganhaXP = false;
+                                      }
+                                    }
+
                                     Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
-                                            builder: (context) =>
-                                                FinalLicaoPage(
+                                            builder: (context) => ganhaXP
+                                                ? GanhaXP(
+                                                    xpGanho: 5,
+                                                    porCompletar:
+                                                        "mais uma aula!",
+                                                    nextRoute: MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            FinalLicaoPage(
+                                                                widget.topicoAtual[
+                                                                    "idTopico"],
+                                                                widget.topicoAtual[
+                                                                    "id"])),
+                                                  )
+                                                : FinalLicaoPage(
                                                     widget.topicoAtual[
                                                         "idTopico"],
                                                     widget.topicoAtual["id"])));

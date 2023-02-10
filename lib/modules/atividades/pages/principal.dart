@@ -1,3 +1,4 @@
+import 'package:abntplaybic/modules/atividades/pages/carregaAtividadesPage.dart';
 import 'package:abntplaybic/modules/atividades/pages/subtopicos_tela.dart';
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
@@ -94,6 +95,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
+                              bool feito = false;
                               if (perfil is PerfilAluno) {
                                 if (perfil.turma != null) {
                                   if (!perfil.turma?.topicosAtivos[
@@ -103,7 +105,18 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                     return;
                                   }
                                 }
+                                print(perfil.feitos);
+                                feito = perfil.feitos?[listaSubTopicos[index]
+                                                ["idTopico"]]
+                                            ?[listaSubTopicos[index]["id"]]
+                                        ?["aula"] ??
+                                    false;
                               }
+
+                              print(feito);
+                              print(listaSubTopicos[index]["idTopico"]);
+                              print(listaSubTopicos[index]["id"]);
+
                               showModalBottomSheet(
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
@@ -113,8 +126,9 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                   context: context,
                                   builder: (context) {
                                     return SizedBox(
-                                      height: size.height * 0.35,
+                                      // height: size.height * 0.35,
                                       child: Column(
+                                        mainAxisSize: MainAxisSize.min,
                                         children: [
                                           Padding(
                                             padding: const EdgeInsets.fromLTRB(
@@ -143,46 +157,91 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                               /*child: Image.asset( ),*/
                                             ),
                                           ),
-                                          Hero(
-                                            tag: "botao",
-                                            child: TextButton(
-                                              style: TextButton.styleFrom(
-                                                backgroundColor: primary,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(13),
-                                                ),
-                                                fixedSize:
-                                                    Size(size.width * 0.9, 50),
-                                              ),
-                                              child: const Text(
-                                                "Iniciar",
-                                                style: TextStyle(
-                                                    fontFamily: "PassionOne",
-                                                    fontSize: 32,
-                                                    color: Colors.white),
-                                              ),
-                                              onPressed: () async {
-                                                Navigator.pop(context);
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            SubTopicosPage(
-                                                              topicoAtual:
-                                                                  listaSubTopicos[
-                                                                      index],
-                                                              // subTopico: listaSubTopicos
-                                                              //         .elementAt(
-                                                              //             index)[
-                                                              //     "nomeTema"],
-                                                              // topico: widget
-                                                              //         .data[
-                                                              //     "titulo"]!,
-                                                            )));
-                                              },
+                                          feito
+                                              ? TextButton(
+                                                  style: TextButton.styleFrom(
+                                                    backgroundColor: primary,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              13),
+                                                    ),
+                                                    fixedSize: Size(
+                                                        size.width * 0.9, 50),
+                                                  ),
+                                                  child: const Text(
+                                                    "Iniciar Tarefa",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            "PassionOne",
+                                                        fontSize: 32,
+                                                        color: Colors.white),
+                                                  ),
+                                                  onPressed: () async {
+                                                    Navigator.pop(context);
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) => CarregaAtividadesPage(
+                                                                listaSubTopicos[
+                                                                        index][
+                                                                    "idTopico"],
+                                                                listaSubTopicos[
+                                                                        index]
+                                                                    ["id"])));
+                                                  },
+                                                )
+                                              : Container(),
+                                          const SizedBox(height: 10),
+                                          TextButton(
+                                            style: feito
+                                                ? TextButton.styleFrom(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(13),
+                                                        side: const BorderSide(
+                                                            color: primary)),
+                                                    fixedSize: Size(
+                                                        size.width * 0.9, 50),
+                                                  )
+                                                : TextButton.styleFrom(
+                                                    backgroundColor: primary,
+                                                    shape:
+                                                        RoundedRectangleBorder(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              13),
+                                                    ),
+                                                    fixedSize: Size(
+                                                        size.width * 0.9, 50),
+                                                  ),
+                                            child: Text(
+                                              feito
+                                                  ? "Refazer aula"
+                                                  : "Iniciar",
+                                              style: TextStyle(
+                                                  fontFamily: "PassionOne",
+                                                  fontSize: 32,
+                                                  color: feito
+                                                      ? primary
+                                                      : Colors.white),
                                             ),
+                                            onPressed: () async {
+                                              Navigator.pop(context);
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          SubTopicosPage(
+                                                            topicoAtual:
+                                                                listaSubTopicos[
+                                                                    index],
+                                                          )));
+                                            },
                                           ),
+                                          const SizedBox(height: 20)
                                         ],
                                       ),
                                     );

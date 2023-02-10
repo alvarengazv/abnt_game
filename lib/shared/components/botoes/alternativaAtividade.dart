@@ -20,6 +20,7 @@ class AlternativaAtividade extends StatelessWidget {
             .checkCorrect(alternativa);
         if (result) {
           await showModalBottomSheet(
+              enableDrag: false,
               context: context,
               builder: (context) => BottomSheet(
                   shape: const RoundedRectangleBorder(
