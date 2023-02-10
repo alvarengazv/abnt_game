@@ -3,8 +3,11 @@ class Atividade {
   final String _id;
   final String _resposta;
   final List<Alternativa> _alternativas;
+  String topico;
+  String subTopico;
 
-  Atividade(this._id, this._title, this._alternativas, this._resposta);
+  Atividade(this._id, this._title, this._alternativas, this._resposta,
+      this.topico, this.subTopico);
 
   bool checkCorrect(Alternativa respostaClicada) {
     if (respostaClicada._id == _resposta) {
@@ -14,7 +17,7 @@ class Atividade {
     }
   }
 
-  Atividade.fromFirestore(Map data)
+  Atividade.fromFirestore(Map data, String topico, String subtopico)
       : this(
             data["id"],
             data["titulo"],
@@ -22,7 +25,9 @@ class Atividade {
                 .map((key, value) => MapEntry(key, Alternativa(key, value)))
                 .values
                 .toList(),
-            data["resposta"]);
+            data["resposta"],
+            topico,
+            subtopico);
 
   toFirestore() {
     return {

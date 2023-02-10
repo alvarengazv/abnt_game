@@ -10,6 +10,10 @@ class PerfilAluno extends Perfil {
   int _xpAtual = 0;
   int _xpTotal = 0;
   String? _turmaID;
+  //map deve ser usado assim: feitos[topicoPrincipal][subtopico][tarefa/aula]
+  //o último map deve ser usado os valores tarefa ou aula referente a cada uma
+  //das coisas e ambos retornam valor booleano, ou null se nao existir
+  Map<String, Map<String, Map<String, bool>>>? _feitos = {};
   Turma? _turma;
 
   //construtor
@@ -25,11 +29,13 @@ class PerfilAluno extends Perfil {
         .get()
         .then((value) => value.data());
     if (dadosUser != null) {
+      print(dadosUser["feitos"]);
       _melhorRanking = dadosUser["melhorRanking"] ?? 0;
       _rankingAtual = dadosUser["rankingAtual"] ?? 0;
       _xpAtual = dadosUser["xpAtual"] ?? 0;
       _xpTotal = dadosUser["xpColetado"] ?? 0;
       _turmaID = dadosUser["turma"];
+      _feitos = Map.from(dadosUser["feitos"]);
     }
   }
 
@@ -63,7 +69,8 @@ class PerfilAluno extends Perfil {
       "rankingAtual": _rankingAtual,
       "xpAtual": _xpAtual,
       "xpColetado": _xpTotal,
-      "turma": _turmaID
+      "turma": _turmaID,
+      "feitos": _feitos
     };
   }
 
@@ -99,12 +106,64 @@ class PerfilAluno extends Perfil {
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .snapshots()
         .listen((event) {
+      if (event.data()!["feitos"] != null) {
+        _feitos = Map.from(event.data()!["feitos"]) //topico
+            .map((key, value) => MapEntry(key, Map.from(value))) //subtopico
+            .map((key, value) => MapEntry(key,
+                value.map((key, value) => MapEntry(key, Map.from(value)))));
+      } else {
+        _feitos = {};
+      }
+
+      print(_feitos);
       _melhorRanking = event.data()!["melhorRanking"] ?? 0;
       _rankingAtual = event.data()!["rankingAtual"] ?? 0;
       _xpAtual = event.data()!["xpAtual"] ?? 0;
       _xpTotal = event.data()!["xpColetado"] ?? 0;
       _notify != null ? _notify!() : null;
     });
+  }
+
+  marcaTarefa(String topico, String subTopico, [bool value = true]) {
+    if (_feitos == null) {
+      _feitos = {
+        topico: {
+          subTopico: {"tarefa": value}
+        }
+      };
+    } else if (_feitos![topico] == null) {
+      _feitos![topico] = {
+        subTopico: {"tarefa": value}
+      };
+    } else if (_feitos![topico]![subTopico] == null) {
+      _feitos![topico]![subTopico] = {"tarefa": value};
+    } else {
+      _feitos![topico]![subTopico]!["tarefa"] = value;
+    }
+    updateFirestore();
+  }
+
+  marcaAula(String topico, String subTopico, [bool value = true]) {
+    if (_feitos == null) {
+      _feitos = {
+        topico: {
+          subTopico: {"aula": value}
+        }
+      };
+    } else if (_feitos![topico] == null) {
+      _feitos![topico] = {
+        subTopico: {"aula": value}
+      };
+    } else if (_feitos![topico]![subTopico] == null) {
+      _feitos![topico]![subTopico] = {"aula": value};
+    } else {
+      _feitos![topico]![subTopico]!["aula"] = value;
+    }
+    updateFirestore();
+  }
+
+  bool checkTarefa(topico, subtopico) {
+    return _feitos?[topico]?[subtopico]?["tarefa"] ?? false;
   }
 
   void updateRanking(int newRanking) async {
@@ -127,6 +186,7 @@ class PerfilAluno extends Perfil {
   int get xpTotal => _xpTotal;
   int get melhorRanking => _melhorRanking;
   int get rankingAtual => _rankingAtual;
+  Map<String, Map<String, Map<String, bool>>>? get feitos => _feitos;
   String? get turmaID => _turmaID;
   Turma? get turma => _turma;
 }
