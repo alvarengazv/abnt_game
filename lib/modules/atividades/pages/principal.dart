@@ -95,7 +95,8 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                         itemBuilder: (context, index) {
                           return InkWell(
                             onTap: () {
-                              bool feito = false;
+                              bool feitoAula = false;
+                              bool feitoTarefa = false;
                               if (perfil is PerfilAluno) {
                                 if (perfil.turma != null) {
                                   if (!perfil.turma?.topicosAtivos[
@@ -106,14 +107,21 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                   }
                                 }
                                 print(perfil.feitos);
-                                feito = perfil.feitos?[listaSubTopicos[index]
-                                                ["idTopico"]]
+                                feitoAula = perfil.feitos?[
+                                                listaSubTopicos[index]
+                                                    ["idTopico"]]
                                             ?[listaSubTopicos[index]["id"]]
                                         ?["aula"] ??
                                     false;
+                                feitoTarefa = perfil.feitos?[
+                                                listaSubTopicos[index]
+                                                    ["idTopico"]]
+                                            ?[listaSubTopicos[index]["id"]]
+                                        ?["tarefa"] ??
+                                    false;
                               }
 
-                              print(feito);
+                              print(feitoAula);
                               print(listaSubTopicos[index]["idTopico"]);
                               print(listaSubTopicos[index]["id"]);
 
@@ -157,7 +165,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                               /*child: Image.asset( ),*/
                                             ),
                                           ),
-                                          feito
+                                          feitoAula
                                               ? TextButton(
                                                   style: TextButton.styleFrom(
                                                     backgroundColor: primary,
@@ -170,9 +178,11 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                     fixedSize: Size(
                                                         size.width * 0.9, 50),
                                                   ),
-                                                  child: const Text(
-                                                    "Iniciar Tarefa",
-                                                    style: TextStyle(
+                                                  child: Text(
+                                                    feitoTarefa
+                                                        ? "Refazer tarefa"
+                                                        : "Iniciar Tarefa",
+                                                    style: const TextStyle(
                                                         fontFamily:
                                                             "PassionOne",
                                                         fontSize: 32,
@@ -195,7 +205,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                               : Container(),
                                           const SizedBox(height: 10),
                                           TextButton(
-                                            style: feito
+                                            style: feitoAula
                                                 ? TextButton.styleFrom(
                                                     shape: RoundedRectangleBorder(
                                                         borderRadius:
@@ -218,13 +228,13 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                         size.width * 0.9, 50),
                                                   ),
                                             child: Text(
-                                              feito
+                                              feitoAula
                                                   ? "Refazer aula"
                                                   : "Iniciar",
                                               style: TextStyle(
                                                   fontFamily: "PassionOne",
                                                   fontSize: 32,
-                                                  color: feito
+                                                  color: feitoAula
                                                       ? primary
                                                       : Colors.white),
                                             ),

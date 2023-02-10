@@ -25,7 +25,7 @@ class AtividadeController extends ChangeNotifier {
               var data = snapshot.data();
               if (data != null) {
                 data["id"] = snapshot.id;
-                return Atividade.fromFirestore(data);
+                return Atividade.fromFirestore(data, idTopico, idSubTopico);
               }
             },
             toFirestore: (atv, setOp) => atv!.toFirestore())
@@ -40,13 +40,17 @@ class AtividadeController extends ChangeNotifier {
     atividadeAtual = atividades[indiceAtivo];
   }
 
+  void addAcerto() {
+    acertos += 1;
+  }
+
   int? proximaAtividade() {
     if (atividades.indexOf(atividadeAtual!) != atividades.length - 1) {
       indiceAtivo += 1;
       atividadeAtual = atividades[indiceAtivo];
       notifyListeners();
     } else {
-      //Navega para tela final
+      return 1;
     }
     return null;
   }
