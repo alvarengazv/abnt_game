@@ -10,6 +10,9 @@ class PerfilAluno extends Perfil {
   int _xpAtual = 0;
   int _xpTotal = 0;
   String? _turmaID;
+  //map deve ser usado assim: feitos[topicoPrincipal][subtopico][tarefa/aula]
+  //o último map deve ser usado os valores tarefa ou aula referente a cada uma
+  //das coisas e ambos retornam valor booleano, ou null se nao existir
   Map<String, Map<String, Map<String, bool>>>? _feitos = {};
   Turma? _turma;
 
