@@ -61,19 +61,35 @@ class AlternativaAtividade extends StatelessWidget {
                               onPressed: () {
                                 Navigator.pop(context);
                                 var val = controller.proximaAtividade();
+                                bool atvFeita = false;
                                 if (val == 1) {
                                   if (context.read<PerfilProvider>().perfilAtual
                                       is PerfilAluno) {
-                                    (context.read<PerfilProvider>().perfilAtual
-                                            as PerfilAluno)
-                                        .marcaTarefa(
-                                            controller.atividadeAtual!.topico,
-                                            controller
-                                                .atividadeAtual!.subTopico);
+                                    atvFeita = (context
+                                                    .read<PerfilProvider>()
+                                                    .perfilAtual as PerfilAluno)
+                                                .feitos?[
+                                            controller.atividadeAtual!
+                                                .topico]?[controller
+                                            .atividadeAtual!
+                                            .subTopico]?["tarefa"] ??
+                                        false;
+                                    if (!atvFeita) {
+                                      (context
+                                              .read<PerfilProvider>()
+                                              .perfilAtual as PerfilAluno)
+                                          .marcaTarefa(
+                                              controller.atividadeAtual!.topico,
+                                              controller
+                                                  .atividadeAtual!.subTopico);
+                                    }
                                   }
                                   int xpGanho = ((10 * controller.acertos) /
                                           controller.atividades.length)
                                       .round();
+                                  if (atvFeita) {
+                                    xpGanho = (xpGanho / 2).round();
+                                  }
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) => GanhaXP(
