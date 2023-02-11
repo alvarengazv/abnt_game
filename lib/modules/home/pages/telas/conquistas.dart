@@ -52,12 +52,12 @@ class _ConquistasPageState extends State<ConquistasPage> {
         mapTopicos[topico['id']!] = listaSubTopicos;
     }
     
-
-    listaComProgresso = getListaComProgresso(context, listaTopicos, mapTopicos);
-    listaSemProgresso = getListaSemProgresso(context, listaTopicos, mapTopicos);
-    percProgress = getProgressoPorcentagem(context, listaTopicos, mapTopicos);
-
     if (mounted) {
+      listaComProgresso = getListaComProgresso(context, listaTopicos, mapTopicos);
+      listaSemProgresso = getListaSemProgresso(context, listaTopicos, mapTopicos);
+      percProgress = getProgressoPorcentagem(context, listaTopicos, mapTopicos);
+
+    
       setState(() {
         loading = false;
       });

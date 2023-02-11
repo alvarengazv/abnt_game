@@ -45,19 +45,16 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<Strin
                   ? 3
                   : 0,
     ),
-    Conquista(
-      titulo: "COMPLETE TODOS OS TESTES",
-      progresso1: "Complete 15% dos testes.",
-      progresso2: "Complete 50% dos testes.",
-      progresso3: "Complete 100% dos testes.",
-      progressoAluno: 0,
-    ),
   ];
+
+  int topicosCompletos = 0;
+  int progressoTopicos = 0;
 
   listaTopicos.forEach((map) {
     Map<String, Map<String, bool>>? temas = feitos?[map['id']];
     int temasSize = 0;
     int progressoAluno = 0;
+
     if (temas != null) {
       temasSize = mapTopicos[map["id"]]!.length;
       int progresso = 0;
@@ -68,7 +65,7 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<Strin
     });
       
       
-      if (progresso <= 2) {
+      if (progresso <= 2 && progresso != 0) {
         progressoAluno = 1;
       } else if (progresso >= 3 && progresso < temasSize) {
         progressoAluno = 2;
@@ -84,7 +81,29 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<Strin
       progresso3: "Complete todos os temas deste tópico.",
       progressoAluno: progressoAluno,
     ));
+
+    if(progressoAluno == 3){
+      topicosCompletos++;
+    }
   });
+
+  if (topicosCompletos <= 2 && topicosCompletos != 0) {
+    progressoTopicos = 1;
+  } else if(topicosCompletos >= 3 && topicosCompletos < listaTopicos.length){
+    progressoTopicos = 2;
+  } else if(topicosCompletos == listaTopicos.length && listaTopicos.isNotEmpty){
+    progressoTopicos = 3;
+  }
+
+  lista.add(
+    Conquista(
+      titulo: "COMPLETE TODOS OS TÓPICOS",
+      progresso1: "Complete 1 tópico.",
+      progresso2: "Complete 3 tópicos.",
+      progresso3: "Complete todos os tópicos.",
+      progressoAluno: progressoTopicos,
+    ),
+  );
 
   lista.sort((a, b) => b.progressoAluno.compareTo(a.progressoAluno));
 
