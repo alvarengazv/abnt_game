@@ -52,8 +52,10 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
             padding: const EdgeInsets.only(top: 20),
             child: Container(
               padding: const EdgeInsets.all(8),
-              width: size.width * 0.9,
-              height: size.height * 0.19,
+              constraints: BoxConstraints(
+                maxWidth: size.width * 0.9,
+                minHeight: size.height * 0.19,
+              ),
               decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.black,

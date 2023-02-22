@@ -38,6 +38,7 @@ class TopicosController extends ChangeNotifier {
         .collection("topicos")
         .doc(topico)
         .collection("subTopicos")
+        .orderBy("indice")
         .get();
 
     if (qs2.docs.isEmpty) return [];
