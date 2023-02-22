@@ -26,9 +26,8 @@ class SubTopicosPage extends StatefulWidget {
   State<SubTopicosPage> createState() => _SubTopicosPageState();
 }
 
-class _SubTopicosPageState extends State<SubTopicosPage> {
+class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProviderStateMixin{
   final PageController _pageController = PageController(initialPage: 0);
-  final TickerProvider provider = TickerProviderImpl();
   final TopicosController _topicosController = TopicosController();
   late TabController? _tabController;
   int selectedIndex = 0;
@@ -36,11 +35,22 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
   List<Widget> lista = [];
   List<Tema> listaTemas = [];
   List<Future<String>?> images = [];
+  double indicatorSize = 16;
+  double chevronSize = 32;
+
 
   @override
   void initState() {
     super.initState();
     getTopicos();
+  }
+
+  @override
+  void dispose(){
+    _tabController?.dispose();
+    _topicosController.dispose();
+    _pageController.dispose();
+    super.dispose();
   }
 
   getTopicos() async {
@@ -54,7 +64,13 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
       }
     }
     _tabController = TabController(
-        length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: provider);
+        length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: this);
+
+    if(listaTemas.length >= 10){
+      indicatorSize = 10;
+      chevronSize = 28;
+    }
+    
     if (mounted) {
       setState(() {
         loading = false;
@@ -169,7 +185,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                 },
                                 icon: Icon(
                                   Icons.chevron_left,
-                                  size: 32,
+                                  size: chevronSize,
                                   color: selectedIndex + 1 > 1
                                       ? primary
                                       : Colors.transparent,
@@ -186,7 +202,7 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                 color: lilas,
                                 selectedColor: roxo,
                                 borderStyle: BorderStyle.none,
-                                indicatorSize: 16,
+                                indicatorSize: indicatorSize,
                               ),
                               IconButton(
                                 onPressed: () {
@@ -240,8 +256,8 @@ class _SubTopicosPageState extends State<SubTopicosPage> {
                                                     widget.topicoAtual["id"])));
                                   }
                                 },
-                                icon: const Icon(Icons.chevron_right,
-                                    size: 32, color: primary),
+                                icon: Icon(Icons.chevron_right,
+                                    size: chevronSize, color: primary),
                                 splashColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                               ),

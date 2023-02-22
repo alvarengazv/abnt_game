@@ -1,3 +1,4 @@
+import 'package:abntplaybic/shared/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,8 @@ class TelaSubtopicos extends StatefulWidget {
 }
 
 class _TelaSubtopicosState extends State<TelaSubtopicos> {
+  final _controller = ScrollController();
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -25,7 +28,7 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(
-            width: size.width,
+            width: size.width * 0.9,
             child: Text(
               widget.titulo,
               style: const TextStyle(
@@ -56,15 +59,33 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
                     color: Colors.black,
                   ),
                   borderRadius: BorderRadius.circular(10)),
-              child: SingleChildScrollView(
-                child: AutoSizeText(
-                  widget.descricao,
-                  style: const TextStyle(
-                    fontFamily: "Montserrat",
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
+              child: Expanded(
+                child: MediaQuery.removePadding(
+                  context: context,
+                  removeTop: true,
+                  child: ScrollbarTheme(
+                    data: ScrollbarThemeData(
+                      thumbColor: MaterialStateProperty.resolveWith((states) => roxo.withOpacity(0.5)),
+                    ),
+                    child: Scrollbar(
+                      radius: Radius.circular(12),
+                      trackVisibility: true,
+                      controller: _controller,
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        controller: _controller,
+                        child: AutoSizeText(
+                          widget.descricao,
+                          style: const TextStyle(
+                            fontFamily: "Montserrat",
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      ),
+                    ),
                   ),
-                  textAlign: TextAlign.justify,
                 ),
               ),
             ),
