@@ -24,7 +24,8 @@ class Atividade {
             (Map<String, String>.from(data["alternativas"]))
                 .map((key, value) => MapEntry(key, Alternativa(key, value)))
                 .values
-                .toList(),
+                .toList()
+              ..shuffle(),
             data["resposta"],
             topico,
             subtopico);

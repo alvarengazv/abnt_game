@@ -88,7 +88,8 @@ class AlternativaAtividade extends StatelessWidget {
                                           controller.atividades.length)
                                       .round();
                                   if (atvFeita) {
-                                    xpGanho = (xpGanho / 2).round();
+                                    Navigator.pop(context);
+                                    return;
                                   }
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
@@ -122,6 +123,7 @@ class AlternativaAtividade extends StatelessWidget {
             alternativa.value,
             style: const TextStyle(
                 fontFamily: "PassionOne", color: branco, fontSize: 25),
+            textAlign: TextAlign.center,
           )),
     );
   }

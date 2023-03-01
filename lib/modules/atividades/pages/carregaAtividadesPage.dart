@@ -21,19 +21,15 @@ class _CarregaAtividadesPageState extends State<CarregaAtividadesPage> {
       builder: (context, child) => FutureBuilder(
           future: context.read<AtividadeController>().getAtividades(),
           builder: (context, snap) {
-            // if (snap.connectionState == ConnectionState.done) {
-            //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-            //       builder: ((context) => AtividadePage(
-            //           context.read<AtividadeController>().atividadeAtual!))));
-            // }
             if (snap.connectionState == ConnectionState.done) {
               return AtividadePage(
-                  context.watch<AtividadeController>().atividadeAtual!);
+                  context.watch<AtividadeController>().atividadeAtual!
+                    ..altenativas.shuffle());
             }
             return Scaffold(
               body: Column(
                 children: [
-                  Text("Carregando..."),
+                  const Text("Carregando..."),
                   Center(
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,
