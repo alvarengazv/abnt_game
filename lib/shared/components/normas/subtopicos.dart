@@ -30,7 +30,7 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
           SizedBox(
             width: size.width * 0.9,
             child: Text(
-              widget.titulo,
+              widget.titulo.toUpperCase(),
               style: const TextStyle(
                 fontFamily: "PassionOne",
                 fontSize: 36,
@@ -62,32 +62,14 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
                   ),
                   borderRadius: BorderRadius.circular(10)),
               child: Expanded(
-                child: MediaQuery.removePadding(
-                  context: context,
-                  removeTop: true,
-                  child: ScrollbarTheme(
-                    data: ScrollbarThemeData(
-                      thumbColor: MaterialStateProperty.resolveWith((states) => roxo.withOpacity(0.5)),
-                    ),
-                    child: Scrollbar(
-                      radius: Radius.circular(12),
-                      trackVisibility: true,
-                      controller: _controller,
-                      thumbVisibility: true,
-                      child: SingleChildScrollView(
-                        controller: _controller,
-                        child: AutoSizeText(
-                          widget.descricao,
-                          style: const TextStyle(
-                            fontFamily: "Montserrat",
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.justify,
-                        ),
-                      ),
-                    ),
+                child: AutoSizeText(
+                  widget.descricao,
+                  style: const TextStyle(
+                    fontFamily: "Montserrat",
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.justify,
                 ),
               ),
             ),

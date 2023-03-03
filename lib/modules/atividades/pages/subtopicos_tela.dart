@@ -10,6 +10,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../../perfil/controller/perfilProvider.dart';
@@ -29,6 +30,7 @@ class SubTopicosPage extends StatefulWidget {
 class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProviderStateMixin{
   final PageController _pageController = PageController(initialPage: 0);
   final TopicosController _topicosController = TopicosController();
+  final TickerProvider provider = TickerProviderImpl();
   late TabController? _tabController;
   int selectedIndex = 0;
   bool loading = true;
@@ -47,7 +49,6 @@ class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProvid
 
   @override
   void dispose(){
-    _tabController?.dispose();
     _topicosController.dispose();
     _pageController.dispose();
     super.dispose();
