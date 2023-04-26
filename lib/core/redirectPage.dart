@@ -7,7 +7,6 @@ import 'package:abntplaybic/shared/colors.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import "package:provider/provider.dart";
-import 'package:shared_preferences/shared_preferences.dart';
 
 class RedirectPage extends StatefulWidget {
   const RedirectPage({super.key});
@@ -19,7 +18,6 @@ class RedirectPage extends StatefulWidget {
 class _RedirectPageState extends State<RedirectPage> {
   Future checkUser() async {
     if (FirebaseAuth.instance.currentUser != null) {
-      var shared = await SharedPreferences.getInstance();
       if (!mounted) return;
       if (FirebaseAuth.instance.currentUser != null) {
         var user = await context.read<PerfilProvider>().getUser();
