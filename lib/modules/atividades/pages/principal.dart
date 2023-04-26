@@ -59,13 +59,14 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
             size: 32,
           ),
         ),
-        title: Text(
+        title: AutoSizeText(
           widget.data["titulo"]!,
           style: const TextStyle(
             color: roxo,
             fontFamily: "PassionOne",
             fontSize: 30,
           ),
+          maxLines: 1,
         ),
         titleSpacing: 0,
       ),

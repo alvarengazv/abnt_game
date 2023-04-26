@@ -71,6 +71,11 @@ class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProvid
       indicatorSize = 10;
       chevronSize = 28;
     }
+
+    if(listaTemas.length >= 12){
+      indicatorSize = 6;
+      chevronSize = 28;
+    }
     
     if (mounted) {
       setState(() {

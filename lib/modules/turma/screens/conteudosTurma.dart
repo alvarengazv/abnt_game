@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
@@ -121,7 +122,10 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
                                                   .toList();
                                         });
                                       }),
-                                  Text(element["titulo"])
+                                  AutoSizeText(
+                                    element["titulo"].toString().split(" ").length <= 2 ? element["titulo"] : element["titulo"].toString().substring(element["titulo"].toString().indexOf(' ', element["titulo"].toString().indexOf(' ') + 1)),
+                                    maxLines: 1,
+                                  )
                                 ],
                               )),
                               children: [
