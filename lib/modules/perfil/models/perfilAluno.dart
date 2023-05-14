@@ -88,8 +88,22 @@ class PerfilAluno extends Perfil {
           .collection("turma")
           .doc(_turmaID)
           .get();
+
       if (data.data() != null) {
         _turma = Turma.fromFirestoreDoc(data);
+        var participantes = await FirebaseFirestore.instance
+            .collection("aluno")
+            .where("turma", isEqualTo: _turmaID)
+            .get();
+
+        _turma?.quantParticipantes = participantes.docs.length;
+
+        var prof = await FirebaseFirestore.instance
+            .collection("professor")
+            .doc(_turma!.profID)
+            .get();
+
+        _turma!.profNome = prof["nome"];
       }
     }
   }

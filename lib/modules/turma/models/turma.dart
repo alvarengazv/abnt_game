@@ -5,8 +5,11 @@ class Turma {
   String _nome;
   Map<String, List> _topicosAtivos;
   String _profID;
+  String? profNome;
+  int quantParticipantes;
 
-  Turma(this._id, this._nome, this._topicosAtivos, this._profID);
+  Turma(this._id, this._nome, this._topicosAtivos, this._profID,
+      [this.quantParticipantes = 0]);
 
   String get id => _id;
   String get nome => _nome;

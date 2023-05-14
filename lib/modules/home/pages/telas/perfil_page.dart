@@ -2,7 +2,9 @@ import 'package:abntplaybic/modules/home/controllers/editController.dart';
 import 'package:abntplaybic/modules/home/pages/telas/editar_perfil.dart';
 import 'package:abntplaybic/modules/login/pages/login.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+
 import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
+import 'package:abntplaybic/modules/perfil/screens/codigoTurma.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_perfil.dart';
 import 'package:abntplaybic/shared/components/cards/card_perfil.dart';
@@ -36,7 +38,7 @@ class _PerfilPageState extends State<PerfilPage> {
         child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 50),
-            height: size.height,
+            //height: size.height,
             child: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -126,7 +128,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                         ),
                                         Text(
                                           "$porcString%",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: primary,
                                             fontFamily: "PassionOne",
                                             fontSize: 15,
@@ -190,14 +192,22 @@ class _PerfilPageState extends State<PerfilPage> {
                                   style: TextStyle(
                                     fontFamily: "BebasNeue",
                                     color: value.perfilAtual.runtimeType ==
-                                          PerfilAluno
-                                      ? (value.perfilAtual as PerfilAluno).rankingAtual == 1
-                                      ? amarelo
-                                      : (value.perfilAtual as PerfilAluno).rankingAtual == 2
-                                          ? prata
-                                          : (value.perfilAtual as PerfilAluno).rankingAtual == 3
-                                              ? bronze
-                                              : roxoClassificacao : prata,
+                                            PerfilAluno
+                                        ? (value.perfilAtual as PerfilAluno)
+                                                    .rankingAtual ==
+                                                1
+                                            ? amarelo
+                                            : (value.perfilAtual as PerfilAluno)
+                                                        .rankingAtual ==
+                                                    2
+                                                ? prata
+                                                : (value.perfilAtual
+                                                                as PerfilAluno)
+                                                            .rankingAtual ==
+                                                        3
+                                                    ? bronze
+                                                    : roxoClassificacao
+                                        : prata,
                                     fontSize: 16,
                                   ),
                                 )
@@ -206,7 +216,9 @@ class _PerfilPageState extends State<PerfilPage> {
                           )
                         : Container();
                   }),
-                  const SizedBox(height: 40),
+                  //const SizedBox(height: 40),
+
+                  // const SizedBox(height: 40),
                   Consumer<PerfilProvider>(builder: (context, value, child) {
                     return value.perfilAtual.runtimeType == PerfilAluno
                         ? Padding(
@@ -251,6 +263,101 @@ class _PerfilPageState extends State<PerfilPage> {
                           )
                         : Container();
                   }),
+                  Consumer<PerfilProvider>(builder: (context, perfil, _) {
+                    if (perfil.perfilAtual is PerfilAluno) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(15, 0, 0, 8),
+                            child: Text(
+                              "Minha Turma",
+                              style: TextStyle(
+                                color: prata,
+                                fontFamily: "BebasNeue",
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                          Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 10),
+                              width: size.width * 0.9,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(9),
+                                color: const Color(0xffE5EA12).withOpacity(0.6),
+                              ),
+                              child: (perfil.perfilAtual as PerfilAluno)
+                                          .turma !=
+                                      null
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                            (perfil.perfilAtual as PerfilAluno)
+                                                .turma!
+                                                .nome,
+                                            style: TextStyle(
+                                              fontFamily: "BebasNeue",
+                                              fontSize: 40,
+                                              color: primary.withOpacity(0.6),
+                                            )),
+                                        Text(
+                                          "${(perfil.perfilAtual as PerfilAluno).turma!.quantParticipantes} participantes",
+                                          style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: preto.withOpacity(0.8),
+                                          ),
+                                        ),
+                                        Text(
+                                          "Professor(a) ${(perfil.perfilAtual as PerfilAluno).turma!.profNome}",
+                                          style: TextStyle(
+                                            fontFamily: "Montserrat",
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: preto.withOpacity(0.8),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  : Center(
+                                      child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const CodigoTurmaScreen()));
+                                      },
+                                      child: SizedBox(
+                                          height: 100,
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: const [
+                                              Expanded(
+                                                child: FittedBox(
+                                                  fit: BoxFit.contain,
+                                                  child: Text(
+                                                      "Ingressar em uma turma",
+                                                      style: TextStyle(
+                                                        fontFamily: "BebasNeue",
+                                                        color: lilas,
+                                                      )),
+                                                ),
+                                              ),
+                                              Icon(Icons.arrow_forward_ios,
+                                                  color: lilas, size: 35)
+                                            ],
+                                          )),
+                                    )))
+                        ],
+                      );
+                    }
+                    return Container();
+                  }),
+                  const SizedBox(height: 40),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
