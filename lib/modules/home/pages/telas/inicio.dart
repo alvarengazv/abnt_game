@@ -3,7 +3,6 @@ import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_inicio.dart';
-import 'package:abntplaybic/shared/components/cards/card_notificacao.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -103,10 +102,11 @@ class _InicioPageState extends State<InicioPage> {
         body: !loading && listaTopicos.isNotEmpty
             ? Column(
                 children: [
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: CardNotificacao(),
-                  ),
+                  // const Padding(
+                  //   padding: EdgeInsets.symmetric(horizontal: 20),
+                  //   child: CardNotificacao(),
+                  // ),
+
                   Expanded(
                     flex: 9,
                     child: Padding(

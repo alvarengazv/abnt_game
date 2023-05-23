@@ -23,6 +23,7 @@ class _AtividadePageState extends State<AtividadePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  const SizedBox(height: 80),
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: Text(

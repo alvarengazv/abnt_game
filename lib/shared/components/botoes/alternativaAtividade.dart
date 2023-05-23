@@ -30,87 +30,97 @@ class AlternativaAtividade extends StatelessWidget {
             enableDrag: false,
             context: context,
             isDismissible: false,
-            builder: (context) => BottomSheet(
-                shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12))),
-                onClosing: () {},
-                enableDrag: false,
-                builder: (context) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 25),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            result
-                                ? "Resposta correta!"
-                                : "Resposta incorreta...",
-                            style: TextStyle(
-                                fontFamily: "PassionOne",
-                                fontSize: 40,
-                                color: result ? verde : vermelho),
-                          ),
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                backgroundColor: primary,
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(13)),
-                                fixedSize: Size(size.width * 0.65, 62),
-                              ),
-                              onPressed: () {
-                                Navigator.pop(context);
-                                var val = controller.proximaAtividade();
-                                bool atvFeita = false;
-                                if (val == 1) {
-                                  if (context.read<PerfilProvider>().perfilAtual
-                                      is PerfilAluno) {
-                                    atvFeita = (context
+            builder: (context) => WillPopScope(
+                  onWillPop: () async {
+                    return false;
+                  },
+                  child: BottomSheet(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12))),
+                      onClosing: () {},
+                      enableDrag: false,
+                      builder: (context) => Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 25),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  result
+                                      ? "Resposta correta!"
+                                      : "Resposta incorreta...",
+                                  style: TextStyle(
+                                      fontFamily: "PassionOne",
+                                      fontSize: 40,
+                                      color: result ? verde : vermelho),
+                                ),
+                                TextButton(
+                                    style: TextButton.styleFrom(
+                                      backgroundColor: primary,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(13)),
+                                      fixedSize: Size(size.width * 0.65, 62),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                      var val = controller.proximaAtividade();
+                                      bool atvFeita = false;
+                                      if (val == 1) {
+                                        if (context
+                                            .read<PerfilProvider>()
+                                            .perfilAtual is PerfilAluno) {
+                                          atvFeita = (context
+                                                              .read<PerfilProvider>()
+                                                              .perfilAtual
+                                                          as PerfilAluno)
+                                                      .feitos?[
+                                                  controller.atividadeAtual!
+                                                      .topico]?[controller
+                                                  .atividadeAtual!
+                                                  .subTopico]?["tarefa"] ??
+                                              false;
+                                          if (!atvFeita) {
+                                            (context
                                                     .read<PerfilProvider>()
                                                     .perfilAtual as PerfilAluno)
-                                                .feitos?[
-                                            controller.atividadeAtual!
-                                                .topico]?[controller
-                                            .atividadeAtual!
-                                            .subTopico]?["tarefa"] ??
-                                        false;
-                                    if (!atvFeita) {
-                                      (context
-                                              .read<PerfilProvider>()
-                                              .perfilAtual as PerfilAluno)
-                                          .marcaTarefa(
-                                              controller.atividadeAtual!.topico,
-                                              controller
-                                                  .atividadeAtual!.subTopico);
-                                    }
-                                  }
-                                  int xpGanho = ((10 * controller.acertos) /
-                                          controller.atividades.length)
-                                      .round();
-                                  if (atvFeita) {
-                                    Navigator.pop(context);
-                                    return;
-                                  }
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => GanhaXP(
-                                        xpGanho: xpGanho,
-                                        porCompletar: "mais uma tarefa",
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                "Próximo",
-                                style: TextStyle(
-                                    fontFamily: "PassionOne",
-                                    fontSize: 32,
-                                    color: Colors.white),
-                              ))
-                        ],
-                      ),
-                    )));
+                                                .marcaTarefa(
+                                                    controller
+                                                        .atividadeAtual!.topico,
+                                                    controller.atividadeAtual!
+                                                        .subTopico);
+                                          }
+                                        }
+                                        int xpGanho = ((10 *
+                                                    controller.acertos) /
+                                                controller.atividades.length)
+                                            .round();
+                                        if (atvFeita) {
+                                          Navigator.pop(context);
+                                          return;
+                                        }
+                                        Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                            builder: (context) => GanhaXP(
+                                              xpGanho: xpGanho,
+                                              porCompletar: "mais uma tarefa",
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    child: const Text(
+                                      "Próximo",
+                                      style: TextStyle(
+                                          fontFamily: "PassionOne",
+                                          fontSize: 32,
+                                          color: Colors.white),
+                                    ))
+                              ],
+                            ),
+                          )),
+                ));
       },
       child: Container(
           decoration: BoxDecoration(
