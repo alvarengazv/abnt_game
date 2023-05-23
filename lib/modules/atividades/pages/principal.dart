@@ -136,124 +136,132 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                   builder: (context) {
                                     return SizedBox(
                                       // height: size.height * 0.35,
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.fromLTRB(
-                                                10, 20, 10, 0),
-                                            child: AutoSizeText(
-                                              "Tarefa ${listaSubTopicos.elementAt(index)['nomeTema']} em ${widget.data["titulo"]!}",
-                                              maxLines: 1,
-                                              style: const TextStyle(
-                                                color: Colors.black,
-                                                fontFamily: "PassionOne",
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20,
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      10, 20, 10, 0),
+                                              child: AutoSizeText(
+                                                "Tarefa ${listaSubTopicos.elementAt(index)['nomeTema']} em ${widget.data["titulo"]!}",
+                                                maxLines: 1,
+                                                style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontFamily: "PassionOne",
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20,
+                                                ),
+                                                textAlign: TextAlign.center,
                                               ),
-                                              textAlign: TextAlign.center,
                                             ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 20),
-                                            child: Container(
-                                              width: size.width * 0.3,
-                                              height: size.width * 0.3,
-                                              decoration: const BoxDecoration(
-                                                color: lilas,
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 10,
+                                                      vertical: 20),
+                                              child: Container(
+                                                width: size.width * 0.3,
+                                                height: size.width * 0.3,
+                                                decoration: const BoxDecoration(
+                                                  color: lilas,
+                                                ),
+                                                /*child: Image.asset( ),*/
                                               ),
-                                              /*child: Image.asset( ),*/
                                             ),
-                                          ),
-                                          feitoAula
-                                              ? TextButton(
-                                                  style: TextButton.styleFrom(
-                                                    backgroundColor: primary,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              13),
-                                                    ),
-                                                    fixedSize: Size(
-                                                        size.width * 0.9, 50),
-                                                  ),
-                                                  child: Text(
-                                                    feitoTarefa
-                                                        ? "Refazer tarefa"
-                                                        : "Iniciar Tarefa",
-                                                    style: const TextStyle(
-                                                        fontFamily:
-                                                            "PassionOne",
-                                                        fontSize: 32,
-                                                        color: Colors.white),
-                                                  ),
-                                                  onPressed: () async {
-                                                    Navigator.pop(context);
-                                                    Navigator.push(
-                                                        context,
-                                                        MaterialPageRoute(
-                                                            builder: (context) => CarregaAtividadesPage(
-                                                                listaSubTopicos[
-                                                                        index][
-                                                                    "idTopico"],
-                                                                listaSubTopicos[
-                                                                        index]
-                                                                    ["id"])));
-                                                  },
-                                                )
-                                              : Container(),
-                                          const SizedBox(height: 10),
-                                          TextButton(
-                                            style: feitoAula
-                                                ? TextButton.styleFrom(
-                                                    shape: RoundedRectangleBorder(
+                                            feitoAula
+                                                ? TextButton(
+                                                    style: TextButton.styleFrom(
+                                                      backgroundColor: primary,
+                                                      shape:
+                                                          RoundedRectangleBorder(
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(13),
-                                                        side: const BorderSide(
-                                                            color: primary)),
-                                                    fixedSize: Size(
-                                                        size.width * 0.9, 50),
-                                                  )
-                                                : TextButton.styleFrom(
-                                                    backgroundColor: primary,
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              13),
+                                                      ),
+                                                      fixedSize: Size(
+                                                          size.width * 0.9, 50),
                                                     ),
-                                                    fixedSize: Size(
-                                                        size.width * 0.9, 50),
-                                                  ),
-                                            child: Text(
-                                              feitoAula
-                                                  ? "Refazer aula"
-                                                  : "Iniciar",
-                                              style: TextStyle(
-                                                  fontFamily: "PassionOne",
-                                                  fontSize: 32,
-                                                  color: feitoAula
-                                                      ? primary
-                                                      : Colors.white),
+                                                    child: Text(
+                                                      feitoTarefa
+                                                          ? "Refazer tarefa"
+                                                          : "Iniciar Tarefa",
+                                                      style: const TextStyle(
+                                                          fontFamily:
+                                                              "PassionOne",
+                                                          fontSize: 32,
+                                                          color: Colors.white),
+                                                    ),
+                                                    onPressed: () async {
+                                                      Navigator.pop(context);
+                                                      Navigator.push(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (context) => CarregaAtividadesPage(
+                                                                  listaSubTopicos[
+                                                                          index]
+                                                                      [
+                                                                      "idTopico"],
+                                                                  listaSubTopicos[
+                                                                          index]
+                                                                      ["id"])));
+                                                    },
+                                                  )
+                                                : Container(),
+                                            const SizedBox(height: 10),
+                                            TextButton(
+                                              style: feitoAula
+                                                  ? TextButton.styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(13),
+                                                          side:
+                                                              const BorderSide(
+                                                                  color:
+                                                                      primary)),
+                                                      fixedSize: Size(
+                                                          size.width * 0.9, 50),
+                                                    )
+                                                  : TextButton.styleFrom(
+                                                      backgroundColor: primary,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(13),
+                                                      ),
+                                                      fixedSize: Size(
+                                                          size.width * 0.9, 50),
+                                                    ),
+                                              child: Text(
+                                                feitoAula
+                                                    ? "Refazer aula"
+                                                    : "Iniciar",
+                                                style: TextStyle(
+                                                    fontFamily: "PassionOne",
+                                                    fontSize: 32,
+                                                    color: feitoAula
+                                                        ? primary
+                                                        : Colors.white),
+                                              ),
+                                              onPressed: () async {
+                                                Navigator.pop(context);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            SubTopicosPage(
+                                                              topicoAtual:
+                                                                  listaSubTopicos[
+                                                                      index],
+                                                            )));
+                                              },
                                             ),
-                                            onPressed: () async {
-                                              Navigator.pop(context);
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          SubTopicosPage(
-                                                            topicoAtual:
-                                                                listaSubTopicos[
-                                                                    index],
-                                                          )));
-                                            },
-                                          ),
-                                          const SizedBox(height: 20)
-                                        ],
+                                            const SizedBox(height: 20)
+                                          ],
+                                        ),
                                       ),
                                     );
                                   });

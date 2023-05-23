@@ -9,6 +9,7 @@ import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_perfil.dart';
 import 'package:abntplaybic/shared/components/cards/card_perfil.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta_confirm.dart';
+import 'package:abntplaybic/temp/criarAtividade.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -415,6 +416,20 @@ class _PerfilPageState extends State<PerfilPage> {
                               text: "EDITAR PERFIL",
                               bgcolor: amarelo,
                             ),
+                            /*BotaoPerfil(
+                              funcaoBotao: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: ((context) =>
+                                        const CriarAtividade()),
+                                  ),
+                                );
+                              },
+                              icone: Icons.add,
+                              text: "Criar Atividade",
+                              bgcolor: verde,
+                            ),*/
                           ],
                         ),
                       ),

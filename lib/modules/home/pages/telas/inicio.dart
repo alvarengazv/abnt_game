@@ -38,7 +38,7 @@ class _InicioPageState extends State<InicioPage> {
       if (aluno.turma != null) {
         listaTopicos.sort((a, b) {
           aluno.turma!.topicosAtivos;
-          if (aluno.turma!.topicosAtivos[b["id"]]!.contains(true)) {
+          if (aluno.turma!.topicosAtivos[b["id"]]?.contains(true) ?? true) {
             return 1;
           } else {
             return -1;
@@ -103,14 +103,15 @@ class _InicioPageState extends State<InicioPage> {
         body: !loading && listaTopicos.isNotEmpty
             ? Column(
                 children: [
-                  Padding(
+                  const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
                     child: CardNotificacao(),
                   ),
                   Expanded(
                     flex: 9,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 20),
                       child: GridView.builder(
                         itemCount: listaTopicos.length,
                         gridDelegate:
@@ -129,12 +130,18 @@ class _InicioPageState extends State<InicioPage> {
                                     .read<PerfilProvider>()
                                     .perfilAtual is PerfilAluno
                                 ? (context.read<PerfilProvider>().perfilAtual
-                                            as PerfilAluno)
-                                        .turma
-                                        ?.topicosAtivos[listaTopicos[index]
-                                            ["id"]]!
-                                        .contains(true) ??
-                                    true
+                                                as PerfilAluno)
+                                            .turma !=
+                                        null
+                                    ? (context
+                                                .read<PerfilProvider>()
+                                                .perfilAtual as PerfilAluno)
+                                            .turma!
+                                            .topicosAtivos[listaTopicos[index]
+                                                ["id"]]
+                                            ?.contains(true) ??
+                                        true
+                                    : true
                                 : true,
                           );
                           /*index > 0 && index + j < listaTopicos.length

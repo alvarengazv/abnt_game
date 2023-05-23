@@ -19,26 +19,28 @@ class _AtividadePageState extends State<AtividadePage> {
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Text(
-                    widget.atividade.title,
-                    textAlign: TextAlign.center,
-                    style:
-                        const TextStyle(fontFamily: "PassionOne", fontSize: 25),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(
+                      widget.atividade.title,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                          fontFamily: "PassionOne", fontSize: 25),
+                    ),
                   ),
-                ),
-                Column(children: [
-                  ...widget.atividade.altenativas
-                      .map(
-                        (e) => AlternativaAtividade(e),
-                      )
-                      .toList()
-                ])
-              ],
+                  Column(children: [
+                    ...widget.atividade.altenativas
+                        .map(
+                          (e) => AlternativaAtividade(e),
+                        )
+                        .toList()
+                  ])
+                ],
+              ),
             ),
           ),
           const Positioned(top: 5, left: 5, child: BackButtonNormas())

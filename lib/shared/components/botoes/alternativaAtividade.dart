@@ -117,7 +117,8 @@ class AlternativaAtividade extends StatelessWidget {
               color: lilas, borderRadius: BorderRadius.circular(12)),
           margin: const EdgeInsets.symmetric(vertical: 10),
           width: size.width * .8,
-          height: size.width * .15,
+          constraints: BoxConstraints(minHeight: size.width * .15),
+          padding: const EdgeInsets.all(12),
           alignment: Alignment.center,
           child: Text(
             alternativa.value,
