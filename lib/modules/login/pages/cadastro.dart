@@ -33,7 +33,6 @@ class _CadastroPageState extends State<CadastroPage> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
-              height: size.height,
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Form(
                 key: _form,

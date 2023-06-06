@@ -29,7 +29,6 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Container(
-            height: size.height,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Form(
               key: _form,
@@ -38,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 200),
                     width: size.width * 0.5,
                     child: Image.asset(
                       "src/images/coruja_login.png",
@@ -50,172 +50,184 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: "Righteous", color: roxo, fontSize: 40),
                   ),
                   const SizedBox(height: 50),
-                  Hero(
-                    tag: "email",
-                    child: Material(
-                      child: TextFormField(
-                          controller: controller.email,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Digite um email válido";
-                            }
-                            return null;
-                          },
-                          style: const TextStyle(
-                              fontFamily: "PassionOne", fontSize: 20),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    const BorderSide(color: lilas, width: 3)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                    const BorderSide(color: lilas, width: 3)),
-                            label: const Text("Email"),
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
-                            hintText: "email@example.com",
-                          )),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Hero(
-                    tag: "senha",
-                    child: Material(
-                      child: TextFormField(
-                          controller: controller.senha,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return "Informe sua senha";
-                            }
-                            return null;
-                          },
-                          style: const TextStyle(
-                              fontFamily: "PassionOne", fontSize: 20),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    const BorderSide(color: lilas, width: 3)),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide:
-                                    const BorderSide(color: lilas, width: 3)),
-                            suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  escondeSenha = !escondeSenha;
-                                });
-                              },
-                              icon: Icon(
-                                escondeSenha
-                                    ? Icons.visibility_off
-                                    : Icons.visibility,
-                                color: roxo,
-                              ),
-                            ),
-                            label: const Text("Senha"),
-                            floatingLabelBehavior: FloatingLabelBehavior.never,
+                  Center(
+                    child: Container(
+                      constraints: const BoxConstraints(maxWidth: 500),
+                      child: Column(children: [
+                        Hero(
+                          tag: "email",
+                          child: Material(
+                            child: TextFormField(
+                                controller: controller.email,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Digite um email válido";
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(
+                                    fontFamily: "PassionOne", fontSize: 20),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  label: const Text("Email"),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                  hintText: "email@example.com",
+                                )),
                           ),
-                          obscureText: escondeSenha),
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                  Hero(
-                    tag: "botao",
-                    child: TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: primary,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(13)),
-                        fixedSize: Size(size.width * 0.65, 62),
-                      ),
-                      child: const Text(
-                        "Login",
-                        style: TextStyle(
-                            fontFamily: "PassionOne",
-                            fontSize: 32,
-                            color: Colors.white),
-                      ),
-                      onPressed: () async {
-                        CancelFunc? cancel;
-                        try {
-                          if (_form.currentState!.validate()) {
-                            cancel = BotToast.showLoading();
-                            await controller.login();
-                            if (!mounted) return;
-                            PerfilTipo? userType =
-                                await context.read<PerfilProvider>().getUser();
-                            if (!mounted) return;
-                            if (userType != null) {
-                              if (userType.index == 1) {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const HomePage()),
-                                    (route) => false);
-                              } else {
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const HomePageProf()),
-                                    (route) => false);
-                              }
-                            } else {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const TipoPerfilPage()),
-                                  (route) => false);
-                            }
+                        ),
+                        const SizedBox(
+                          height: 30,
+                        ),
+                        Hero(
+                          tag: "senha",
+                          child: Material(
+                            child: TextFormField(
+                                controller: controller.senha,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Informe sua senha";
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(
+                                    fontFamily: "PassionOne", fontSize: 20),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        escondeSenha = !escondeSenha;
+                                      });
+                                    },
+                                    icon: Icon(
+                                      escondeSenha
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      color: roxo,
+                                    ),
+                                  ),
+                                  label: const Text("Senha"),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                ),
+                                obscureText: escondeSenha),
+                          ),
+                        ),
+                        const SizedBox(height: 40),
+                        Hero(
+                          tag: "botao",
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: primary,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13)),
+                              fixedSize: Size(size.width * 0.65, 62),
+                            ),
+                            child: const Text(
+                              "Login",
+                              style: TextStyle(
+                                  fontFamily: "PassionOne",
+                                  fontSize: 32,
+                                  color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              CancelFunc? cancel;
+                              try {
+                                if (_form.currentState!.validate()) {
+                                  cancel = BotToast.showLoading();
+                                  await controller.login();
+                                  if (!mounted) return;
+                                  PerfilTipo? userType = await context
+                                      .read<PerfilProvider>()
+                                      .getUser();
+                                  if (!mounted) return;
+                                  if (userType != null) {
+                                    if (userType.index == 1) {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomePage()),
+                                          (route) => false);
+                                    } else {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const HomePageProf()),
+                                          (route) => false);
+                                    }
+                                  } else {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const TipoPerfilPage()),
+                                        (route) => false);
+                                  }
 
-                            //await Future.delayed(const Duration(seconds: 2));
-                            cancel();
-                            //FirebaseAuth.instance.signOut();
-                          }
-                        } on FirebaseAuthException catch (e) {
-                          switch (e.code) {
-                            case "user-not-found":
-                              alertaApp(context, "Email não encontrado!");
-                              break;
-                            case "wrong-password":
-                              alertaApp(context, "Senha Inválida!");
-                              break;
-                            default:
-                          }
-                          if (cancel != null) {
-                            cancel();
-                          }
-                          debugPrint(e.code);
-                        }
-                      },
+                                  //await Future.delayed(const Duration(seconds: 2));
+                                  cancel();
+                                  //FirebaseAuth.instance.signOut();
+                                }
+                              } on FirebaseAuthException catch (e) {
+                                switch (e.code) {
+                                  case "user-not-found":
+                                    alertaApp(context, "Email não encontrado!");
+                                    break;
+                                  case "wrong-password":
+                                    alertaApp(context, "Senha Inválida!");
+                                    break;
+                                  default:
+                                }
+                                if (cancel != null) {
+                                  cancel();
+                                }
+                                debugPrint(e.code);
+                              }
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(13),
+                                side: const BorderSide(color: primary)),
+                            fixedSize: Size(size.width * 0.65, 62),
+                          ),
+                          child: const Text(
+                            "Cadastre-se",
+                            style: TextStyle(
+                                fontFamily: "PassionOne",
+                                fontSize: 32,
+                                color: primary),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const CadastroPage()));
+                          },
+                        )
+                      ]),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13),
-                          side: const BorderSide(color: primary)),
-                      fixedSize: Size(size.width * 0.65, 62),
-                    ),
-                    child: const Text(
-                      "Cadastre-se",
-                      style: TextStyle(
-                          fontFamily: "PassionOne",
-                          fontSize: 32,
-                          color: primary),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const CadastroPage()));
-                    },
                   )
                 ],
               ),

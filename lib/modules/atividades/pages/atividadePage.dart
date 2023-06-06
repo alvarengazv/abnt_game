@@ -14,34 +14,64 @@ class AtividadePage extends StatefulWidget {
 class _AtividadePageState extends State<AtividadePage> {
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Scaffold(body: FutureBuilder<Atividade>(builder: (context, snap) {
       return Stack(
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width,
             child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const SizedBox(height: 80),
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Text(
-                      widget.atividade.title,
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                          fontFamily: "PassionOne", fontSize: 25),
+              child: size.width < 768
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const SizedBox(height: 80),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            widget.atividade.title,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontFamily: "PassionOne", fontSize: 25),
+                          ),
+                        ),
+                        Column(children: [
+                          ...widget.atividade.altenativas
+                              .map(
+                                (e) => AlternativaAtividade(e),
+                              )
+                              .toList()
+                        ])
+                      ],
+                    )
+                  : SizedBox(
+                      height: size.height,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            width: size.width * 0.35,
+                            padding: const EdgeInsets.all(20),
+                            child: Text(
+                              widget.atividade.title,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                  fontFamily: "PassionOne", fontSize: 25),
+                            ),
+                          ),
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ...widget.atividade.altenativas
+                                    .map(
+                                      (e) => AlternativaAtividade(e),
+                                    )
+                                    .toList()
+                              ])
+                        ],
+                      ),
                     ),
-                  ),
-                  Column(children: [
-                    ...widget.atividade.altenativas
-                        .map(
-                          (e) => AlternativaAtividade(e),
-                        )
-                        .toList()
-                  ])
-                ],
-              ),
             ),
           ),
           const Positioned(top: 5, left: 5, child: BackButtonNormas())

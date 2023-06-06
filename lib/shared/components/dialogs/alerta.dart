@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 import '../../colors.dart';
 
@@ -16,10 +14,7 @@ alertaApp(BuildContext context, String message, [String buttonText = "OK"]) {
             child: Container(
               width: size.width * 0.9,
               height: size.width * 0.6,
-              constraints: BoxConstraints(
-                minWidth: size.width * 0.9,
-                minHeight: size.width * 0.6,
-              ),
+              constraints: const BoxConstraints(maxWidth: 450, maxHeight: 250),
               padding: const EdgeInsets.only(
                   top: 10, left: 10, right: 10, bottom: 10),
               child: Column(

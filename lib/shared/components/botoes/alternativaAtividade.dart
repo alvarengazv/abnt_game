@@ -28,6 +28,11 @@ class AlternativaAtividade extends StatelessWidget {
         }
         await showModalBottomSheet(
             enableDrag: false,
+            constraints: const BoxConstraints(maxWidth: 550),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12))),
             context: context,
             isDismissible: false,
             builder: (context) => WillPopScope(
@@ -42,7 +47,8 @@ class AlternativaAtividade extends StatelessWidget {
                       onClosing: () {},
                       enableDrag: false,
                       builder: (context) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 25),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 25, horizontal: 10),
                             child: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
@@ -126,8 +132,9 @@ class AlternativaAtividade extends StatelessWidget {
           decoration: BoxDecoration(
               color: lilas, borderRadius: BorderRadius.circular(12)),
           margin: const EdgeInsets.symmetric(vertical: 10),
-          width: size.width * .8,
-          constraints: BoxConstraints(minHeight: size.width * .15),
+          width: size.width < 768 ? size.width * .8 : size.width * 0.35,
+          constraints: BoxConstraints(
+              minHeight: size.width < 768 ? size.width * .15 : 0),
           padding: const EdgeInsets.all(12),
           alignment: Alignment.center,
           child: Text(

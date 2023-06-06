@@ -1,4 +1,3 @@
-import 'package:abntplaybic/shared/colors.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
@@ -25,59 +24,119 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
     Size size = MediaQuery.of(context).size;
     return Scrollbar(
       child: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SizedBox(
-              width: size.width * 0.9,
-              child: Text(
-                widget.titulo.toUpperCase(),
-                style: const TextStyle(
-                  fontFamily: "PassionOne",
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            Container(
-              width: size.width,
-              constraints: BoxConstraints(minHeight: size.height * 0.4),
-              padding: const EdgeInsets.only(top: 30),
-              child: Align(
-                alignment: Alignment.center,
-                child: widget.corpo,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: Container(
-                padding: const EdgeInsets.all(8),
-                constraints: BoxConstraints(
-                  maxWidth: size.width * 0.9,
-                  minHeight: size.height * 0.19,
-                ),
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
+          child: size.width < 768
+              ? Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.9,
+                      child: Text(
+                        widget.titulo.toUpperCase(),
+                        style: const TextStyle(
+                          fontFamily: "PassionOne",
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Expanded(
-                  child: AutoSizeText(
-                    widget.descricao,
-                    style: const TextStyle(
-                      fontFamily: "Montserrat",
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
+                    Container(
+                      width: size.width,
+                      constraints: BoxConstraints(minHeight: size.height * 0.4),
+                      padding: const EdgeInsets.only(top: 30),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: widget.corpo,
+                      ),
                     ),
-                    textAlign: TextAlign.justify,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        constraints: BoxConstraints(
+                          maxWidth: size.width * 0.9,
+                          minHeight: size.height * 0.19,
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.black,
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Expanded(
+                          child: AutoSizeText(
+                            widget.descricao,
+                            style: const TextStyle(
+                              fontFamily: "Montserrat",
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
+                  children: [
+                    SizedBox(
+                      width: size.width * 0.4,
+                      child: Text(
+                        widget.titulo.toUpperCase(),
+                        style: const TextStyle(
+                          fontFamily: "PassionOne",
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            width: size.width * 0.35,
+                            constraints:
+                                BoxConstraints(minHeight: size.height * 0.4),
+                            padding: const EdgeInsets.only(top: 30),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: widget.corpo,
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              constraints: BoxConstraints(
+                                maxWidth: size.width * 0.45,
+                                minHeight: size.height * 0.19,
+                              ),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.black,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Expanded(
+                                child: AutoSizeText(
+                                  widget.descricao,
+                                  style: const TextStyle(
+                                    fontFamily: "Montserrat",
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.justify,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )),
     );
   }
 }

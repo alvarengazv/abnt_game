@@ -114,12 +114,17 @@ class _InicioPageState extends State<InicioPage> {
                           horizontal: 20, vertical: 20),
                       child: GridView.builder(
                         itemCount: listaTopicos.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                childAspectRatio: 1 / 1.28,
-                                crossAxisCount: 2,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 20),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 1 / 1.28,
+                            crossAxisCount:
+                                (MediaQuery.of(context).size.width / 200)
+                                            .round() <
+                                        2
+                                    ? 2
+                                    : (MediaQuery.of(context).size.width / 200)
+                                        .round(),
+                            crossAxisSpacing: 20,
+                            mainAxisSpacing: 20),
                         /*itemCount: listaTopicos.length % 2 == 0
                             ? listaTopicos.length ~/ 2
                             : listaTopicos.length ~/ 2 + 1,*/

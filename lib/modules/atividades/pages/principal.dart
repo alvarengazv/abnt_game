@@ -127,6 +127,8 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                               print(listaSubTopicos[index]["id"]);
 
                               showModalBottomSheet(
+                                  constraints:
+                                      const BoxConstraints(maxWidth: 700),
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
                                       top: Radius.circular(25),
@@ -164,6 +166,10 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                               child: Container(
                                                 width: size.width * 0.3,
                                                 height: size.width * 0.3,
+                                                constraints:
+                                                    const BoxConstraints(
+                                                        maxWidth: 100,
+                                                        maxHeight: 100),
                                                 decoration: const BoxDecoration(
                                                   color: lilas,
                                                 ),
