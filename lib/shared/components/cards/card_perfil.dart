@@ -1,7 +1,5 @@
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CardPerfil extends StatefulWidget {
   final String title;
@@ -23,7 +21,7 @@ class _CardPerfilState extends State<CardPerfil> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Container(
-      width: size.width * 0.4,
+      width: size.width < 768 ? size.width * 0.4 : size.width * 0.28,
       height: size.height * 0.11,
       decoration: BoxDecoration(
         color: widget.bgcolor,
