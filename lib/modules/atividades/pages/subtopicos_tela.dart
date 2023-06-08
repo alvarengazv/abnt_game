@@ -10,7 +10,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../../perfil/controller/perfilProvider.dart';
@@ -27,7 +26,8 @@ class SubTopicosPage extends StatefulWidget {
   State<SubTopicosPage> createState() => _SubTopicosPageState();
 }
 
-class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProviderStateMixin{
+class _SubTopicosPageState extends State<SubTopicosPage>
+    with TickerProviderStateMixin {
   final PageController _pageController = PageController(initialPage: 0);
   final TopicosController _topicosController = TopicosController();
   final TickerProvider provider = TickerProviderImpl();
@@ -40,15 +40,15 @@ class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProvid
   double indicatorSize = 16;
   double chevronSize = 32;
 
-
   @override
   void initState() {
     super.initState();
+    _tabController = TabController(length: 1, vsync: this);
     getTopicos();
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _topicosController.dispose();
     _pageController.dispose();
     super.dispose();
@@ -67,16 +67,16 @@ class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProvid
     _tabController = TabController(
         length: listaTemas.isNotEmpty ? listaTemas.length : 1, vsync: this);
 
-    if(listaTemas.length >= 10){
+    if (listaTemas.length >= 10) {
       indicatorSize = 10;
       chevronSize = 28;
     }
 
-    if(listaTemas.length >= 12){
+    if (listaTemas.length >= 12) {
       indicatorSize = 6;
       chevronSize = 28;
     }
-    
+
     if (mounted) {
       setState(() {
         loading = false;
@@ -92,212 +92,247 @@ class _SubTopicosPageState extends State<SubTopicosPage> with SingleTickerProvid
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Column(
+        body: Stack(
       children: [
-        const BackButtonNormas(),
-        Expanded(
-          child: !loading && listaTemas.isNotEmpty
-              ? Column(
-                  children: [
-                    Expanded(
-                      flex: 8,
-                      child: PageView.builder(
-                          controller: _pageController,
-                          onPageChanged: (int page) {
-                            setState(() {
-                              selectedIndex = page;
-                              _tabController!.index = page;
-                            });
-                          },
-                          itemCount: listaTemas.length,
-                          itemBuilder: (context, index) {
-                            return TelaSubtopicos(
-                              titulo: listaTemas.elementAt(index).titulo,
-                              corpo: listaTemas
-                                      .elementAt(index)
-                                      .conteudo
-                                      .toString()
-                                      .startsWith("gs:")
-                                  ? FutureBuilder<String>(
-                                      future: images[index],
-                                      builder: (context, snap) {
-                                        if (snap.hasData) {
-                                          return SizedBox(
-                                              width: size.width * 0.75,
-                                              child: Image.network(snap.data!));
-                                        } else {
-                                          return Center(
-                                            child: SizedBox(
-                                              width: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.5,
-                                              child:
-                                                  const LinearProgressIndicator(
-                                                color: primary,
-                                                backgroundColor: lilas,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                      })
-                                  : Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          horizontal: 20),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            listaTemas
-                                                .elementAt(index)
-                                                .conteudo
-                                                .replaceAll("\\n", "\n"),
-                                            style: const TextStyle(
-                                                fontFamily: "PassionOne",
-                                                fontSize: 35),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                              descricao: listaTemas
-                                  .elementAt(index)
-                                  .descricao
-                                  .replaceAll("\\n", "\n"),
-                            );
-                          }),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
-                        child: SizedBox(
-                          width: size.width,
-                          height: size.height * 0.06,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
+        !loading && listaTemas.isNotEmpty
+            ? Column(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: PageView.builder(
+                        controller: _pageController,
+                        onPageChanged: (int page) {
+                          setState(() {
+                            selectedIndex = page;
+                            _tabController!.index = page;
+                          });
+                        },
+                        itemCount: listaTemas.length,
+                        itemBuilder: (context, index) {
+                          return Column(
                             children: [
-                              IconButton(
-                                onPressed: () {
-                                  if (selectedIndex + 1 > 1) {
-                                    _pageController.animateToPage(
-                                        selectedIndex - 1,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        curve: Curves.ease);
-                                    setState(() {
-                                      _tabController!.index = selectedIndex;
-                                    });
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.chevron_left,
-                                  size: chevronSize,
-                                  color: selectedIndex + 1 > 1
-                                      ? primary
-                                      : Colors.transparent,
+                              AppBar(
+                                toolbarHeight: 50,
+                                centerTitle: true,
+                                backgroundColor: Colors.transparent,
+                                elevation: 0,
+                                leading: null,
+                                title: Text(
+                                  listaTemas
+                                      .elementAt(index)
+                                      .titulo
+                                      .toUpperCase(),
+                                  style: const TextStyle(
+                                      fontFamily: "PassionOne",
+                                      fontSize: 36,
+                                      fontWeight: FontWeight.bold,
+                                      color: preto),
+                                  textAlign: TextAlign.center,
                                 ),
-                                splashColor: selectedIndex + 1 > 1
-                                    ? null
-                                    : Colors.transparent,
-                                highlightColor: selectedIndex + 1 > 1
-                                    ? null
-                                    : Colors.transparent,
                               ),
-                              TabPageSelector(
-                                controller: _tabController,
-                                color: lilas,
-                                selectedColor: roxo,
-                                borderStyle: BorderStyle.none,
-                                indicatorSize: indicatorSize,
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  if (selectedIndex + 1 <
-                                      _tabController!.length) {
-                                    _pageController.animateToPage(
-                                        selectedIndex + 1,
-                                        duration:
-                                            const Duration(milliseconds: 500),
-                                        curve: Curves.ease);
-                                    setState(() {
-                                      _tabController!.index = selectedIndex;
-                                    });
-                                  } else {
-                                    var perfil = context
-                                        .read<PerfilProvider>()
-                                        .perfilAtual;
-                                    var ganhaXP = true;
-                                    if (perfil is PerfilAluno) {
-                                      perfil.marcaAula(
-                                          widget.topicoAtual["idTopico"],
-                                          widget.topicoAtual["id"]);
-                                      bool aulaFeita = perfil.feitos?[widget
-                                                      .topicoAtual["idTopico"]]
-                                                  ?[widget.topicoAtual["id"]]
-                                              ?["aula"] ??
-                                          false;
-                                      if (aulaFeita) {
-                                        ganhaXP = false;
-                                      }
-                                    }
-
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) => ganhaXP
-                                                ? GanhaXP(
-                                                    xpGanho: 5,
-                                                    porCompletar:
-                                                        "mais uma aula!",
-                                                    nextRoute: MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            FinalLicaoPage(
-                                                                widget.topicoAtual[
-                                                                    "idTopico"],
-                                                                widget.topicoAtual[
-                                                                    "id"])),
-                                                  )
-                                                : FinalLicaoPage(
-                                                    widget.topicoAtual[
-                                                        "idTopico"],
-                                                    widget.topicoAtual["id"])));
-                                  }
-                                },
-                                icon: Icon(Icons.chevron_right,
-                                    size: chevronSize, color: primary),
-                                splashColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
+                              Expanded(
+                                child: TelaSubtopicos(
+                                  titulo: listaTemas.elementAt(index).titulo,
+                                  corpo: listaTemas
+                                          .elementAt(index)
+                                          .conteudo
+                                          .toString()
+                                          .startsWith("gs:")
+                                      ? FutureBuilder<String>(
+                                          future: images[index],
+                                          builder: (context, snap) {
+                                            if (snap.hasData) {
+                                              return Container(
+                                                  constraints:
+                                                      const BoxConstraints(
+                                                          maxWidth: 550),
+                                                  width: size.width * 0.75,
+                                                  child: Image.network(
+                                                      snap.data!));
+                                            } else {
+                                              return Center(
+                                                child: SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.5,
+                                                  child:
+                                                      const LinearProgressIndicator(
+                                                    color: primary,
+                                                    backgroundColor: lilas,
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          })
+                                      : Container(
+                                          margin: const EdgeInsets.symmetric(
+                                              horizontal: 20),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                listaTemas
+                                                    .elementAt(index)
+                                                    .conteudo
+                                                    .replaceAll("\\n", "\n"),
+                                                style: const TextStyle(
+                                                    fontFamily: "PassionOne",
+                                                    fontSize: 35),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                  descricao: listaTemas
+                                      .elementAt(index)
+                                      .descricao
+                                      .replaceAll("\\n", "\n"),
+                                ),
                               ),
                             ],
+                          );
+                        }),
+                  ),
+                ],
+              )
+            : listaTemas.isEmpty && !loading
+                ? Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 20, vertical: size.height * 0.36),
+                    child: const AutoSizeText(
+                      "Não há tema cadastrado com este nome!",
+                      maxLines: 1,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "PassionOne",
+                          fontSize: 36,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  )
+                : Center(
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.5,
+                      child: const LinearProgressIndicator(
+                        color: primary,
+                        backgroundColor: lilas,
+                      ),
+                    ),
+                  ),
+        const Positioned(top: 10, child: BackButtonNormas()),
+        _tabController != null
+            ? Positioned(
+                bottom: 3,
+                left: 3,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 10, 40, 0),
+                  child: SizedBox(
+                    width: size.width,
+                    height: size.height * 0.06,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            onPressed: () {
+                              if (selectedIndex + 1 > 1) {
+                                _pageController.animateToPage(selectedIndex - 1,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.ease);
+                                setState(() {
+                                  _tabController!.index = selectedIndex;
+                                });
+                              }
+                            },
+                            icon: Icon(
+                              Icons.chevron_left,
+                              size: chevronSize,
+                              color: selectedIndex + 1 > 1
+                                  ? primary
+                                  : Colors.transparent,
+                            ),
+                            splashColor: selectedIndex + 1 > 1
+                                ? null
+                                : Colors.transparent,
+                            highlightColor: selectedIndex + 1 > 1
+                                ? null
+                                : Colors.transparent,
                           ),
                         ),
-                      ),
-                    ),
-                  ],
-                )
-              : listaTemas.isEmpty && !loading
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 20, vertical: size.height * 0.36),
-                      child: const AutoSizeText(
-                        "Não há tema cadastrado com este nome!",
-                        maxLines: 1,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: "PassionOne",
-                            fontSize: 36,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  : Center(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: const LinearProgressIndicator(
-                          color: primary,
-                          backgroundColor: lilas,
+                        Expanded(
+                          flex: 2,
+                          child: Center(
+                            child: TabPageSelector(
+                              controller: _tabController,
+                              color: lilas,
+                              selectedColor: roxo,
+                              borderStyle: BorderStyle.none,
+                              indicatorSize: indicatorSize,
+                            ),
+                          ),
                         ),
-                      ),
+                        Expanded(
+                          flex: 1,
+                          child: IconButton(
+                            onPressed: () {
+                              if (selectedIndex + 1 < _tabController!.length) {
+                                _pageController.animateToPage(selectedIndex + 1,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.ease);
+                                setState(() {
+                                  _tabController!.index = selectedIndex;
+                                });
+                              } else {
+                                var perfil =
+                                    context.read<PerfilProvider>().perfilAtual;
+                                var ganhaXP = true;
+                                if (perfil is PerfilAluno) {
+                                  perfil.marcaAula(
+                                      widget.topicoAtual["idTopico"],
+                                      widget.topicoAtual["id"]);
+                                  bool aulaFeita = perfil.feitos?[widget
+                                                  .topicoAtual["idTopico"]]
+                                              ?[widget.topicoAtual["id"]]
+                                          ?["aula"] ??
+                                      false;
+                                  if (aulaFeita) {
+                                    ganhaXP = false;
+                                  }
+                                }
+
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) => ganhaXP
+                                            ? GanhaXP(
+                                                xpGanho: 5,
+                                                porCompletar: "mais uma aula!",
+                                                nextRoute: MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        FinalLicaoPage(
+                                                            widget.topicoAtual[
+                                                                "idTopico"],
+                                                            widget.topicoAtual[
+                                                                "id"])),
+                                              )
+                                            : FinalLicaoPage(
+                                                widget.topicoAtual["idTopico"],
+                                                widget.topicoAtual["id"])));
+                              }
+                            },
+                            icon: Icon(Icons.chevron_right,
+                                size: chevronSize, color: primary),
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                          ),
+                        ),
+                      ],
                     ),
-        )
+                  ),
+                ),
+              )
+            : Container(),
       ],
     ));
   }

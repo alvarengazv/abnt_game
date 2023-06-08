@@ -9,6 +9,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -88,8 +89,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                               builder: (context) => Dialog(
                                     backgroundColor: branco,
                                     shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(13),
+                                        borderRadius: BorderRadius.circular(13),
                                         side: const BorderSide(
                                             color: primary, width: 3)),
                                     child: Container(
@@ -136,11 +136,10 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                                       icon: const Icon(
                                                           Icons.camera),
                                                       color: branco,
-                                                      padding:
-                                                          const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal: 20,
-                                                              vertical: 20),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 20),
                                                       onPressed: () async {
                                                         var file = await picker
                                                             .pickImage(
@@ -148,8 +147,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                                                     ImageSource
                                                                         .camera);
                                                         newImage = file;
-                                                        Navigator.pop(
-                                                            context);
+                                                        Navigator.pop(context);
                                                       },
                                                     ),
                                                   ),
@@ -177,19 +175,18 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                                       icon: const Icon(
                                                           Icons.photo),
                                                       color: branco,
-                                                      padding:
-                                                          const EdgeInsets
-                                                                  .symmetric(
-                                                              horizontal: 20,
-                                                              vertical: 20),
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 20,
+                                                          vertical: 20),
                                                       onPressed: () async {
                                                         var file = await picker
                                                             .pickImage(
-                                                                source: ImageSource
-                                                                    .gallery);
+                                                                source:
+                                                                    ImageSource
+                                                                        .gallery);
                                                         newImage = file;
-                                                        Navigator.pop(
-                                                            context);
+                                                        Navigator.pop(context);
                                                       },
                                                     ),
                                                   ),
@@ -220,19 +217,22 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       width: 160,
                                       height: 160,
                                       decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(6),
+                                        borderRadius: BorderRadius.circular(6),
                                         color: lilas,
                                       ),
                                       child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(6),
-                                        child: Image.file(
-                                          File(
-                                            newImage!.path,
-                                          ),
-                                          fit: BoxFit.cover,
-                                        ),
+                                        borderRadius: BorderRadius.circular(6),
+                                        child: kIsWeb
+                                            ? Image.network(
+                                                newImage!.path,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Image.file(
+                                                File(
+                                                  newImage!.path,
+                                                ),
+                                                fit: BoxFit.cover,
+                                              ),
                                       ),
                                     ),
                                   )
@@ -244,35 +244,39 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       color: lilas,
                                     ),
                                     child: context
-                                  .read<PerfilProvider>()
-                                  .perfilAtual
-                                  ?.fotoPerfil ==
-                              null
-                          ? FutureBuilder<String?>(
-                              future: getImage(),
-                              builder: (context, snap) {
-                                return snap.hasData
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(6),
-                                        child: Image.network(
-                                            fit: BoxFit.cover,
-                                            context
-                                                    .read<PerfilProvider>()
-                                                    .perfilAtual
-                                                    ?.fotoPerfil ??
-                                                snap.data!),
-                                      )
-                                    : Container();
-                              }) : ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(6),
-                                        child: Image.network(
-                                          context
-                                              .read<PerfilProvider>()
-                                              .perfilAtual!
-                                              .fotoPerfil!,
-                                          fit: BoxFit.cover,
-                                        )),
+                                                .read<PerfilProvider>()
+                                                .perfilAtual
+                                                ?.fotoPerfil ==
+                                            null
+                                        ? FutureBuilder<String?>(
+                                            future: getImage(),
+                                            builder: (context, snap) {
+                                              return snap.hasData
+                                                  ? ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              6),
+                                                      child: Image.network(
+                                                          fit: BoxFit.cover,
+                                                          context
+                                                                  .read<
+                                                                      PerfilProvider>()
+                                                                  .perfilAtual
+                                                                  ?.fotoPerfil ??
+                                                              snap.data!),
+                                                    )
+                                                  : Container();
+                                            })
+                                        : ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(6),
+                                            child: Image.network(
+                                              context
+                                                  .read<PerfilProvider>()
+                                                  .perfilAtual!
+                                                  .fotoPerfil!,
+                                              fit: BoxFit.cover,
+                                            )),
                                   ),
                             Align(
                               alignment: Alignment.bottomRight,
@@ -344,7 +348,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       if (value == null || value.isEmpty) {
                                         return "Digite um email válido";
                                       }
-                      
+
                                       if (!emailExp.hasMatch(value)) {
                                         return "Email inválido";
                                       }

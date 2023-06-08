@@ -80,27 +80,16 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
               : Column(
                   children: [
                     SizedBox(
-                      width: size.width * 0.4,
-                      child: Text(
-                        widget.titulo.toUpperCase(),
-                        style: const TextStyle(
-                          fontFamily: "PassionOne",
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(20),
+                      height: size.height - 50,
+                      //padding: const EdgeInsets.all(20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
+                          SizedBox(
                             width: size.width * 0.35,
-                            constraints:
-                                BoxConstraints(minHeight: size.height * 0.4),
-                            padding: const EdgeInsets.only(top: 30),
+                            //constraints:
+                            //BoxConstraints(minHeight: size.height * 0.4),
+                            //padding: const EdgeInsets.only(top: 30),
                             child: Align(
                               alignment: Alignment.center,
                               child: widget.corpo,
@@ -119,16 +108,14 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
                                     color: Colors.black,
                                   ),
                                   borderRadius: BorderRadius.circular(10)),
-                              child: Expanded(
-                                child: AutoSizeText(
-                                  widget.descricao,
-                                  style: const TextStyle(
-                                    fontFamily: "Montserrat",
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  textAlign: TextAlign.justify,
+                              child: AutoSizeText(
+                                widget.descricao,
+                                style: const TextStyle(
+                                  fontFamily: "Montserrat",
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
+                                textAlign: TextAlign.justify,
                               ),
                             ),
                           ),
