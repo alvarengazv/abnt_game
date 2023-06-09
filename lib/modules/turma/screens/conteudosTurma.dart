@@ -24,7 +24,13 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
             .then((value) => value.docs);
 
     checkeds = widget.conteudos ?? {for (var value in docs) value.id: []};
-    // checkeds = List.generate(docs.length, (index) => []);
+    if (widget.conteudos != null) {
+      for (var value in docs) {
+        checkeds[value.id] = widget.conteudos![value.id] ?? [];
+      }
+    } else {
+      checkeds = {for (var value in docs) value.id: []};
+    }
     print(checkeds);
     getSubTopicos(docs);
     return docs;
@@ -38,6 +44,7 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
           .collection("topicos")
           .doc(docs[i].id)
           .collection("subTopicos")
+          .orderBy("indice")
           .get()
           .then((value) {
         if (widget.conteudos == null) {
@@ -92,8 +99,9 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
                                     onSurface: branco)),
                             child: ExpansionTile(
                               onExpansionChanged: (val) {
-                                print(checkeds[element.id]!
-                                    .every((element) => element == true));
+                                print(element.data());
+                                // print(checkeds[element.id]!
+                                //     .every((element) => element == true));
                               },
                               title: Container(
                                   child: Row(
@@ -104,7 +112,8 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
                                               BorderRadius.circular(4)),
                                       activeColor: lilas,
                                       tristate: true,
-                                      value: checkeds[element.id]!.isEmpty
+                                      value: checkeds[element.id]?.isEmpty ??
+                                              true
                                           ? false
                                           : checkeds[element.id]!.every(
                                                   (element) => element == true)
@@ -116,6 +125,7 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
                                                   : null,
                                       onChanged: (val) {
                                         setState(() {
+                                          if (checkeds[element.id] == null) {}
                                           checkeds[element.id] =
                                               checkeds[element.id]!
                                                   .map((e) => val ?? false)
@@ -123,7 +133,22 @@ class ConteudoTurmaState extends State<ConteudoTurma> {
                                         });
                                       }),
                                   AutoSizeText(
-                                    element["titulo"].toString().split(" ").length <= 2 ? element["titulo"] : element["titulo"].toString().substring(element["titulo"].toString().indexOf(' ', element["titulo"].toString().indexOf(' ') + 1)),
+                                    element["titulo"]
+                                                .toString()
+                                                .split(" ")
+                                                .length <=
+                                            2
+                                        ? element["titulo"]
+                                        : element["titulo"]
+                                            .toString()
+                                            .substring(element["titulo"]
+                                                .toString()
+                                                .indexOf(
+                                                    ' ',
+                                                    element["titulo"]
+                                                            .toString()
+                                                            .indexOf(' ') +
+                                                        1)),
                                     maxLines: 1,
                                   )
                                 ],

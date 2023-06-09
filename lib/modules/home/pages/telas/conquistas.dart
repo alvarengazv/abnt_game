@@ -1,20 +1,9 @@
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/modules/home/models/model_conquista.dart';
-import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
-import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/cards/card_conquista.dart';
 import 'package:abntplaybic/shared/funcoes_conquistas.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:im_stepper/main.dart';
-import 'package:im_stepper/stepper.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import 'package:provider/provider.dart';
 
 class ConquistasPage extends StatefulWidget {
   const ConquistasPage({super.key});
@@ -37,27 +26,28 @@ class _ConquistasPageState extends State<ConquistasPage> {
     super.initState();
   }
 
-  getLista() async{
+  getLista() async {
     if (mounted) {
       setState(() {
         loading = true;
       });
     }
-    
+
     var listaTopicos = await _controllerTopicos.getTopicos();
     Map<String, List> mapTopicos = {};
     for (var topico in listaTopicos) {
       var listaSubTopicos =
-        await _controllerTopicos.getSubTopicos(topico['id']!);
-        mapTopicos[topico['id']!] = listaSubTopicos;
+          await _controllerTopicos.getSubTopicos(topico['id']!);
+      mapTopicos[topico['id']!] = listaSubTopicos;
     }
-    
+
     if (mounted) {
-      listaComProgresso = getListaComProgresso(context, listaTopicos, mapTopicos);
-      listaSemProgresso = getListaSemProgresso(context, listaTopicos, mapTopicos);
+      listaComProgresso =
+          getListaComProgresso(context, listaTopicos, mapTopicos);
+      listaSemProgresso =
+          getListaSemProgresso(context, listaTopicos, mapTopicos);
       percProgress = getProgressoPorcentagem(context, listaTopicos, mapTopicos);
 
-    
       setState(() {
         loading = false;
       });
@@ -107,7 +97,7 @@ class _ConquistasPageState extends State<ConquistasPage> {
                                   ),
                                   Text(
                                     "Progresso Total: $percProgress%",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: primary,
                                       fontFamily: "PassionOne",
                                       fontSize: 18,
@@ -149,13 +139,13 @@ class _ConquistasPageState extends State<ConquistasPage> {
                             ),
                           ],
                         )
-                      : SizedBox(),
+                      : const SizedBox(),
                   listaSemProgresso.isEmpty
-                      ? SizedBox()
+                      ? const SizedBox()
                       : Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
+                            const Padding(
                               padding: EdgeInsets.fromLTRB(10, 10, 0, 18),
                               child: Text(
                                 "CONQUISTAS AINDA NÃO ALCANÇADAS",
