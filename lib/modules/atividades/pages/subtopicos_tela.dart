@@ -219,7 +219,7 @@ class _SubTopicosPageState extends State<SubTopicosPage>
                       ),
                     ),
                   ),
-        const Positioned(top: 10, child: BackButtonNormas()),
+        Positioned(top: 10, child: BackButtonNormas()),
         _tabController != null
             ? Positioned(
                 bottom: 3,

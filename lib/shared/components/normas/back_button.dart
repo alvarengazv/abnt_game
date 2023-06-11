@@ -1,10 +1,9 @@
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class BackButtonNormas extends StatelessWidget {
-  const BackButtonNormas({super.key});
+  Function? onPressed;
+  BackButtonNormas({super.key, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,14 @@ class BackButtonNormas extends StatelessWidget {
           ),
           child: Center(
             child: IconButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () {
+                if (onPressed != null) {
+                  print("function");
+                  onPressed!();
+                } else {
+                  Navigator.pop(context);
+                }
+              },
               color: primary,
               icon: const Icon(
                 Icons.arrow_back,

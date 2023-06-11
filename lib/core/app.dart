@@ -1,4 +1,5 @@
 import 'package:abntplaybic/core/redirectPage.dart';
+import 'package:abntplaybic/modules/atividades/controller/atividadeController.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => PerfilProvider())],
+      providers: [
+        ChangeNotifierProvider(create: (_) => PerfilProvider()),
+        ChangeNotifierProvider(create: (_) => AtividadeController())
+      ],
       child: MaterialApp(
         builder: BotToastInit(),
         navigatorObservers: [BotToastNavigatorObserver()],

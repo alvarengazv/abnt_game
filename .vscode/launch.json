@@ -21,11 +21,12 @@
             "request": "launch",
             "type": "dart",
             "args": [
-                "-dweb-server",
-                "--web-port=8080",
+                "-dchrome",
+                // "-dweb-server",
+                // "--web-port=8080",
                 "--web-enable-expression-evaluation",
                 "--web-renderer=html",
-                "--web-hostname=0.0.0.0"
+                // "--web-hostname=0.0.0.0"
             ],
 
         },

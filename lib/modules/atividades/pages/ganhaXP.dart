@@ -82,9 +82,7 @@ class _GanhaXPState extends State<GanhaXP> {
         Positioned(
             top: 5,
             left: 5,
-            child: widget.nextRoute == null
-                ? const BackButtonNormas()
-                : Container())
+            child: widget.nextRoute == null ? BackButtonNormas() : Container())
       ],
     ));
   }

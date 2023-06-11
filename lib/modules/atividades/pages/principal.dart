@@ -1,3 +1,4 @@
+import 'package:abntplaybic/modules/atividades/controller/atividadeController.dart';
 import 'package:abntplaybic/modules/atividades/pages/carregaAtividadesPage.dart';
 import 'package:abntplaybic/modules/atividades/pages/subtopicos_tela.dart';
 import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
@@ -190,9 +191,23 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                           size.width * 0.9, 50),
                                                     ),
                                                     child: Text(
-                                                      feitoTarefa
-                                                          ? "Refazer tarefa"
-                                                          : "Iniciar Tarefa",
+                                                      context
+                                                                      .read<
+                                                                          AtividadeController>()
+                                                                      .idSubTopico ==
+                                                                  listaSubTopicos[
+                                                                          index]
+                                                                      ["id"] &&
+                                                              context
+                                                                      .read<
+                                                                          AtividadeController>()
+                                                                      .idTopico ==
+                                                                  widget.data[
+                                                                      "id"]
+                                                          ? "Continuar Tarefa"
+                                                          : feitoTarefa
+                                                              ? "Refazer tarefa"
+                                                              : "Iniciar Tarefa",
                                                       style: const TextStyle(
                                                           fontFamily:
                                                               "PassionOne",

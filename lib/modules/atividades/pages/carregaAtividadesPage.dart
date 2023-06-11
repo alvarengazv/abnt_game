@@ -15,34 +15,33 @@ class CarregaAtividadesPage extends StatefulWidget {
 class _CarregaAtividadesPageState extends State<CarregaAtividadesPage> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<AtividadeController>(
-      create: (context) =>
-          AtividadeController(widget.idTopico, widget.idSubTopicos),
-      builder: (context, child) => FutureBuilder(
-          future: context.read<AtividadeController>().getAtividades(),
-          builder: (context, snap) {
-            if (snap.connectionState == ConnectionState.done) {
-              return AtividadePage(
-                  context.watch<AtividadeController>().atividadeAtual!
-                    ..altenativas.shuffle());
-            }
-            return Scaffold(
-              body: Column(
-                children: [
-                  const Text("Carregando..."),
-                  Center(
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: const LinearProgressIndicator(
-                        color: primary,
-                        backgroundColor: lilas,
-                      ),
+    return Consumer<AtividadeController>(
+      builder: (context, turma, child) => FutureBuilder(
+        future: turma.getAtividades(widget.idTopico, widget.idSubTopicos),
+        builder: (context, snap) {
+          if (snap.connectionState == ConnectionState.done) {
+            return AtividadePage(
+                context.watch<AtividadeController>().atividadeAtual!
+                  ..altenativas.shuffle());
+          }
+          return Scaffold(
+            body: Column(
+              children: [
+                const Text("Carregando..."),
+                Center(
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: const LinearProgressIndicator(
+                      color: primary,
+                      backgroundColor: lilas,
                     ),
                   ),
-                ],
-              ),
-            );
-          }),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }
