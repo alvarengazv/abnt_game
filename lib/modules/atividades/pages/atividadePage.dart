@@ -19,19 +19,44 @@ class _AtividadePageState extends State<AtividadePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Scaffold(body: FutureBuilder<Atividade>(builder: (context, snap) {
-      return SafeArea(
-        child: Stack(
-          children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: SingleChildScrollView(
-                child: size.width < 768
-                    ? Column(
+    return Scaffold(
+        body: SafeArea(
+      child: Stack(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: SingleChildScrollView(
+              child: size.width < 768
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        const SizedBox(height: 80),
+                        Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Text(
+                            widget.atividade.title,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontFamily: "PassionOne", fontSize: 25),
+                          ),
+                        ),
+                        Column(children: [
+                          ...widget.atividade.altenativas
+                              .map(
+                                (e) => AlternativaAtividade(e),
+                              )
+                              .toList()
+                        ])
+                      ],
+                    )
+                  : SizedBox(
+                      height: size.height,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          const SizedBox(height: 80),
-                          Padding(
+                          Container(
+                            width: size.width * 0.35,
                             padding: const EdgeInsets.all(20),
                             child: Text(
                               widget.atividade.title,
@@ -40,135 +65,106 @@ class _AtividadePageState extends State<AtividadePage> {
                                   fontFamily: "PassionOne", fontSize: 25),
                             ),
                           ),
-                          Column(children: [
-                            ...widget.atividade.altenativas
-                                .map(
-                                  (e) => AlternativaAtividade(e),
-                                )
-                                .toList()
-                          ])
+                          Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                ...widget.atividade.altenativas
+                                    .map(
+                                      (e) => AlternativaAtividade(e),
+                                    )
+                                    .toList()
+                              ])
                         ],
-                      )
-                    : SizedBox(
-                        height: size.height,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Container(
-                              width: size.width * 0.35,
-                              padding: const EdgeInsets.all(20),
-                              child: Text(
-                                widget.atividade.title,
-                                textAlign: TextAlign.center,
-                                style: const TextStyle(
-                                    fontFamily: "PassionOne", fontSize: 25),
-                              ),
-                            ),
-                            Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ...widget.atividade.altenativas
-                                      .map(
-                                        (e) => AlternativaAtividade(e),
-                                      )
-                                      .toList()
-                                ])
-                          ],
-                        ),
                       ),
-              ),
+                    ),
             ),
-            Positioned(
-                top: 5,
-                left: 5,
-                child: BackButtonNormas(
-                  onPressed: () async {
-                    print("function2");
-                    await showDialog(
-                        context: context,
-                        //barrierDismissible: false,
-                        builder: (context) => Dialog(
-                              child: Container(
-                                  width: size.width * 0.9,
-                                  height: size.width * 0.6,
-                                  constraints: const BoxConstraints(
-                                      maxHeight: 250, maxWidth: 450),
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      const AutoSizeText(
-                                        "Deseja pausar o jogo?",
-                                        style: TextStyle(
-                                            color: primary,
-                                            fontSize: 30,
-                                            fontFamily: "BebasNeue"),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          TextButton(
-                                            style: TextButton.styleFrom(
-                                              padding:
-                                                  const EdgeInsetsDirectional
-                                                          .symmetric(
-                                                      horizontal: 20,
-                                                      vertical: 12),
-                                              backgroundColor: primary,
-                                              maximumSize: const Size(200, 50),
-                                              shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          12)),
-                                            ),
+          ),
+          Positioned(
+              top: 5,
+              left: 5,
+              child: BackButtonNormas(
+                onPressed: () async {
+                  print("function2");
+                  await showDialog(
+                      context: context,
+                      //barrierDismissible: false,
+                      builder: (context) => Dialog(
+                            child: Container(
+                                width: size.width * 0.9,
+                                height: size.width * 0.6,
+                                constraints: const BoxConstraints(
+                                    maxHeight: 250, maxWidth: 450),
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    const AutoSizeText(
+                                      "Deseja pausar o jogo?",
+                                      style: TextStyle(
+                                          color: primary,
+                                          fontSize: 30,
+                                          fontFamily: "BebasNeue"),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            padding: const EdgeInsetsDirectional
+                                                    .symmetric(
+                                                horizontal: 20, vertical: 12),
+                                            backgroundColor: primary,
+                                            maximumSize: const Size(200, 50),
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                          ),
+                                          onPressed: () {
+                                            context
+                                                .read<AtividadeController>()
+                                                .pausar();
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          },
+                                          child: const Text("Pausar",
+                                              style: TextStyle(
+                                                  color: branco,
+                                                  fontFamily: "Righteous")),
+                                        ),
+                                        TextButton(
                                             onPressed: () {
                                               context
                                                   .read<AtividadeController>()
-                                                  .pausar();
+                                                  .limpar();
                                               Navigator.pop(context);
                                               Navigator.pop(context);
                                             },
-                                            child: const Text("Pausar",
-                                                style: TextStyle(
-                                                    color: branco,
-                                                    fontFamily: "Righteous")),
-                                          ),
-                                          TextButton(
-                                              onPressed: () {
-                                                context
-                                                    .read<AtividadeController>()
-                                                    .limpar();
-                                                Navigator.pop(context);
-                                                Navigator.pop(context);
-                                              },
-                                              child: const Text(
-                                                "Sair",
-                                                style: TextStyle(
-                                                    color: primary,
-                                                    fontFamily: "Righteous"),
-                                              ))
-                                        ],
-                                      ),
-                                    ],
-                                  )),
-                            ));
-                  },
-                )),
-            Positioned(
-                top: 25,
-                child: SizedBox(
-                    width: size.width,
-                    child: Center(
-                        child: Text(
-                      "${(context.read<AtividadeController>().atividades.indexOf(widget.atividade)) + 1}/${context.read<AtividadeController>().atividades.length.toString()}",
-                      style: const TextStyle(
-                          fontFamily: "Righteous", fontSize: 25),
-                    ))))
-          ],
-        ),
-      );
-    }));
+                                            child: const Text(
+                                              "Sair",
+                                              style: TextStyle(
+                                                  color: primary,
+                                                  fontFamily: "Righteous"),
+                                            ))
+                                      ],
+                                    ),
+                                  ],
+                                )),
+                          ));
+                },
+              )),
+          Positioned(
+              top: 25,
+              child: SizedBox(
+                  width: size.width,
+                  child: Center(
+                      child: Text(
+                    "${(context.watch<AtividadeController>().atividades.indexOf(widget.atividade)) + 1}/${context.watch<AtividadeController>().atividades.length.toString()}",
+                    style:
+                        const TextStyle(fontFamily: "Righteous", fontSize: 25),
+                  ))))
+        ],
+      ),
+    ));
   }
 }

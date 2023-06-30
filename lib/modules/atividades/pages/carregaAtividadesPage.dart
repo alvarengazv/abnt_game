@@ -13,11 +13,21 @@ class CarregaAtividadesPage extends StatefulWidget {
 }
 
 class _CarregaAtividadesPageState extends State<CarregaAtividadesPage> {
+  Future atividades = Future.value();
+
+  @override
+  void initState() {
+    super.initState();
+    atividades = context
+        .read<AtividadeController>()
+        .getAtividades(widget.idTopico, widget.idSubTopicos);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AtividadeController>(
       builder: (context, turma, child) => FutureBuilder(
-        future: turma.getAtividades(widget.idTopico, widget.idSubTopicos),
+        future: atividades,
         builder: (context, snap) {
           if (snap.connectionState == ConnectionState.done) {
             return AtividadePage(

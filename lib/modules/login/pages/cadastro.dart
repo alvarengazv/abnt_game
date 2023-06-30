@@ -41,7 +41,8 @@ class _CadastroPageState extends State<CadastroPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
+                    Container(
+                      constraints: const BoxConstraints(maxWidth: 200),
                       width: size.width * 0.5,
                       child: Image.asset(
                         "src/images/coruja_login.png",
@@ -53,206 +54,224 @@ class _CadastroPageState extends State<CadastroPage> {
                           fontFamily: "Righteous", color: roxo, fontSize: 40),
                     ),
                     const SizedBox(height: 50),
-                    Hero(
-                      tag: "email",
-                      child: Material(
-                        child: TextFormField(
-                            onFieldSubmitted: ((value) {
-                              nomeNode.requestFocus();
-                            }),
-                            focusNode: emailNode,
-                            textInputAction: TextInputAction.go,
-                            controller: controller.email,
-                            onChanged: ((value) {}),
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "Digite um email válido";
-                              }
+                    Center(
+                      child: Container(
+                        constraints: const BoxConstraints(maxWidth: 500),
+                        child: Column(
+                          children: [
+                            Hero(
+                              tag: "email",
+                              child: Material(
+                                child: TextFormField(
+                                    onFieldSubmitted: ((value) {
+                                      nomeNode.requestFocus();
+                                    }),
+                                    focusNode: emailNode,
+                                    textInputAction: TextInputAction.go,
+                                    controller: controller.email,
+                                    onChanged: ((value) {}),
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Digite um email válido";
+                                      }
 
-                              if (!emailExp.hasMatch(value)) {
-                                return "Email inválido";
-                              }
-                              return null;
-                            },
-                            style: const TextStyle(
-                                fontFamily: "PassionOne", fontSize: 20),
-                            decoration: InputDecoration(
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide:
-                                      const BorderSide(color: lilas, width: 3)),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                  borderSide:
-                                      const BorderSide(color: lilas, width: 3)),
-                              label: const Text("Email"),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.never,
-                              hintText: "email@example.com",
-                            )),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    TextFormField(
-                        focusNode: nomeNode,
-                        controller: controller.nome,
-                        keyboardType: TextInputType.name,
-                        textInputAction: TextInputAction.go,
-                        onFieldSubmitted: (value) {
-                          senhaNode.requestFocus();
-                        },
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Digite um nome";
-                          }
-                          return null;
-                        },
-                        style: const TextStyle(
-                            fontFamily: "PassionOne", fontSize: 20),
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: lilas, width: 3)),
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide:
-                                  const BorderSide(color: lilas, width: 3)),
-                          label: const Text("Nome"),
-                          floatingLabelBehavior: FloatingLabelBehavior.never,
-                        )),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Hero(
-                        tag: "senha",
-                        child: Material(
-                          child: TextFormField(
-                              focusNode: senhaNode,
-                              onFieldSubmitted: (value) {
-                                senhaNode.unfocus();
-                              },
-                              textInputAction: TextInputAction.done,
-                              keyboardType: TextInputType.visiblePassword,
-                              controller: controller.senha,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return "Digite uma senha";
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                  fontFamily: "PassionOne", fontSize: 20),
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: const BorderSide(
-                                        color: lilas, width: 3)),
-                                focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                    borderSide: const BorderSide(
-                                        color: lilas, width: 3)),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      escondeSenha = !escondeSenha;
-                                    });
+                                      if (!emailExp.hasMatch(value)) {
+                                        return "Email inválido";
+                                      }
+                                      return null;
+                                    },
+                                    style: const TextStyle(
+                                        fontFamily: "PassionOne", fontSize: 20),
+                                    decoration: InputDecoration(
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          borderSide: const BorderSide(
+                                              color: lilas, width: 3)),
+                                      focusedBorder: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                          borderSide: const BorderSide(
+                                              color: lilas, width: 3)),
+                                      label: const Text("Email"),
+                                      floatingLabelBehavior:
+                                          FloatingLabelBehavior.never,
+                                      hintText: "email@example.com",
+                                    )),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            TextFormField(
+                                focusNode: nomeNode,
+                                controller: controller.nome,
+                                keyboardType: TextInputType.name,
+                                textInputAction: TextInputAction.go,
+                                onFieldSubmitted: (value) {
+                                  senhaNode.requestFocus();
+                                },
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Digite um nome";
+                                  }
+                                  return null;
+                                },
+                                style: const TextStyle(
+                                    fontFamily: "PassionOne", fontSize: 20),
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                      borderSide: const BorderSide(
+                                          color: lilas, width: 3)),
+                                  label: const Text("Nome"),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.never,
+                                )),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            Hero(
+                                tag: "senha",
+                                child: Material(
+                                  child: TextFormField(
+                                      focusNode: senhaNode,
+                                      onFieldSubmitted: (value) {
+                                        senhaNode.unfocus();
+                                      },
+                                      textInputAction: TextInputAction.done,
+                                      keyboardType:
+                                          TextInputType.visiblePassword,
+                                      controller: controller.senha,
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return "Digite uma senha";
+                                        }
+                                        return null;
+                                      },
+                                      style: const TextStyle(
+                                          fontFamily: "PassionOne",
+                                          fontSize: 20),
+                                      decoration: InputDecoration(
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            borderSide: const BorderSide(
+                                                color: lilas, width: 3)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                            borderSide: const BorderSide(
+                                                color: lilas, width: 3)),
+                                        suffixIcon: IconButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              escondeSenha = !escondeSenha;
+                                            });
+                                          },
+                                          icon: Icon(
+                                            escondeSenha
+                                                ? Icons.visibility_off
+                                                : Icons.visibility,
+                                            color: roxo,
+                                          ),
+                                        ),
+                                        label: const Text("Senha"),
+                                        floatingLabelBehavior:
+                                            FloatingLabelBehavior.never,
+                                      ),
+                                      obscureText: escondeSenha),
+                                )),
+                            const SizedBox(height: 40),
+                            Hero(
+                                tag: "botao",
+                                child: TextButton(
+                                  style: TextButton.styleFrom(
+                                      backgroundColor: primary,
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(13)),
+                                      fixedSize: Size(size.width * 0.65, 62),
+                                      maximumSize: Size(size.width * 0.65, 62)),
+                                  child: const Text(
+                                    "Cadastrar",
+                                    style: TextStyle(
+                                        fontFamily: "PassionOne",
+                                        fontSize: 32,
+                                        color: Colors.white),
+                                  ),
+                                  onPressed: () async {
+                                    CancelFunc? cancel;
+                                    try {
+                                      if (_form.currentState!.validate()) {
+                                        cancel = BotToast.showLoading();
+                                        await controller.criarConta();
+
+                                        Navigator.pushAndRemoveUntil(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const TipoPerfilPage()),
+                                            (route) => false);
+
+                                        cancel();
+                                      }
+                                    } on FirebaseAuthException catch (e) {
+                                      if (cancel != null) {
+                                        cancel();
+                                      }
+                                      switch (e.code) {
+                                        case "weak-password":
+                                          alertaApp(context,
+                                              "A senha precisa ter ao menos 6 caracteres");
+                                          break;
+                                        case "email-already-in-use":
+                                          alertaApp(context,
+                                              "Esse email já está em uso!");
+                                          break;
+                                        default:
+                                          alertaApp(context, "Ocorreu um erro");
+                                      }
+                                      debugPrint(e.code);
+                                    }
                                   },
-                                  icon: Icon(
-                                    escondeSenha
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: roxo,
+                                )),
+                            const SizedBox(height: 10),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  "Já possui conta?",
+                                  style: TextStyle(
+                                    fontFamily: "PassionOne",
+                                    fontSize: 20,
                                   ),
                                 ),
-                                label: const Text("Senha"),
-                                floatingLabelBehavior:
-                                    FloatingLabelBehavior.never,
-                              ),
-                              obscureText: escondeSenha),
-                        )),
-                    const SizedBox(height: 40),
-                    Hero(
-                        tag: "botao",
-                        child: TextButton(
-                          style: TextButton.styleFrom(
-                              backgroundColor: primary,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(13)),
-                              fixedSize: Size(size.width * 0.65, 62),
-                              maximumSize: Size(size.width * 0.65, 62)),
-                          child: const Text(
-                            "Cadastrar",
-                            style: TextStyle(
-                                fontFamily: "PassionOne",
-                                fontSize: 32,
-                                color: Colors.white),
-                          ),
-                          onPressed: () async {
-                            CancelFunc? cancel;
-                            try {
-                              if (_form.currentState!.validate()) {
-                                cancel = BotToast.showLoading();
-                                await controller.criarConta();
-
-                                Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const TipoPerfilPage()),
-                                    (route) => false);
-
-                                cancel();
-                              }
-                            } on FirebaseAuthException catch (e) {
-                              if (cancel != null) {
-                                cancel();
-                              }
-                              switch (e.code) {
-                                case "weak-password":
-                                  alertaApp(context,
-                                      "A senha precisa ter ao menos 6 caracteres");
-                                  break;
-                                case "email-already-in-use":
-                                  alertaApp(
-                                      context, "Esse email já está em uso!");
-                                  break;
-                                default:
-                              }
-                              debugPrint(e.code);
-                            }
-                          },
-                        )),
-                    const SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          "Já possui conta?",
-                          style: TextStyle(
-                            fontFamily: "PassionOne",
-                            fontSize: 20,
-                          ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(
+                                      context,
+                                    );
+                                  },
+                                  child: const Text(
+                                    "Login",
+                                    style: TextStyle(
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20,
+                                        color: primary),
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
                         ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(
-                              context,
-                            );
-                          },
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
-                                fontFamily: "PassionOne",
-                                fontSize: 20,
-                                color: primary),
-                          ),
-                        )
-                      ],
-                    )
+                      ),
+                    ),
                   ],
                 ),
               ),
