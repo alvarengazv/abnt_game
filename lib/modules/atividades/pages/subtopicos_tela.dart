@@ -300,25 +300,33 @@ class _SubTopicosPageState extends State<SubTopicosPage>
                                   if (aulaFeita) {
                                     ganhaXP = false;
                                   }
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: (context) => ganhaXP
+                                              ? GanhaXP(
+                                                  xpGanho: 5,
+                                                  porCompletar:
+                                                      "mais uma aula!",
+                                                  nextRoute: MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          FinalLicaoPage(
+                                                              widget.topicoAtual[
+                                                                  "idTopico"],
+                                                              widget.topicoAtual[
+                                                                  "id"])),
+                                                )
+                                              : FinalLicaoPage(
+                                                  widget
+                                                      .topicoAtual["idTopico"],
+                                                  widget.topicoAtual["id"])));
+                                } else {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => FinalLicaoPage(
+                                              widget.topicoAtual["idTopico"],
+                                              widget.topicoAtual["id"])));
                                 }
-
-                                Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                        builder: (context) => ganhaXP
-                                            ? GanhaXP(
-                                                xpGanho: 5,
-                                                porCompletar: "mais uma aula!",
-                                                nextRoute: MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        FinalLicaoPage(
-                                                            widget.topicoAtual[
-                                                                "idTopico"],
-                                                            widget.topicoAtual[
-                                                                "id"])),
-                                              )
-                                            : FinalLicaoPage(
-                                                widget.topicoAtual["idTopico"],
-                                                widget.topicoAtual["id"])));
                               }
                             },
                             icon: Icon(Icons.chevron_right,

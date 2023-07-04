@@ -5,6 +5,7 @@ import 'package:abntplaybic/modules/home/controllers/topicosController.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/models/perfil.dart';
 import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilProfessor.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/dialogs/alerta.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -177,7 +178,8 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                 /*child: Image.asset( ),*/
                                               ),
                                             ),
-                                            feitoAula
+                                            feitoAula ||
+                                                    perfil is PerfilProfessor
                                                 ? TextButton(
                                                     style: TextButton.styleFrom(
                                                       backgroundColor: primary,
@@ -259,7 +261,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                               child: Text(
                                                 feitoAula
                                                     ? "Refazer aula"
-                                                    : "Iniciar",
+                                                    : "Iniciar aula",
                                                 style: TextStyle(
                                                     fontFamily: "PassionOne",
                                                     fontSize: 32,
