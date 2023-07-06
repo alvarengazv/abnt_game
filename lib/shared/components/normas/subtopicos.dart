@@ -2,13 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class TelaSubtopicos extends StatefulWidget {
-  final String titulo;
   final Widget corpo;
   final String descricao;
 
   const TelaSubtopicos(
       {super.key,
-      required this.titulo,
       required this.corpo,
       required this.descricao});
 
@@ -17,8 +15,7 @@ class TelaSubtopicos extends StatefulWidget {
 }
 
 class _TelaSubtopicosState extends State<TelaSubtopicos> {
-  final _controller = ScrollController();
-
+  
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -28,18 +25,6 @@ class _TelaSubtopicosState extends State<TelaSubtopicos> {
               ? Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SizedBox(
-                      width: size.width * 0.9,
-                      child: Text(
-                        widget.titulo.toUpperCase(),
-                        style: const TextStyle(
-                          fontFamily: "PassionOne",
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
                     Container(
                       width: size.width,
                       constraints: BoxConstraints(minHeight: size.height * 0.4),

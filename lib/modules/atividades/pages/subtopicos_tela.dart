@@ -132,7 +132,6 @@ class _SubTopicosPageState extends State<SubTopicosPage>
                               ),
                               Expanded(
                                 child: TelaSubtopicos(
-                                  titulo: listaTemas.elementAt(index).titulo,
                                   corpo: listaTemas
                                           .elementAt(index)
                                           .conteudo
