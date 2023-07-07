@@ -78,16 +78,16 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Container(
-                      width: size.width,
-                      height: size.height * 0.19,
-                      decoration: const BoxDecoration(
-                        color: lilas,
-                      ),
-                      /*child: Image.asset( ),*/
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: Container(
+                  //     width: size.width,
+                  //     height: size.height * 0.19,
+                  //     decoration: const BoxDecoration(
+                  //       color: lilas,
+                  //     ),
+                  //     /*child: Image.asset( ),*/
+                  //   ),
+                  // ),
                   Expanded(
                     flex: 5,
                     child: Padding(
@@ -165,122 +165,132 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                   const EdgeInsets.symmetric(
                                                       horizontal: 10,
                                                       vertical: 20),
-                                              child: Container(
-                                                width: size.width * 0.3,
-                                                height: size.width * 0.3,
-                                                constraints:
-                                                    const BoxConstraints(
-                                                        maxWidth: 100,
-                                                        maxHeight: 100),
-                                                decoration: const BoxDecoration(
-                                                  color: lilas,
-                                                ),
-                                                /*child: Image.asset( ),*/
-                                              ),
+                                              // child: Container(
+                                              //   width: size.width * 0.3,
+                                              //   height: size.width * 0.3,
+                                              //   constraints:
+                                              //       const BoxConstraints(
+                                              //           maxWidth: 100,
+                                              //           maxHeight: 100),
+                                              //   decoration: const BoxDecoration(
+                                              //     color: lilas,
+                                              //   ),
+                                              //   /*child: Image.asset( ),*/
+                                              // ),
                                             ),
                                             feitoAula ||
                                                     perfil is PerfilProfessor
-                                                ? TextButton(
-                                                    style: TextButton.styleFrom(
-                                                      backgroundColor: primary,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(13),
-                                                      ),
-                                                      fixedSize: Size(
-                                                          size.width * 0.9, 50),
-                                                    ),
-                                                    child: Text(
-                                                      context
-                                                                      .read<
-                                                                          AtividadeController>()
-                                                                      .idSubTopico ==
-                                                                  listaSubTopicos[
-                                                                          index]
-                                                                      ["id"] &&
-                                                              context
-                                                                      .read<
-                                                                          AtividadeController>()
-                                                                      .idTopico ==
-                                                                  widget.data[
-                                                                      "id"]
-                                                          ? "Continuar Tarefa"
-                                                          : feitoTarefa
-                                                              ? "Refazer tarefa"
-                                                              : "Iniciar Tarefa",
-                                                      style: const TextStyle(
-                                                          fontFamily:
-                                                              "PassionOne",
-                                                          fontSize: 32,
-                                                          color: Colors.white),
-                                                    ),
-                                                    onPressed: () async {
-                                                      Navigator.pop(context);
-                                                      Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) => CarregaAtividadesPage(
-                                                                  listaSubTopicos[
-                                                                          index]
-                                                                      [
-                                                                      "idTopico"],
-                                                                  listaSubTopicos[
-                                                                          index]
-                                                                      ["id"])));
-                                                    },
-                                                  )
-                                                : Container(),
-                                            const SizedBox(height: 10),
-                                            TextButton(
-                                              style: feitoAula
-                                                  ? TextButton.styleFrom(
-                                                      shape: RoundedRectangleBorder(
+                                                ? Padding(
+                                                  padding: const EdgeInsets.symmetric(
+                                                    horizontal: 30
+                                                  ),
+                                                  child: TextButton(
+                                                      style: TextButton.styleFrom(
+                                                        backgroundColor: primary,
+                                                        shape:
+                                                            RoundedRectangleBorder(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(13),
-                                                          side:
-                                                              const BorderSide(
-                                                                  color:
-                                                                      primary)),
-                                                      fixedSize: Size(
-                                                          size.width * 0.9, 50),
-                                                    )
-                                                  : TextButton.styleFrom(
-                                                      backgroundColor: primary,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(13),
+                                                        ),
+                                                        fixedSize: Size(
+                                                            size.width * 0.9, 50),
                                                       ),
-                                                      fixedSize: Size(
-                                                          size.width * 0.9, 50),
+                                                      child: Text(
+                                                        context
+                                                                        .read<
+                                                                            AtividadeController>()
+                                                                        .idSubTopico ==
+                                                                    listaSubTopicos[
+                                                                            index]
+                                                                        ["id"] &&
+                                                                context
+                                                                        .read<
+                                                                            AtividadeController>()
+                                                                        .idTopico ==
+                                                                    widget.data[
+                                                                        "id"]
+                                                            ? "Continuar Tarefa"
+                                                            : feitoTarefa
+                                                                ? "Refazer tarefa"
+                                                                : "Iniciar Tarefa",
+                                                        style: const TextStyle(
+                                                            fontFamily:
+                                                                "PassionOne",
+                                                            fontSize: 32,
+                                                            color: Colors.white),
+                                                      ),
+                                                      onPressed: () async {
+                                                        Navigator.pop(context);
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder: (context) => CarregaAtividadesPage(
+                                                                    listaSubTopicos[
+                                                                            index]
+                                                                        [
+                                                                        "idTopico"],
+                                                                    listaSubTopicos[
+                                                                            index]
+                                                                        ["id"])));
+                                                      },
                                                     ),
-                                              child: Text(
-                                                feitoAula
-                                                    ? "Refazer aula"
-                                                    : "Iniciar aula",
-                                                style: TextStyle(
-                                                    fontFamily: "PassionOne",
-                                                    fontSize: 32,
-                                                    color: feitoAula
-                                                        ? primary
-                                                        : Colors.white),
+                                                )
+                                                : Container(),
+                                            const SizedBox(height: 10),
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                    horizontal: 30
+                                                  ),
+                                              child: TextButton(
+                                                style: feitoAula
+                                                    ? TextButton.styleFrom(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(13),
+                                                            side:
+                                                                const BorderSide(
+                                                                    color:
+                                                                        primary)),
+                                                        fixedSize: Size(
+                                                            size.width * 0.9, 50),
+                                                      )
+                                                    : TextButton.styleFrom(
+                                                        backgroundColor: primary,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(13),
+                                                        ),
+                                                        fixedSize: Size(
+                                                            size.width * 0.9, 50),
+                                                      ),
+                                                child: Text(
+                                                  feitoAula
+                                                      ? "Refazer aula"
+                                                      : "Iniciar aula",
+                                                  style: TextStyle(
+                                                      fontFamily: "PassionOne",
+                                                      fontSize: 32,
+                                                      color: feitoAula
+                                                          ? primary
+                                                          : Colors.white),
+                                                ),
+                                                onPressed: () async {
+                                                  Navigator.pop(context);
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              SubTopicosPage(
+                                                                topicoAtual:
+                                                                    listaSubTopicos[
+                                                                        index],
+                                                              )));
+                                                },
                                               ),
-                                              onPressed: () async {
-                                                Navigator.pop(context);
-                                                Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            SubTopicosPage(
-                                                              topicoAtual:
-                                                                  listaSubTopicos[
-                                                                      index],
-                                                            )));
-                                              },
                                             ),
                                             const SizedBox(height: 20)
                                           ],

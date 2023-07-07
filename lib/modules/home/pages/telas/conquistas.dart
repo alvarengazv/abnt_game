@@ -143,20 +143,23 @@ class _ConquistasPageState extends State<ConquistasPage> {
                   listaSemProgresso.isEmpty
                       ? const SizedBox()
                       : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.fromLTRB(10, 10, 0, 18),
-                              child: Text(
-                                "CONQUISTAS AINDA NÃO ALCANÇADAS",
-                                style: TextStyle(
-                                  color: prata,
-                                  fontFamily: "BebasNeue",
-                                  fontSize: 18,
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: const Padding(
+                                padding: EdgeInsets.fromLTRB(10, 10, 0, 18),
+                                child: Text(
+                                  "CONQUISTAS AINDA NÃO ALCANÇADAS",
+                                  style: TextStyle(
+                                    color: prata,
+                                    fontFamily: "BebasNeue",
+                                    fontSize: 18,
+                                  ),
                                 ),
                               ),
                             ),
                             Column(
+                              mainAxisSize: MainAxisSize.min,
                               children: List<Widget>.generate(
                                   listaSemProgresso.length, (int index) {
                                 return Padding(

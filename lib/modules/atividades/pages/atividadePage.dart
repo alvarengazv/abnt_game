@@ -5,6 +5,7 @@ import 'package:abntplaybic/shared/components/botoes/alternativaAtividade.dart';
 import 'package:abntplaybic/shared/components/normas/back_button.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 
 class AtividadePage extends StatefulWidget {
@@ -19,6 +20,8 @@ class _AtividadePageState extends State<AtividadePage> {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var titulo = widget.atividade.title.replaceAll("\\n", "\n");
+    print(titulo);
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -33,12 +36,16 @@ class _AtividadePageState extends State<AtividadePage> {
                         const SizedBox(height: 80),
                         Padding(
                           padding: const EdgeInsets.all(20),
-                          child: Text(
-                            widget.atividade.title,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                                fontFamily: "PassionOne", fontSize: 25),
-                          ),
+                          child: MarkdownBody(
+                              data: titulo,
+                              styleSheet: MarkdownStyleSheet(
+                                h1Align: WrapAlignment.center,
+                                h1: TextStyle(fontFamily: "PassionOne", fontSize: 25),
+                                p: TextStyle(fontFamily: "PassionOne", fontSize: 25),
+                                strong: TextStyle(fontWeight: FontWeight.w900),
+                                textAlign: WrapAlignment.start
+                              )
+                            ),
                         ),
                         Column(children: [
                           ...widget.atividade.altenativas
@@ -58,11 +65,15 @@ class _AtividadePageState extends State<AtividadePage> {
                           Container(
                             width: size.width * 0.35,
                             padding: const EdgeInsets.all(20),
-                            child: Text(
-                              widget.atividade.title,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                  fontFamily: "PassionOne", fontSize: 25),
+                            child: MarkdownBody(
+                              data: titulo,
+                              styleSheet: MarkdownStyleSheet(
+                                h1Align: WrapAlignment.center,
+                                h1: TextStyle(fontFamily: "PassionOne", fontSize: 25),
+                                p: TextStyle(fontFamily: "PassionOne", fontSize: 22),
+                                strong: TextStyle(fontWeight: FontWeight.w900),
+                                textAlign: WrapAlignment.start
+                              )
                             ),
                           ),
                           Column(

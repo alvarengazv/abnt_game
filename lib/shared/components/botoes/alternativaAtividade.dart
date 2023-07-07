@@ -4,6 +4,7 @@ import 'package:abntplaybic/modules/atividades/pages/ganhaXP.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
 import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -137,12 +138,16 @@ class AlternativaAtividade extends StatelessWidget {
               minHeight: size.width < 768 ? size.width * .15 : 0),
           padding: const EdgeInsets.all(12),
           alignment: Alignment.center,
-          child: Text(
-            alternativa.value,
-            style: const TextStyle(
-                fontFamily: "PassionOne", color: branco, fontSize: 25),
-            textAlign: TextAlign.center,
-          )),
+          child:
+            MarkdownBody(
+              data: alternativa.value,
+              styleSheet: MarkdownStyleSheet(
+                p: TextStyle(fontFamily: "PassionOne", color: branco, fontSize: 25),
+                strong: TextStyle(fontWeight: FontWeight.w900),
+                textAlign: WrapAlignment.start
+              )
+            ),
+      )
     );
   }
 }
