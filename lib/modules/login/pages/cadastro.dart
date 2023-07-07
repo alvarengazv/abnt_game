@@ -63,6 +63,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               tag: "email",
                               child: Material(
                                 child: TextFormField(
+                                    cursorColor: primary,
                                     onFieldSubmitted: ((value) {
                                       nomeNode.requestFocus();
                                     }),
@@ -82,7 +83,9 @@ class _CadastroPageState extends State<CadastroPage> {
                                       return null;
                                     },
                                     style: const TextStyle(
-                                        fontFamily: "PassionOne", fontSize: 20),
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                           borderRadius:
@@ -105,6 +108,7 @@ class _CadastroPageState extends State<CadastroPage> {
                               height: 30,
                             ),
                             TextFormField(
+                                cursorColor: primary,
                                 focusNode: nomeNode,
                                 controller: controller.nome,
                                 keyboardType: TextInputType.name,
@@ -119,7 +123,9 @@ class _CadastroPageState extends State<CadastroPage> {
                                   return null;
                                 },
                                 style: const TextStyle(
-                                    fontFamily: "PassionOne", fontSize: 20),
+                                    fontFamily: "PassionOne", 
+                                    fontSize: 20,
+                                    color: primary),
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
@@ -140,6 +146,7 @@ class _CadastroPageState extends State<CadastroPage> {
                                 tag: "senha",
                                 child: Material(
                                   child: TextFormField(
+                                      cursorColor: primary,
                                       focusNode: senhaNode,
                                       onFieldSubmitted: (value) {
                                         senhaNode.unfocus();
@@ -156,7 +163,8 @@ class _CadastroPageState extends State<CadastroPage> {
                                       },
                                       style: const TextStyle(
                                           fontFamily: "PassionOne",
-                                          fontSize: 20),
+                                          fontSize: 20, 
+                                          color: primary),
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                             borderRadius:

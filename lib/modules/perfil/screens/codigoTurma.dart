@@ -59,9 +59,12 @@ class _CodigoTurmaScreenState extends State<CodigoTurmaScreen> {
                             constraints: const BoxConstraints(maxWidth: 500),
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: TextFormField(
+                              cursorColor: primary,
                               controller: codigo,
                               style: const TextStyle(
-                                  fontFamily: "PassionOne", fontSize: 20),
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
                               decoration: InputDecoration(
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(15),
@@ -154,10 +157,12 @@ class _CodigoTurmaScreenState extends State<CodigoTurmaScreen> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 10),
                                     child: TextFormField(
+                                      cursorColor: primary,
                                       controller: codigo,
                                       style: const TextStyle(
-                                          fontFamily: "PassionOne",
-                                          fontSize: 20),
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
                                       decoration: InputDecoration(
                                         border: OutlineInputBorder(
                                             borderRadius:

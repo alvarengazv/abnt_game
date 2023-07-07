@@ -107,6 +107,11 @@ class _CriarTurmaScreenState extends State<CriarTurmaScreen> {
                     SizedBox(
                       width: size.width * 0.7,
                       child: TextFormField(
+                        style: const TextStyle(
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
+                        cursorColor: primary,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (val) {
                           if (val!.length < 6 || val.length > 6) {
@@ -181,6 +186,11 @@ class _CriarTurmaScreenState extends State<CriarTurmaScreen> {
                   SizedBox(
                     width: size.width * 0.7,
                     child: TextFormField(
+                      style: const TextStyle(
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
+                      cursorColor: primary,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (val) {
                         if (val == null || val.isEmpty) {

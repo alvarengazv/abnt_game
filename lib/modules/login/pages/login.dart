@@ -59,6 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                             tag: "email",
                             child: Material(
                               child: TextFormField(
+                                  cursorColor: primary,
                                   controller: controller.email,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -67,7 +68,9 @@ class _LoginPageState extends State<LoginPage> {
                                     return null;
                                   },
                                   style: const TextStyle(
-                                      fontFamily: "PassionOne", fontSize: 20),
+                                      fontFamily: "PassionOne",
+                                      fontSize: 20, 
+                                      color: primary),
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(15),
@@ -91,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                             tag: "senha",
                             child: Material(
                               child: TextFormField(
+                                  cursorColor: primary,
                                   controller: controller.senha,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
@@ -99,7 +103,9 @@ class _LoginPageState extends State<LoginPage> {
                                     return null;
                                   },
                                   style: const TextStyle(
-                                      fontFamily: "PassionOne", fontSize: 20),
+                                      fontFamily: "PassionOne",
+                                      fontSize: 20, 
+                                      color: primary),
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(15),

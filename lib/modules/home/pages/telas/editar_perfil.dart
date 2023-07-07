@@ -336,6 +336,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                               tag: "email",
                               child: Material(
                                 child: TextFormField(
+                                    cursorColor: primary,
                                     onFieldSubmitted: ((value) {
                                       nomeNode.requestFocus();
                                     }),
@@ -355,7 +356,9 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                       return null;
                                     },
                                     style: const TextStyle(
-                                        fontFamily: "PassionOne", fontSize: 20),
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
                                     decoration: InputDecoration(
                                       border: OutlineInputBorder(
                                           borderRadius:
@@ -378,6 +381,7 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                               height: 20,
                             ),
                             TextFormField(
+                              cursorColor: primary,
                                 focusNode: nomeNode,
                                 controller: _controllerEdit.nome,
                                 keyboardType: TextInputType.name,
@@ -389,7 +393,9 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                   return null;
                                 },
                                 style: const TextStyle(
-                                    fontFamily: "PassionOne", fontSize: 20),
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),

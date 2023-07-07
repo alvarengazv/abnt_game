@@ -77,6 +77,11 @@ class _EditarTurmaPageState extends State<EditarTurmaPage> {
                       SizedBox(
                         width: size.width * 0.8,
                         child: TextFormField(
+                          style: const TextStyle(
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
+                          cursorColor: primary,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           maxLength: 6,
                           textCapitalization: TextCapitalization.sentences,
@@ -121,6 +126,11 @@ class _EditarTurmaPageState extends State<EditarTurmaPage> {
                     SizedBox(
                       width: size.width * 0.8,
                       child: TextFormField(
+                        style: const TextStyle(
+                                        fontFamily: "PassionOne",
+                                        fontSize: 20, 
+                                        color: primary),
+                        cursorColor: primary,
                         autovalidateMode: AutovalidateMode.onUserInteraction,
                         validator: (val) {
                           if (val == null || val.isEmpty) {
