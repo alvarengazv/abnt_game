@@ -21,7 +21,6 @@ class _AtividadePageState extends State<AtividadePage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     var titulo = widget.atividade.title.replaceAll("\\n", "\n");
-    print(titulo);
     return Scaffold(
         body: SafeArea(
       child: Stack(
@@ -41,7 +40,7 @@ class _AtividadePageState extends State<AtividadePage> {
                               styleSheet: MarkdownStyleSheet(
                                 h1Align: WrapAlignment.center,
                                 h1: TextStyle(fontFamily: "PassionOne", fontSize: 25),
-                                p: TextStyle(fontFamily: "PassionOne", fontSize: 25),
+                                p: TextStyle(fontFamily: "PassionOne", fontSize: 22),
                                 strong: TextStyle(fontWeight: FontWeight.w900),
                                 textAlign: WrapAlignment.start
                               )
