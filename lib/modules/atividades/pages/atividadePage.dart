@@ -39,9 +39,9 @@ class _AtividadePageState extends State<AtividadePage> {
                               data: titulo,
                               styleSheet: MarkdownStyleSheet(
                                 p: TextStyle(fontFamily: "PassionOne", fontSize: 25),
-                                h1: TextStyle(fontFamily: "TimesNewRoman", fontSize: 18),
+                                h1: TextStyle(fontSize: 18),
                                 h1Align: WrapAlignment.start,
-                                strong: TextStyle(fontWeight: FontWeight.w900),
+                                strong: TextStyle(fontWeight: FontWeight.bold),
                                 textAlign: WrapAlignment.center
                               )
                             ),
@@ -68,9 +68,9 @@ class _AtividadePageState extends State<AtividadePage> {
                               data: titulo,
                               styleSheet: MarkdownStyleSheet(
                                 p: TextStyle(fontFamily: "PassionOne", fontSize: 25),
-                                h1: TextStyle(fontFamily: "TimesNewRoman", fontSize: 18),
+                                h1: TextStyle(fontSize: 18),
                                 h1Align: WrapAlignment.start,
-                                strong: TextStyle(fontWeight: FontWeight.w900),
+                                strong: TextStyle(fontWeight: FontWeight.bold),
                                 textAlign: WrapAlignment.center
                               )
                             ),
