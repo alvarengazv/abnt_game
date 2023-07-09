@@ -493,39 +493,14 @@ class _PerfilPageState extends State<PerfilPage> {
                                                 .perfilAtual
                                                 ?.fotoPerfil ==
                                             null
-                                        ? FutureBuilder<String?>(
-                                            future: getImage(),
-                                            builder: (context, snap) {
-                                              return snap.hasData
-                                                  ? ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6),
-                                                      child: Image.network(
-                                                          fit: BoxFit.cover,
-                                                          context
-                                                                  .read<
-                                                                      PerfilProvider>()
-                                                                  .perfilAtual
-                                                                  ?.fotoPerfil ??
-                                                              snap.data!),
-                                                    )
-                                                  : Center(
-                                                      child: SizedBox(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            0.25,
-                                                        child:
-                                                            const LinearProgressIndicator(
-                                                          color: primary,
-                                                          backgroundColor:
-                                                              lilas,
-                                                        ),
-                                                      ),
-                                                    );
-                                            })
+                                        ? ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(
+                                                    6),
+                                            child: Image.asset(
+                                                fit: BoxFit.cover,
+                                                "src/images/img-default.jpg"),
+                                          )
                                         : ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(6),

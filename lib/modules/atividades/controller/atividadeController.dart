@@ -63,7 +63,6 @@ class AtividadeController extends ChangeNotifier {
       }
     }
     atividades.shuffle();
-    print(atividades);
     atividadeAtual = atividades[indiceAtivo];
   }
 

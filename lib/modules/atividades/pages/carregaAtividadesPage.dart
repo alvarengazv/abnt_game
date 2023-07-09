@@ -29,7 +29,7 @@ class _CarregaAtividadesPageState extends State<CarregaAtividadesPage> {
       builder: (context, turma, child) => FutureBuilder(
         future: atividades,
         builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.done) {
+          if (snap.connectionState == ConnectionState.done && context.read<AtividadeController>().atividadeAtual?.subTopico == widget.idSubTopicos) {
             return AtividadePage(
                 context.watch<AtividadeController>().atividadeAtual!
                   ..altenativas.shuffle());

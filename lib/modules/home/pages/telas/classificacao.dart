@@ -135,10 +135,6 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
                                     if (snap.data!.docs[i].id ==
                                         FirebaseAuth
                                             .instance.currentUser!.uid) {
-                                      print((context
-                                              .read<PerfilProvider>()
-                                              .perfilAtual as PerfilAluno)
-                                          .melhorRanking);
                                       if ((context
                                                   .read<PerfilProvider>()
                                                   .perfilAtual as PerfilAluno)
@@ -174,7 +170,8 @@ class _ClassificacaoPageState extends State<ClassificacaoPage>
                                                 .instance.currentUser!.uid,
                                         pontuacao: (snap.data!.docs[i]
                                                 .data())["xpAtual"]
-                                            .toString()));
+                                            .toString(),
+                                        userAvatarUrl: (snap.data!.docs[i].data())["imageURL"] ?? "gs://abnt-play.appspot.com/users/img-default.jpg",));
                                   }
                                 } else {
                                   animCont.forward();

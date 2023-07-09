@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:abntplaybic/modules/home/controllers/editController.dart';
 import 'package:abntplaybic/modules/perfil/controller/perfilProvider.dart';
+import 'package:abntplaybic/modules/perfil/models/perfilAluno.dart';
 import 'package:abntplaybic/shared/colors.dart';
 import 'package:abntplaybic/shared/components/botoes/botao_perfil.dart';
 import 'package:abntplaybic/shared/validacoes.dart';
@@ -248,25 +249,12 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                                                 .perfilAtual
                                                 ?.fotoPerfil ==
                                             null
-                                        ? FutureBuilder<String?>(
-                                            future: getImage(),
-                                            builder: (context, snap) {
-                                              return snap.hasData
-                                                  ? ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              6),
-                                                      child: Image.network(
-                                                          fit: BoxFit.cover,
-                                                          context
-                                                                  .read<
-                                                                      PerfilProvider>()
-                                                                  .perfilAtual
-                                                                  ?.fotoPerfil ??
-                                                              snap.data!),
-                                                    )
-                                                  : Container();
-                                            })
+                                        ? ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        6),
+                                                child: Image.asset("src/images/img-default.jpg"),
+                                              )
                                         : ClipRRect(
                                             borderRadius:
                                                 BorderRadius.circular(6),
@@ -426,18 +414,21 @@ class _EditarPerfilPageState extends State<EditarPerfilPage> {
                           if (_controllerEdit.nome.text != perfil.nome) {
                             await FirebaseAuth.instance.currentUser!
                                 .updateDisplayName(_controllerEdit.nome.text);
-                            await context
-                                .read<PerfilProvider>()
-                                .perfilAtual!
-                                .updateFirestore();
+                            await (context.read<PerfilProvider>().perfilAtual)?.updateName(_controllerEdit.nome.text);
                           }
                           if (newImage != null) {
+                            var url = "/users/${perfil.id}${newImage!.path.split(".").last}";
                             var ref = await FirebaseStorage.instance
                                 .ref(
-                                    "/users/${perfil.id}${newImage!.path.split(".").last}")
+                                    url)
                                 .putData((await newImage!.readAsBytes()))
                                 .then((p0) => p0.ref);
                             print(ref);
+
+                            if (perfil is PerfilAluno) {
+                              await (context.read<PerfilProvider>().perfilAtual as PerfilAluno).updateImage("gs://abnt-play.appspot.com" + url);
+                            }
+
                             await FirebaseAuth.instance.currentUser!
                                 .updatePhotoURL((await ref.getDownloadURL()));
                           }

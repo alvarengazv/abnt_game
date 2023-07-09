@@ -13,4 +13,5 @@ abstract class Perfil {
   getPerfil();
   toMap();
   updateFirestore();
+  updateName(String nome);
 }

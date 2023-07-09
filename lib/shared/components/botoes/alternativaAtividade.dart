@@ -107,6 +107,9 @@ class AlternativaAtividade extends StatelessWidget {
                                           Navigator.pop(context);
                                           return;
                                         }
+                                        context
+                                                  .read<AtividadeController>()
+                                                  .limpar();
                                         Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                             builder: (context) => GanhaXP(

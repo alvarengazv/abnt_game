@@ -109,7 +109,6 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                     return;
                                   }
                                 }
-                                print(perfil.feitos);
                                 feitoAula = perfil.feitos?[
                                                 listaSubTopicos[index]
                                                     ["idTopico"]]
@@ -123,10 +122,6 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                         ?["tarefa"] ??
                                     false;
                               }
-
-                              print(feitoAula);
-                              print(listaSubTopicos[index]["idTopico"]);
-                              print(listaSubTopicos[index]["id"]);
 
                               showModalBottomSheet(
                                   constraints:
@@ -160,23 +155,11 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            Padding(
+                                            const Padding(
                                               padding:
-                                                  const EdgeInsets.symmetric(
+                                                  EdgeInsets.symmetric(
                                                       horizontal: 10,
                                                       vertical: 20),
-                                              // child: Container(
-                                              //   width: size.width * 0.3,
-                                              //   height: size.width * 0.3,
-                                              //   constraints:
-                                              //       const BoxConstraints(
-                                              //           maxWidth: 100,
-                                              //           maxHeight: 100),
-                                              //   decoration: const BoxDecoration(
-                                              //     color: lilas,
-                                              //   ),
-                                              //   /*child: Image.asset( ),*/
-                                              // ),
                                             ),
                                             feitoAula ||
                                                     perfil is PerfilProfessor
@@ -209,7 +192,7 @@ class _MainAtividadesPageState extends State<MainAtividadesPage> {
                                                                             AtividadeController>()
                                                                         .idTopico ==
                                                                     widget.data[
-                                                                        "id"]
+                                                                        "id"] && !feitoTarefa
                                                             ? "Continuar Tarefa"
                                                             : feitoTarefa
                                                                 ? "Refazer tarefa"

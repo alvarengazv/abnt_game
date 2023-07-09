@@ -10,6 +10,7 @@ class PerfilAluno extends Perfil {
   int _xpAtual = 0;
   int _xpTotal = 0;
   String? _turmaID;
+  String? _imageURL;
   //map deve ser usado assim: feitos[topicoPrincipal][subtopico][tarefa/aula]
   //o último map deve ser usado os valores tarefa ou aula referente a cada uma
   //das coisas e ambos retornam valor booleano, ou null se nao existir
@@ -36,6 +37,7 @@ class PerfilAluno extends Perfil {
       _xpTotal = dadosUser["xpColetado"] ?? 0;
       _turmaID = dadosUser["turma"];
       _feitos = Map.from(dadosUser["feitos"]);
+      _imageURL = dadosUser["imageURL"] ?? "gs://abnt-play.appspot.com/users/img-default.jpg";
     }
   }
 
@@ -58,6 +60,7 @@ class PerfilAluno extends Perfil {
     _xpAtual = data["xpAtual"] as int? ?? 0;
     _xpTotal = data["xpColetado"] as int? ?? 0;
     _turmaID = data["turma"] as String?;
+    _imageURL = data["imageURL"] as String?;
     _notify = notify;
   }
 
@@ -70,7 +73,8 @@ class PerfilAluno extends Perfil {
       "xpAtual": _xpAtual,
       "xpColetado": _xpTotal,
       "turma": _turmaID,
-      "feitos": _feitos
+      "feitos": _feitos,
+      "imageURL": _imageURL,
     };
   }
 
@@ -114,6 +118,16 @@ class PerfilAluno extends Perfil {
     await updateFirestore();
   }
 
+  updateImage(String imageURL) async{
+    _imageURL = imageURL;
+    await updateFirestore();
+  }
+
+  updateName(String nome) async{
+    this.nome = nome;
+    await updateFirestore();
+  }
+
   listenData() {
     FirebaseFirestore.instance
         .collection("aluno")
@@ -134,6 +148,7 @@ class PerfilAluno extends Perfil {
       _rankingAtual = event.data()!["rankingAtual"] ?? 0;
       _xpAtual = event.data()!["xpAtual"] ?? 0;
       _xpTotal = event.data()!["xpColetado"] ?? 0;
+      _imageURL = event.data()!["imageURL"] ?? "";
       _notify != null ? _notify!() : null;
     });
   }
@@ -202,5 +217,6 @@ class PerfilAluno extends Perfil {
   int get rankingAtual => _rankingAtual;
   Map<String, Map<String, Map<String, bool>>>? get feitos => _feitos;
   String? get turmaID => _turmaID;
+  String? get imageURL => _imageURL;
   Turma? get turma => _turma;
 }

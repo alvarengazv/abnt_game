@@ -35,9 +35,14 @@ class PerfilProfessor extends Perfil {
   @override
   toMap() {
     return {
-      "nome": nome,
-      "turmas": turmas,
+      "nome": nome
     };
+  }
+
+  @override
+  updateName(String nome) async{
+    this.nome = nome;
+    await updateFirestore();
   }
 
   @override
