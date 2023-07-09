@@ -147,7 +147,9 @@ class AlternativaAtividade extends StatelessWidget {
               styleSheet: MarkdownStyleSheet(
                 p: TextStyle(fontFamily: "PassionOne", color: branco, fontSize: 25),
                 strong: TextStyle(fontWeight: FontWeight.w900),
-                textAlign: WrapAlignment.start
+                textAlign: WrapAlignment.center,
+                h1: TextStyle(fontFamily: "TimesNewRoman", color: branco, fontSize: 25),
+                h1Align: WrapAlignment.start
               )
             ),
       )

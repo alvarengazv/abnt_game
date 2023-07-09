@@ -92,6 +92,13 @@ flutter:
     - family: BebasNeue
       fonts:
         - asset: src/fonts/BebasNeue/BebasNeue-Regular.ttf
+    
+    - family: TimesNewRoman
+      fonts:
+        - asset: src/fonts/TimesNewRoman/times.ttf
+        - asset: src/fonts/TimesNewRoman/timesbd.ttf
+        - asset: src/fonts/TimesNewRoman/timesbi.ttf
+        - asset: src/fonts/TimesNewRoman/timesi.ttf
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf

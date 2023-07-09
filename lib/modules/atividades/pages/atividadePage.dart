@@ -38,11 +38,11 @@ class _AtividadePageState extends State<AtividadePage> {
                           child: MarkdownBody(
                               data: titulo,
                               styleSheet: MarkdownStyleSheet(
-                                h1Align: WrapAlignment.center,
-                                h1: TextStyle(fontFamily: "PassionOne", fontSize: 25),
-                                p: TextStyle(fontFamily: "PassionOne", fontSize: 22),
+                                p: TextStyle(fontFamily: "PassionOne", fontSize: 25),
+                                h1: TextStyle(fontFamily: "TimesNewRoman", fontSize: 18),
+                                h1Align: WrapAlignment.start,
                                 strong: TextStyle(fontWeight: FontWeight.w900),
-                                textAlign: WrapAlignment.start
+                                textAlign: WrapAlignment.center
                               )
                             ),
                         ),
@@ -67,11 +67,11 @@ class _AtividadePageState extends State<AtividadePage> {
                             child: MarkdownBody(
                               data: titulo,
                               styleSheet: MarkdownStyleSheet(
-                                h1Align: WrapAlignment.center,
-                                h1: TextStyle(fontFamily: "PassionOne", fontSize: 25),
-                                p: TextStyle(fontFamily: "PassionOne", fontSize: 22),
+                                p: TextStyle(fontFamily: "PassionOne", fontSize: 25),
+                                h1: TextStyle(fontFamily: "TimesNewRoman", fontSize: 18),
+                                h1Align: WrapAlignment.start,
                                 strong: TextStyle(fontWeight: FontWeight.w900),
-                                textAlign: WrapAlignment.start
+                                textAlign: WrapAlignment.center
                               )
                             ),
                           ),
