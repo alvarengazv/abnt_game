@@ -69,7 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   style: const TextStyle(
                                       fontFamily: "PassionOne",
-                                      fontSize: 20, 
+                                      fontSize: 20,
                                       color: primary),
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                                   },
                                   style: const TextStyle(
                                       fontFamily: "PassionOne",
-                                      fontSize: 20, 
+                                      fontSize: 20,
                                       color: primary),
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
@@ -193,15 +193,12 @@ class _LoginPageState extends State<LoginPage> {
                                     //FirebaseAuth.instance.signOut();
                                   }
                                 } on FirebaseAuthException catch (e) {
-                                  switch (e.code) {
-                                    case "user-not-found":
-                                      alertaApp(
-                                          context, "Email não encontrado!");
-                                      break;
-                                    case "wrong-password":
-                                      alertaApp(context, "Senha Inválida!");
-                                      break;
-                                    default:
+                                  if (e.message!.contains("user-not-found")) {
+                                    alertaApp(context, "E-mail não encontrado!");
+                                  } else if(e.message!.contains("wrong-password")){
+                                    alertaApp(context, "Senha Inválida!");
+                                  } else if(e.message!.contains("invalid-email")){
+                                    alertaApp(context, "E-mail Inválido!");
                                   }
                                   if (cancel != null) {
                                     cancel();
@@ -237,7 +234,57 @@ class _LoginPageState extends State<LoginPage> {
                         ]),
                       ),
                     ),
-                  )
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                    child: size.width < 768 ? Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset("src/images/cefet.png", 
+                          width: size.width * .17,
+                        ),
+                        Image.asset("src/images/profept.png", 
+                          width: size.width * .19,
+                        ),
+                        Image.asset("src/images/fapemig.png", 
+                          width: size.width * .19,
+                        ),
+                        Image.asset("src/images/cnpq.png", 
+                          width: size.width * .19,
+                        ),
+                      ],
+                    ) : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Image.asset("src/images/cefet.png", 
+                            width: 100,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Image.asset("src/images/profept.png", 
+                            width: 130,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Image.asset("src/images/fapemig.png", 
+                            width: 125,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
+                          child: Image.asset("src/images/cnpq.png", 
+                            width: 100,
+                          ),
+                        ),
+                      ],
+                    ), 
+                  ),
                 ],
               ),
             ),

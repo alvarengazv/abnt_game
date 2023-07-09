@@ -6,6 +6,8 @@ import 'package:abntplaybic/shared/components/botoes/botao_inicio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'informacao.dart';
+
 class InicioPage extends StatefulWidget {
   const InicioPage({super.key});
 
@@ -59,6 +61,17 @@ class _InicioPageState extends State<InicioPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          leading: IconButton(
+            onPressed: () {
+              Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InformacaoPage(),
+                      ),
+                    );
+            }, 
+            icon: Icon(Icons.info_outline, color: primary, size: 35,)
+          ),
           actions: [
             Padding(
               padding: const EdgeInsets.all(10.0),

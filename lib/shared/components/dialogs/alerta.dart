@@ -29,7 +29,7 @@ alertaApp(BuildContext context, String message, [String buttonText = "OK"]) {
                           style: const TextStyle(
                               fontFamily: "PassionOne",
                               fontSize: 32,
-                              color: Colors.black)),
+                              color: primary)),
                     ),
                   ),
                   TextButton(

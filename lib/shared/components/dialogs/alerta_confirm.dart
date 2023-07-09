@@ -35,7 +35,7 @@ alertaConfirmaApp(BuildContext context, String message, Function() funcaoConfirm
                           style: const TextStyle(
                               fontFamily: "PassionOne",
                               fontSize: 32,
-                              color: Colors.black)),
+                              color: primary)),
                     ),
                   ),
                   Row(
