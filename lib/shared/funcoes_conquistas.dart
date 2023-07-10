@@ -35,13 +35,13 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<Strin
     Conquista(
       titulo: "MELHOR PONTUAÇÃO",
       progresso1: "Atinja 50 XP.",
-      progresso2: "Atinja 150 XP.",
-      progresso3: "Atinja 500 XP.",
-      progressoAluno: xpTotal < 150 && xpTotal >= 50
+      progresso2: "Atinja 100 XP.",
+      progresso3: "Atinja 150 XP.",
+      progressoAluno: xpTotal < 50 && xpTotal >= 100
           ? 1
-          : xpTotal >= 150 && xpTotal < 500
+          : xpTotal >= 100 && xpTotal < 150
               ? 2
-              : xpTotal >= 500
+              : xpTotal >= 150
                   ? 3
                   : 0,
     ),
@@ -64,11 +64,16 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<Strin
       if (value['aula'] == true && value['tarefa'] == true) progresso++;
     });
       
-      
-      if (progresso <= 2 && progresso != 0) {
+      if(map['titulo'] != 'Numeração Progressiva'){
+        if (progresso <= 2 && progresso != 0) {
+          progressoAluno = 1;
+        } else if (progresso >= 3 && progresso < temasSize) {
+          progressoAluno = 2;
+        } else if (progresso == temasSize && temasSize != 0) {
+          progressoAluno = 3;
+        }
+      } else if (progresso == 1 && progresso != 0) {
         progressoAluno = 1;
-      } else if (progresso >= 3 && progresso < temasSize) {
-        progressoAluno = 2;
       } else if (progresso == temasSize && temasSize != 0) {
         progressoAluno = 3;
       }
@@ -77,12 +82,14 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<Strin
     lista.add(Conquista(
       titulo: "COMPLETE: ${map['titulo']}",
       progresso1: "Complete 1 tema.",
-      progresso2: "Complete 3 temas.",
-      progresso3: "Complete todos os temas deste tópico.",
+      progresso2: map['titulo'] != 'Numeração Progressiva' ? map['titulo'] == 'Sumário' || map['titulo'] == 'Índice' ? "Complete 2 temas." : "Complete 3 temas." : 'Complete todos os temas deste tópico.',
+      progresso3: map['titulo'] != 'Numeração Progressiva' ? "Complete todos os temas deste tópico." : "",
       progressoAluno: progressoAluno,
     ));
 
     if(progressoAluno == 3){
+      topicosCompletos++;
+    } else if(progressoAluno == 2 && map['titulo'] == 'Numeração Progressiva') {
       topicosCompletos++;
     }
   });
