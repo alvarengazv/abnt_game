@@ -36,11 +36,12 @@ class _InformacaoPageState extends State<InformacaoPage> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 70, vertical: 35),
             child: Text(
-              "\t\tEste material é parte do produto educacional desenvolvido a partir da dissertação de mestrado \"O lugar da normalização dos trabalhos acadêmicos na formação de estudantes da educação profissional técnica de nível médio\", produzida por Maria de Lourdes Cardoso, sob a orientação do professor Rodrigo Alves dos Santos, no Programa de Pós-Graduação em Educação Profissional e Tecnológica - PROFEPT, do campus Divinópolis do CEFET-MG.\n\n\n\t\tJogo desenvolvido por Guilherme Alvarenga de Azevedo e Pedro Ferreira Manoel, estudantes do curso técnico integrado em Informática pelo CEFET-MG Divinópolis, então bolsistas de iniciação científica FAPEMIG/CNPq/CEFET-MG.",
+              '\t\tEste material é parte do produto educacional desenvolvido a partir da dissertação de mestrado O LUGAR DA NORMALIZAÇÃO DOS TRABALHOS ACADÊMICOS NA FORMAÇÃO DE ESTUDANTES DA EDUCAÇÃO PROFISSIONAL TÉCNICA DE NÍVEL MÉDIO, produzida por Maria de Lourdes Cardoso, sob a orientação do professor Rodrigo Alves dos Santos, no Programa de Pós-Graduação em Educação Profissional e Tecnológica - PROFEPT, do campus Divinópolis do CEFET-MG.\n\n\n\t\tJogo desenvolvido por Guilherme Alvarenga de Azevedo e Pedro Ferreira Manoel, estudantes do curso técnico integrado em Informática do CEFET-MG Divinópolis, então bolsistas de iniciação científica FAPEMIG/CNPq/CEFET-MG.',
               style: TextStyle(
                 color: primary,
-                fontFamily: "PassionOne",
-                fontSize: size.width < 768 ? size.width * 0.038 : size.width * 0.025
+                fontFamily: "Montserrat",
+                fontSize: size.width < 768 ? size.width * 0.038 : size.width * 0.025,
+                fontWeight: FontWeight.w900
               ),
               textAlign: TextAlign.justify,
             ),

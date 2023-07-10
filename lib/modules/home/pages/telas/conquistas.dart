@@ -144,9 +144,9 @@ class _ConquistasPageState extends State<ConquistasPage> {
                       ? const SizedBox()
                       : Column(
                           children: [
-                            Align(
+                            const Align(
                               alignment: Alignment.centerLeft,
-                              child: const Padding(
+                              child: Padding(
                                 padding: EdgeInsets.fromLTRB(10, 10, 0, 18),
                                 child: Text(
                                   "CONQUISTAS AINDA NÃO ALCANÇADAS",

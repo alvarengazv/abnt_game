@@ -34,14 +34,14 @@ getLista(BuildContext context, List<Map<String, String>> listaTopicos, Map<Strin
     ),
     Conquista(
       titulo: "MELHOR PONTUAÇÃO",
-      progresso1: "Atinja 2000 XP.",
-      progresso2: "Atinja 5000 XP.",
-      progresso3: "Atinja 20000 XP.",
-      progressoAluno: xpTotal < 5000 && xpTotal >= 2000
+      progresso1: "Atinja 50 XP.",
+      progresso2: "Atinja 150 XP.",
+      progresso3: "Atinja 500 XP.",
+      progressoAluno: xpTotal < 150 && xpTotal >= 50
           ? 1
-          : xpTotal >= 5000 && xpTotal < 20000
+          : xpTotal >= 150 && xpTotal < 500
               ? 2
-              : xpTotal >= 20000
+              : xpTotal >= 500
                   ? 3
                   : 0,
     ),
