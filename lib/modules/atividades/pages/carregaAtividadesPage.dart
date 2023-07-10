@@ -29,27 +29,54 @@ class _CarregaAtividadesPageState extends State<CarregaAtividadesPage> {
       builder: (context, turma, child) => FutureBuilder(
         future: atividades,
         builder: (context, snap) {
-          if (snap.connectionState == ConnectionState.done && context.read<AtividadeController>().atividadeAtual?.subTopico == widget.idSubTopicos) {
+          if (snap.connectionState == ConnectionState.done &&
+              context.read<AtividadeController>().atividadeAtual?.subTopico ==
+                  widget.idSubTopicos) {
             return AtividadePage(
                 context.watch<AtividadeController>().atividadeAtual!
                   ..altenativas.shuffle());
-          }
-          return Scaffold(
-            body: Column(
-              children: [
-                const Text("Carregando..."),
-                Center(
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    child: const LinearProgressIndicator(
-                      color: primary,
-                      backgroundColor: lilas,
-                    ),
+          } else if (snap.connectionState == ConnectionState.waiting) {
+            return Scaffold(
+              body: Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: const LinearProgressIndicator(
+                    color: primary,
+                    backgroundColor: lilas,
                   ),
                 ),
-              ],
-            ),
-          );
+              ),
+            );
+          } else {
+            return Scaffold(
+              appBar: AppBar(
+                shadowColor: Colors.transparent,
+                backgroundColor: Colors.white,
+                leading: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  color: roxo,
+                  icon: const Icon(
+                    Icons.arrow_back,
+                    size: 32,
+                  ),
+                ),
+              ),
+              body: Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: Text(
+                    'Desculpe! Ainda não há tarefas cadastradas em "${widget.idTopico}/${widget.idSubTopicos}" nesta versão do ABNT Play.',
+                    style: const TextStyle(
+                      color: primary,
+                      fontFamily: "PassionOne",
+                      fontSize: 25,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            );
+          }
         },
       ),
     );
